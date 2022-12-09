@@ -1,9 +1,40 @@
 @use '../../utils/styles.variables' as styles;
 
 .form-container {
-  @include styles.formBackground;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 
   & > div {
-    @include styles.formForeground;
+    flex: 50%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin-top: 16px;
+
+    input[type=text], select {
+      width: 70%
+    }
+
+    .coordinates > div > p {
+      font-size: 12px;
+      margin: 4px 0;
+    } 
   }
 }
+
+.recorder-buttons {
+  margin: 8px;
+
+  & > button {
+    margin: 0 8px;
+  }
+}
+
+.submit-button {
+  margin: 16px 0;
+}
+
+

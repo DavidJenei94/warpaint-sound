@@ -7,15 +7,15 @@ interface SearchFormProps {
 }
 
 const SearchForm = ({ toggleSearch }: SearchFormProps) => {
-  const handleSearchFormButtonClick = () => {
+  const handlOutsideFormButtonClick = () => {
     toggleSearch(false);
   };
 
   return (
-    <div className={styles["form-container"]} onClick={handleSearchFormButtonClick}>
-      <div onClick={(e) => e.stopPropagation()}>
+    <div className={styles["form-container"]} onClick={handlOutsideFormButtonClick}>
+      <form onClick={(e) => e.stopPropagation()}>
         <h1>Here will be the SearchForm</h1>
-      </div>
+      </form>
     </div>
   );
 };

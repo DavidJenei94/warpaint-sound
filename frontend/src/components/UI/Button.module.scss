@@ -1,0 +1,40 @@
+@use '../../utils/styles.variables' as styles;
+
+.button {
+  color: styles.$primaryColor;
+  background-color: styles.$secondaryLightColor;
+  
+  border: 0;
+  box-shadow: styles.$mainLightBoxShadow;
+  
+  p {
+    padding: 4px;
+    margin: 0;
+    font-size: 20px;
+  }
+  
+  img {
+    height: 20px;
+    width: 20px;
+    margin: 0px;
+    
+    position: relative;
+    top: 1px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: styles.$mainStrongBoxShadow;
+  }
+
+  &.disabled {
+    // @include styles.paralElementBorderless;
+    // color: styles.$disabledColor;
+    padding: 4px;
+
+    &:hover {
+      cursor: default;
+      box-shadow: styles.$mainLightBoxShadow;
+    }
+  }
+}

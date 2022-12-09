@@ -1,0 +1,38 @@
+@use '../../utils/styles.variables' as styles;
+
+.form-container {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+
+  z-index: 10000;
+
+  background-color: rgba(0, 0, 0, 0.8);
+
+  & > form {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+
+    overflow-y: auto;
+
+    background-color: styles.$secondaryLightColor;
+
+    text-align: center;
+
+    .close {
+      display: flex;
+      justify-content: flex-end;
+
+      & > button {
+        margin: 8px 12px;
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+  }
+}

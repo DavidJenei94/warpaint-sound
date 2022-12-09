@@ -1,35 +1,55 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import {
+  FeatureGroup,
   LayersControl,
   MapContainer,
+  Marker,
   ScaleControl,
   TileLayer,
 } from 'react-leaflet';
+import { SoundRecord } from '../../models/soundrecord.model';
+import L, { LatLng } from 'leaflet';
 
-import styles from './SoundMap.module.scss';
-import 'leaflet/dist/leaflet.css';
-import SearchForm from './SearchForm';
 import ScrollToMenuControl from './Controls/ScrollToMenuControl';
 import SearchFormControl from './Controls/SearchFormControl';
 import SoundFormControl from './Controls/SoundFormControl';
 
+import styles from './SoundMap.module.scss';
+import 'leaflet/dist/leaflet.css';
+import soundRecordIcon from '../../assets/map-assets/sound-record-icon.png';
+
 interface SoundMapProps {
   toggleSearchForm: Dispatch<SetStateAction<boolean>>;
   toggleSoundForm: Dispatch<SetStateAction<boolean>>;
+  soundRecords: SoundRecord[];
 }
 
-const SoundMap = ({ toggleSearchForm, toggleSoundForm }: SoundMapProps) => {
+const SoundMap = ({
+  toggleSearchForm,
+  toggleSoundForm,
+  soundRecords,
+}: SoundMapProps) => {
+  // SAVE THIS INTO VARIABLE TO MAP GO TO POSITION !!!!!!
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
+      });
+    }
+  }, []);
+
   return (
     <div className={styles.soundmap}>
       <MapContainer
         center={[46.22406960789375, 20.672510248317746]}
-        zoom={9}
+        zoomControl={false}
         scrollWheelZoom={true}
+        zoom={9}
       >
         {/* <FitBoundsControl dataBounds={dataBounds} /> */}
 
-        <SearchFormControl showSearchForm={toggleSearchForm} />
         <ScrollToMenuControl />
+        <SearchFormControl showSearchForm={toggleSearchForm} />
         <SoundFormControl showSoundForm={toggleSoundForm} />
         <ScaleControl position="bottomright" />
 
@@ -43,6 +63,28 @@ const SoundMap = ({ toggleSearchForm, toggleSoundForm }: SoundMapProps) => {
             />
           </LayersControl.BaseLayer>
         </LayersControl>
+
+        <FeatureGroup>
+          {soundRecords[0] &&
+            soundRecords.map((record, index) => {
+              return (
+                <Marker
+                  // This key is enough as there can't be 2 node placed on each other
+                  key={record.id}
+                  position={
+                    new LatLng(record.coordinates[0], record.coordinates[1])
+                  }
+                  icon={
+                    new L.Icon({
+                      iconUrl: soundRecordIcon,
+                    })
+                  }
+                  draggable={false}
+                  autoPan={true}
+                ></Marker>
+              );
+            })}
+        </FeatureGroup>
       </MapContainer>
     </div>
   );
