@@ -1,11 +1,33 @@
-import './App.scss';
-import Map from './components/Map/Map';
+import React, { Suspense, useEffect } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
+
+import NavBar from './components/Layout/NavBar';
+import Main from './components/Layout/Main';
+
+import './App.module.scss';
+
+const Map = React.lazy(() => import('./components/Map/Map'));
+const Donation = React.lazy(() => import('./components/Donation/Donation'));
+const Statistics = React.lazy(
+  () => import('./components/Statistics/Statistics')
+);
 
 const App = () => {
   return (
-    <div className="App">
-      <Map />
-    </div>
+    <>
+      <NavBar />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Main>
+          <Routes>
+            <Route path="/" element={<Navigate to="/map" replace />} />
+            <Route path="/map" element={<Map />} />
+            <Route path="/statistics" element={<Statistics />} />
+            <Route path="/donation" element={<Donation />} />
+            <Route path="*" element={<p>Not Found</p>} />
+          </Routes>
+        </Main>
+      </Suspense>
+    </>
   );
 };
 

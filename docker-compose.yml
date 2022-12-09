@@ -15,6 +15,7 @@ services:
       - ./frontend:/app/frontend
     environment:
       - WATCHPACK_POLLING=true # replaced: - CHOKIDAR_USEPOLLING=true / to check changes in react
+      - WDS_SOCKET_PORT=$WDS_SOCKET_PORT
       # https://github.com/facebook/create-react-app/issues/10253 
       # https://stackoverflow.com/questions/70488471/docker-with-create-react-app-is-not-updating-changes
   api:

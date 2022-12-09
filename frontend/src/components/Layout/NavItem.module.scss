@@ -1,0 +1,22 @@
+@use '../../utils/styles.variables' as styles;
+
+@mixin boxShadow {
+  box-shadow: styles.$bottomStrongBoxShadow;
+}
+
+.link {
+  padding: 4px 6px;
+
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+
+  &:hover {
+    @include boxShadow;
+    cursor: pointer;
+  }
+}
+
+.active {
+  @include boxShadow;
+}

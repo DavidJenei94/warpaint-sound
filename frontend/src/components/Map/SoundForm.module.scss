@@ -1,0 +1,9 @@
+@use '../../utils/styles.variables' as styles;
+
+.form-container {
+  @include styles.formBackground;
+
+  & > div {
+    @include styles.formForeground;
+  }
+}

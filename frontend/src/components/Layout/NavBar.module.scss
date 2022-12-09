@@ -1,0 +1,47 @@
+@use '../../utils/styles.variables' as styles;
+
+.navbar {
+  height: styles.$navbarHeight;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  overflow: hidden;
+  white-space: nowrap;
+
+  padding-left: 16px;
+
+  box-shadow: styles.$bottomLightBoxShadow;
+
+  & > div {
+    display: flex;
+    align-items: center;
+
+    img {
+      float: left;
+    }
+
+    p {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width: styles.$smallScreenSize) {
+  .navbar {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding-bottom: 16px;
+
+    & > div {
+      p {
+        display: block;
+        float: left;
+        padding-left: 12px;
+        margin: 0;
+      }
+    }
+  }
+}

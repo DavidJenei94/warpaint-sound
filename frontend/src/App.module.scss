@@ -1,0 +1,15 @@
+@use './utils/styles.variables' as styles;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: styles.$secondaryColor;
+  color: styles.$primaryColor;
+  font-family: styles.$fontFamily;
+  font-size: 20px;
+}

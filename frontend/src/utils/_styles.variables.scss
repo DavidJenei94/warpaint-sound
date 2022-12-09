@@ -1,0 +1,40 @@
+$primaryColor: #dada00;
+
+$secondaryColor: #444444;
+$secondaryLightColor: #666666;
+$secondaryDarkColor: #222222;
+
+$fontFamily: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+  Helvetica, Arial, sans-serif;
+
+$navbarHeight: 50px;
+
+$mainLightBoxShadow: 0px 0px 8px 2px rgba(255, 255, 255, 0.25);
+$mainStrongBoxShadow: 0px 0px 8px 2px rgba(255, 255, 255, 0.5);
+$bottomLightBoxShadow: 0px 5px 5px -5px rgba(255, 255, 255, 0.25);
+$bottomStrongBoxShadow: 0px 5px 5px -5px rgba(255, 255, 255, 0.5);
+
+$smallScreenSize: 400px;
+
+@mixin formBackground {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+
+  z-index: 10000;
+
+  background-color: rgba(0, 0, 0, 0.8);
+}
+@mixin formForeground {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+
+  background-color: $secondaryLightColor;
+
+  text-align: center;
+}
