@@ -4,7 +4,20 @@ export interface SoundRecord {
   category: string;
   subCategory: string;
   description: string;
-  coordinates: number[];
-  imageUrl: string;
-  soundUrl: string;
+  latitude: number;
+  longitude: number;
+  imagePath: string;
+  soundPath: string;
 }
+
+export const defaultSoundRecord = {
+  id: 0,
+  instrument: '',
+  category: '',
+  subCategory: '',
+  description: '',
+  latitude: 0,
+  longitude: 0,
+  imagePath: '',
+  soundPath: '',
+};

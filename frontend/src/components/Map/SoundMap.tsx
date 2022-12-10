@@ -16,7 +16,8 @@ import SoundFormControl from './Controls/SoundFormControl';
 
 import styles from './SoundMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import soundRecordIcon from '../../assets/map-assets/sound-record-icon.png';
+import soundRecordPinIcon from '../../assets/map-assets/pin-small-icon.png';
+import SoundRecordPopup from './SoundRecordPopup';
 
 interface SoundMapProps {
   toggleSearchForm: Dispatch<SetStateAction<boolean>>;
@@ -30,13 +31,13 @@ const SoundMap = ({
   soundRecords,
 }: SoundMapProps) => {
   // SAVE THIS INTO VARIABLE TO MAP GO TO POSITION !!!!!!
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       // console.log(position);
+  //     });
+  //   }
+  // }, []);
 
   return (
     <div className={styles.soundmap}>
@@ -72,16 +73,21 @@ const SoundMap = ({
                   // This key is enough as there can't be 2 node placed on each other
                   key={record.id}
                   position={
-                    new LatLng(record.coordinates[0], record.coordinates[1])
+                    new LatLng(record.latitude, record.longitude)
                   }
                   icon={
                     new L.Icon({
-                      iconUrl: soundRecordIcon,
+                      iconUrl: soundRecordPinIcon,
+                      iconAnchor: new L.Point(20, 40),
+                      iconSize: new L.Point(40, 40),
+                      popupAnchor: [0, -35]
                     })
                   }
                   draggable={false}
                   autoPan={true}
-                ></Marker>
+                >
+                  <SoundRecordPopup soundRecordId={record.id}/>
+                </Marker>
               );
             })}
         </FeatureGroup>

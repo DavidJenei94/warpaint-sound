@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SoundRecord } from '../../models/soundrecord.model';
 
 import SoundMap from './SoundMap';
@@ -12,6 +12,20 @@ const Map = () => {
   const [isSoundFormShown, setIsSoundFormShown] = useState<boolean>(false);
 
   const [soundRecords, setSoundRecords] = useState<SoundRecord[]>([]);
+
+  
+  useEffect(() => {
+    const fetchSoundRecord = async () => {
+      const response = await fetch(
+        `http://localhost:8002/api/soundRecord`
+      );
+      const data = await response.json();
+
+      setSoundRecords(data);
+    };
+
+    fetchSoundRecord();
+  }, []);
 
   return (
     <div className={styles.map}>
