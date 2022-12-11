@@ -3,16 +3,16 @@ import React, { Dispatch, SetStateAction } from 'react';
 import styles from './SearchForm.module.scss';
 
 interface SearchFormProps {
-  toggleSearch: Dispatch<SetStateAction<boolean>>;
+  showSearch: Dispatch<SetStateAction<boolean>>;
 }
 
-const SearchForm = ({ toggleSearch }: SearchFormProps) => {
-  const handlOutsideFormButtonClick = () => {
-    toggleSearch(false);
+const SearchForm = ({ showSearch }: SearchFormProps) => {
+  const handlOutsideClick = () => {
+    showSearch(false);
   };
 
   return (
-    <div className={styles["form-container"]} onClick={handlOutsideFormButtonClick}>
+    <div className={styles["form-container"]} onClick={handlOutsideClick}>
       <form onClick={(e) => e.stopPropagation()}>
         <h1>Here will be the SearchForm</h1>
       </form>

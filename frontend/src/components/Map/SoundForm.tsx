@@ -11,11 +11,11 @@ import MapForm from '../UI/MapForm';
 import styles from './SoundForm.module.scss';
 
 interface SoundFormProps {
-  toggleSoundForm: Dispatch<SetStateAction<boolean>>;
+  showSoundForm: Dispatch<SetStateAction<boolean>>;
   addSoundRecord: Dispatch<SetStateAction<SoundRecord[]>>;
 }
 
-const SoundForm = ({ toggleSoundForm, addSoundRecord }: SoundFormProps) => {
+const SoundForm = ({ showSoundForm, addSoundRecord }: SoundFormProps) => {
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
   const [soundFile, setSoundFile] = useState<Blob | null>(null);
@@ -57,8 +57,8 @@ const SoundForm = ({ toggleSoundForm, addSoundRecord }: SoundFormProps) => {
     fetchAudioUrl();
   }, [audioURL]);
 
-  const handlOutsideFormButtonClick = () => {
-    toggleSoundForm(false);
+  const handlOutsideClick = () => {
+    showSoundForm(false);
   };
 
   const handleTextChange = (
@@ -94,7 +94,7 @@ const SoundForm = ({ toggleSoundForm, addSoundRecord }: SoundFormProps) => {
 
     addSoundRecord((prevState) => prevState.concat(data.soundRecord));
 
-    toggleSoundForm(false);
+    showSoundForm(false);
   };
 
   const uploadImageHandler = async (
@@ -124,10 +124,10 @@ const SoundForm = ({ toggleSoundForm, addSoundRecord }: SoundFormProps) => {
 
   return (
     <MapForm
-      onOutsideClick={handlOutsideFormButtonClick}
+      onOutsideClick={handlOutsideClick}
       onSubmit={submitNewSoundHandler}
     >
-      <h1>Add a new Sound Record</h1>
+      <h1 className={styles.header}>Add a new Sound Record</h1>
       <div className={styles['form-container']}>
         <div>
           <div>
@@ -183,8 +183,7 @@ const SoundForm = ({ toggleSoundForm, addSoundRecord }: SoundFormProps) => {
             <label>Coordinates:</label>
             {soundRecord.latitude ? (
               <div>
-                <p>Lat: {soundRecord.latitude}</p>
-                <p>Lng: {soundRecord.longitude}</p>
+                <p>{`${soundRecord.latitude}, ${soundRecord.longitude}`}</p>
               </div>
             ) : (
               <p>Missing! Enable Location data in order to upload sound.</p>

@@ -3,7 +3,7 @@ import { Popup, useMap } from 'react-leaflet';
 import { SoundRecord } from '../../models/soundrecord.model';
 
 import Button from '../UI/Button';
-import Modal from '../UI/Modal/Modal';
+import ModalOverlays from '../UI/Modal/ModalOverlays';
 
 import styles from './SoundRecordPopup.module.scss';
 
@@ -15,6 +15,8 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
   const [soundRecord, setSoundRecord] = useState<SoundRecord | null>(null);
 
   const [isReportShown, setIsReportShown] = useState<boolean>(false);
+  const [reportText, setReportText] = useState<string>('');
+  const [isImageHovered, setIsImageHovered] = useState<boolean>(false);
 
   const map = useMap();
 
@@ -31,21 +33,44 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
     fetchSoundRecord();
   }, []);
 
+  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReportText(event.target.value);
+  };
+
   const closeReportContent = () => {
     setIsReportShown(false);
   };
 
   const reportContent = () => {
-    alert('Content reported');
+    alert('Content reported!\n' + reportText);
     setIsReportShown(false);
   };
 
   return (
     <div>
+      {isImageHovered && (
+        <ModalOverlays onClose={() => setIsImageHovered(false)}> 
+        {/* onMouseOut={() => setIsImageHovered(false)} */}
+          {/* <div onMouseOut={() => setIsImageHovered(false)}></div> */}
+          <img
+            className={styles.zoomin}
+            src={'http://localhost:8002/api/' + soundRecord!.imagePath}
+            // onMouseOver={() => setIsImageHovered(true)}
+            // onMouseOut={() => setIsImageHovered(false)}
+          />
+        </ModalOverlays>
+      )}
       {isReportShown && (
-        <Modal onClose={closeReportContent}>
+        <ModalOverlays onClose={closeReportContent}>
           <>
             <p>Do you want to report this Sound Record as inappropriate?</p>
+            <input
+              type="text"
+              placeholder="Any relevant comment."
+              value={reportText}
+              onChange={handleTextChange}
+              className={styles['report-comment']}
+            />
             <div className={styles.actions}>
               <Button onClick={reportContent}>
                 <p>Yes</p>
@@ -55,7 +80,7 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
               </Button>
             </div>
           </>
-        </Modal>
+        </ModalOverlays>
       )}
       <Popup className={styles.popup} minWidth={30} maxWidth={500}>
         {soundRecord && (
@@ -73,14 +98,16 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
             </div>
             <h3>{soundRecord.instrument}</h3>
             <div className={styles['main-content']}>
-              <div className={styles.left}>
+              <div>
                 <p>{soundRecord.category}</p>
                 <p>{soundRecord.subCategory}</p>
                 <p>{soundRecord.description}</p>
               </div>
-              <div className={styles.right}>
+              <div>
                 <img
                   src={'http://localhost:8002/api/' + soundRecord.imagePath}
+                  onClick={() => setIsImageHovered(true)}
+                  // onMouseOut={() => setIsImageHovered(false)}
                 />
               </div>
             </div>

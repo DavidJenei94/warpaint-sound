@@ -59,18 +59,21 @@
 
     img {
       width: 100px;
+      cursor: pointer;
     }
-    // img:hover {
-    //   transform: scale(7);
-    //   z-index: 100000;
-
-    //   audio {
-    //     display: none;
-    //   }
-    // }
   }
 }
 
 .actions > * {
   margin: 8px;
+}
+
+.report-comment {
+  margin-bottom: 16px;
+  width: 80%;
+}
+
+.zoomin {
+  max-width: 90%;
+  max-height: 90%;
 }

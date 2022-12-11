@@ -18,16 +18,19 @@ import styles from './SoundMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 import soundRecordPinIcon from '../../assets/map-assets/pin-small-icon.png';
 import SoundRecordPopup from './SoundRecordPopup';
+import InformationControl from './Controls/InformationControl';
 
 interface SoundMapProps {
-  toggleSearchForm: Dispatch<SetStateAction<boolean>>;
-  toggleSoundForm: Dispatch<SetStateAction<boolean>>;
+  showSearchForm: Dispatch<SetStateAction<boolean>>;
+  showSoundForm: Dispatch<SetStateAction<boolean>>;
+  showInformation: Dispatch<SetStateAction<boolean>>;
   soundRecords: SoundRecord[];
 }
 
 const SoundMap = ({
-  toggleSearchForm,
-  toggleSoundForm,
+  showSearchForm,
+  showSoundForm,
+  showInformation,
   soundRecords,
 }: SoundMapProps) => {
   // SAVE THIS INTO VARIABLE TO MAP GO TO POSITION !!!!!!
@@ -50,8 +53,9 @@ const SoundMap = ({
         {/* <FitBoundsControl dataBounds={dataBounds} /> */}
 
         <ScrollToMenuControl />
-        <SearchFormControl showSearchForm={toggleSearchForm} />
-        <SoundFormControl showSoundForm={toggleSoundForm} />
+        <InformationControl showInformation={showInformation} />
+        <SearchFormControl showSearchForm={showSearchForm} />
+        <SoundFormControl showSoundForm={showSoundForm} />
         <ScaleControl position="bottomright" />
 
         <LayersControl position="topright">

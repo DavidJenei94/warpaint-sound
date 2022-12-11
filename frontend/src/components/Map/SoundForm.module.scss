@@ -1,5 +1,9 @@
 @use '../../utils/styles.variables' as styles;
 
+.header {
+  margin: 0 0 8px;
+}
+
 .form-container {
   display: flex;
   flex-direction: row;
