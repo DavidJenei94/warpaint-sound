@@ -30,7 +30,6 @@ const create = async (soundRecord, files) => {
     !soundRecord.instrument ||
     !soundRecord.category ||
     !soundRecord.subCategory ||
-    !soundRecord.description ||
     !soundRecord.latitude ||
     !soundRecord.longitude ||
     !files.imageFile ||
