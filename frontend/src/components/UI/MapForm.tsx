@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import Button from './Button';
+import CloseButton from './CloseButton';
 
 import styles from './MapForm.module.scss';
 import ModalRoot from './Modal/ModalRoot';
@@ -18,11 +19,7 @@ const MapForm = ({ children, onOutsideClick, onSubmit }: MapFormProps) => {
         onClick={(e) => e.stopPropagation()}
         onSubmit={onSubmit}
       >
-        <div className={styles.close}>
-          <Button type="button" onClick={onOutsideClick}>
-            <p>X</p>
-          </Button>
-        </div>
+        <CloseButton onClose={onOutsideClick} />
         {children}
       </form>
     </ModalRoot>

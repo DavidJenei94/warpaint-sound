@@ -3,6 +3,7 @@ import { Popup, useMap } from 'react-leaflet';
 import { SoundRecord } from '../../models/soundrecord.model';
 
 import Button from '../UI/Button';
+import CloseButton from '../UI/CloseButton';
 import ModalOverlays from '../UI/Modal/ModalOverlays';
 
 import styles from './SoundRecordPopup.module.scss';
@@ -49,20 +50,17 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
   return (
     <div>
       {isImageHovered && (
-        <ModalOverlays onClose={() => setIsImageHovered(false)}> 
-        {/* onMouseOut={() => setIsImageHovered(false)} */}
-          {/* <div onMouseOut={() => setIsImageHovered(false)}></div> */}
+        <ModalOverlays onClose={() => setIsImageHovered(false)}>
           <img
             className={styles.zoomin}
             src={'http://localhost:8002/api/' + soundRecord!.imagePath}
-            // onMouseOver={() => setIsImageHovered(true)}
-            // onMouseOut={() => setIsImageHovered(false)}
           />
         </ModalOverlays>
       )}
       {isReportShown && (
         <ModalOverlays onClose={closeReportContent}>
-          <>
+          <CloseButton onClose={closeReportContent} />
+          <div className={styles['report-container']}>
             <p>Do you want to report this Sound Record as inappropriate?</p>
             <input
               type="text"
@@ -73,13 +71,10 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
             />
             <div className={styles.actions}>
               <Button onClick={reportContent}>
-                <p>Yes</p>
-              </Button>
-              <Button onClick={closeReportContent}>
-                <p>No</p>
+                <p>Report</p>
               </Button>
             </div>
-          </>
+          </div>
         </ModalOverlays>
       )}
       <Popup className={styles.popup} minWidth={30} maxWidth={500}>
@@ -101,7 +96,7 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
               <div>
                 <p>{soundRecord.category}</p>
                 <p>{soundRecord.subCategory}</p>
-                <p>{soundRecord.description}</p>
+                <p className={styles.description}>{soundRecord.description}</p>
               </div>
               <div>
                 <img

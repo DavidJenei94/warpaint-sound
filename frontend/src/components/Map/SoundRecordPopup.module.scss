@@ -55,10 +55,14 @@
         margin: 8px 0;
         text-align: center;
       }
+
+      .description {
+        margin-top: 12px;
+      }
     }
 
     img {
-      width: 100px;
+      width: 120px;
       cursor: pointer;
     }
   }
@@ -76,4 +80,12 @@
 .zoomin {
   max-width: 90%;
   max-height: 90%;
+}
+
+.report-container {
+  padding: 8px 24px 16px;
+
+  & > p {
+    margin-top: 0;
+  }
 }

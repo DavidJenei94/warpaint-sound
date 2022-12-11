@@ -1,0 +1,10 @@
+.close {
+  display: flex;
+  justify-content: flex-end;
+
+  & > button {
+    margin: 8px 12px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
