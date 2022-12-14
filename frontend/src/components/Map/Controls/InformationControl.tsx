@@ -1,30 +1,19 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import ControlButton from './ControlButton';
 
 import informationIcon from '../../../assets/map-assets/information-icon.png';
 
-interface InformationControlProps {
-  showInformation: Dispatch<SetStateAction<boolean>>;
-}
+const InformationControl = () => {
+  const navigate = useNavigate();
 
-const InformationControl = ({
-  showInformation,
-}: InformationControlProps) => {
-  const toggleInformationHandler = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    showInformation(true);
+  const showInformationHandler = () => {
+    navigate('information');
   };
 
   return (
-    <ControlButton
-      position="topleft"
-      title={"Information"}
-    >
-      <img
-        src={informationIcon}
-        width={30}
-        onClick={toggleInformationHandler}
-      />
+    <ControlButton position="topleft" title={'Information'}>
+      <img src={informationIcon} width={30} onClick={showInformationHandler} />
     </ControlButton>
   );
 };

@@ -1,21 +1,21 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import useRecorder from '../../hooks/useRecorder';
+import useRecorder from '../../../hooks/useRecorder';
 import {
   defaultSoundRecord,
   SoundRecord,
-} from '../../models/soundrecord.model';
+} from '../../../models/soundrecord.model';
 
-import Button from '../UI/Button';
-import MapForm from '../UI/MapForm';
+import Button from '../../UI/Button';
+import MapForm from '../../UI/MapForm';
 
-import styles from './SoundForm.module.scss';
+import styles from './NewSoundForm.module.scss';
 
-interface SoundFormProps {
-  showSoundForm: Dispatch<SetStateAction<boolean>>;
+interface NewSoundFormProps {
+  showNewSoundForm: Dispatch<SetStateAction<boolean>>;
   addSoundRecord: Dispatch<SetStateAction<SoundRecord[]>>;
 }
 
-const SoundForm = ({ showSoundForm, addSoundRecord }: SoundFormProps) => {
+const NewSoundForm = ({ showNewSoundForm, addSoundRecord }: NewSoundFormProps) => {
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
   const [soundFile, setSoundFile] = useState<Blob | null>(null);
@@ -58,7 +58,7 @@ const SoundForm = ({ showSoundForm, addSoundRecord }: SoundFormProps) => {
   }, [audioURL]);
 
   const handlOutsideClick = () => {
-    showSoundForm(false);
+    showNewSoundForm(false);
   };
 
   const handleTextChange = (
@@ -94,7 +94,7 @@ const SoundForm = ({ showSoundForm, addSoundRecord }: SoundFormProps) => {
 
     addSoundRecord((prevState) => prevState.concat(data.soundRecord));
 
-    showSoundForm(false);
+    showNewSoundForm(false);
   };
 
   const uploadImageHandler = async (
@@ -186,7 +186,9 @@ const SoundForm = ({ showSoundForm, addSoundRecord }: SoundFormProps) => {
                 <p>{`${soundRecord.latitude}, ${soundRecord.longitude}`}</p>
               </div>
             ) : (
-              <p>Missing! Enable Location data in order to upload sound.</p>
+              <div>
+                <p>Missing! Enable Location data in order to upload sound.</p>
+              </div>
             )}
           </div>
         </div>
@@ -244,4 +246,4 @@ const SoundForm = ({ showSoundForm, addSoundRecord }: SoundFormProps) => {
   );
 };
 
-export default SoundForm;
+export default NewSoundForm;

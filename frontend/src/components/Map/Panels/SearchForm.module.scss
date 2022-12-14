@@ -1,0 +1,44 @@
+@use '../../../utils/styles.variables' as styles;
+@use '../../UI/Modal/Modal.module.scss' as modalStyles;
+
+.search-modal {
+  @include modalStyles.modalStyle;
+
+  width: 30%;
+  transform: translate(0, 0);
+  top: 60px;
+  left: 53px;
+}
+
+@media only screen and (max-width: styles.$smallScreenSize) {
+  .search-modal {
+    top: 10px;
+    width: 80%;
+    height: 30%;
+  }
+}
+
+.search-fields {
+  position: relative;
+  top: -30px;
+
+  padding-bottom: 12px;
+
+  box-shadow: styles.$bottomStrongBoxShadow;
+}
+
+.search-list {
+  position: relative;
+  top: -30px;
+
+  & > p {
+    margin: 0;
+    padding: 8px 0;
+    box-shadow: styles.$bottomLightBoxShadow;
+
+    &:hover {
+      cursor: pointer;
+      background-color: styles.$secondaryColor;
+    }
+  }
+}

@@ -1,21 +1,21 @@
-import { Dispatch, SetStateAction } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import CloseButton from '../../UI/CloseButton';
 
-import ModalRoot from '../../UI/Modal/ModalRoot';
-
 import styles from './Information.module.scss';
+import Modal from '../../UI/Modal/Modal';
 
-interface InformationProps {
-  showInformation: Dispatch<SetStateAction<boolean>>;
-}
-
-const Information = ({ showInformation }: InformationProps) => {
+const Information = () => {
+  const navigate = useNavigate();
+  
   const handlOutsideClick = () => {
-    showInformation(false);
+    navigate("/map");
   };
 
   return (
-    <ModalRoot
+    <Modal
+      backdrop={true}
+      overlay={false}
       onClose={handlOutsideClick}
       style={{ width: '80%', height: '80%' }}
     >
@@ -31,7 +31,7 @@ const Information = ({ showInformation }: InformationProps) => {
           <p>No personal information is stored...</p>
         </div>
       </>
-    </ModalRoot>
+    </Modal>
   );
 };
 

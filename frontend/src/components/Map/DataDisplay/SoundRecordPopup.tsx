@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Popup, useMap } from 'react-leaflet';
-import { SoundRecord } from '../../models/soundrecord.model';
+import { SoundRecord } from '../../../models/soundrecord.model';
 
-import Button from '../UI/Button';
-import CloseButton from '../UI/CloseButton';
-import ModalOverlays from '../UI/Modal/ModalOverlays';
+import Button from '../../UI/Button';
+import CloseButton from '../../UI/CloseButton';
+import Modal from '../../UI/Modal/Modal';
 
 import styles from './SoundRecordPopup.module.scss';
 
@@ -50,15 +50,20 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
   return (
     <div>
       {isImageHovered && (
-        <ModalOverlays onClose={() => setIsImageHovered(false)}>
+        <Modal
+          backdrop={true}
+          overlay={true}
+          onClose={() => setIsImageHovered(false)}
+        >
           <img
             className={styles.zoomin}
             src={'http://localhost:8002/api/' + soundRecord!.imagePath}
+            onClick={() => setIsImageHovered(false)}
           />
-        </ModalOverlays>
+        </Modal>
       )}
       {isReportShown && (
-        <ModalOverlays onClose={closeReportContent}>
+        <Modal backdrop={true} overlay={true} onClose={closeReportContent}>
           <CloseButton onClose={closeReportContent} />
           <div className={styles['report-container']}>
             <p>Do you want to report this Sound Record as inappropriate?</p>
@@ -75,7 +80,7 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
               </Button>
             </div>
           </div>
-        </ModalOverlays>
+        </Modal>
       )}
       <Popup className={styles.popup} minWidth={30} maxWidth={500}>
         {soundRecord && (

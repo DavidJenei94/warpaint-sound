@@ -8,3 +8,13 @@
     font-weight: bold;
   }
 }
+
+.float-close {
+  float: right;
+  
+  & > button {
+    margin: 8px 12px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}

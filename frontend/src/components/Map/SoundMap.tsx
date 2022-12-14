@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react';
 import {
   FeatureGroup,
   LayersControl,
@@ -7,56 +7,111 @@ import {
   ScaleControl,
   TileLayer,
 } from 'react-leaflet';
-import { SoundRecord } from '../../models/soundrecord.model';
+import { SoundRecord, SoundRecordFilter } from '../../models/soundrecord.model';
 import L, { LatLng } from 'leaflet';
+import { useSearchParams } from 'react-router-dom';
 
-import ScrollToMenuControl from './Controls/ScrollToMenuControl';
-import SearchFormControl from './Controls/SearchFormControl';
-import SoundFormControl from './Controls/SoundFormControl';
+import Recenter from './Utils/Recenter';
+import CurrentPosition from './Utils/CurrentPosition';
+import SoundRecordMarker from './DataDisplay/SoundRecordMarker';
 
 import styles from './SoundMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import soundRecordPinIcon from '../../assets/map-assets/pin-small-icon.png';
-import SoundRecordPopup from './SoundRecordPopup';
-import InformationControl from './Controls/InformationControl';
+import MapPanels from './Panels/MapPanels';
 
-interface SoundMapProps {
-  showSearchForm: Dispatch<SetStateAction<boolean>>;
-  showSoundForm: Dispatch<SetStateAction<boolean>>;
-  showInformation: Dispatch<SetStateAction<boolean>>;
-  soundRecords: SoundRecord[];
-}
+const SoundMap = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-const SoundMap = ({
-  showSearchForm,
-  showSoundForm,
-  showInformation,
-  soundRecords,
-}: SoundMapProps) => {
+  const mapRef = useRef<any>(null);
+
+  const [issearchParamsLoaded, setIssearchParamsLoaded] =
+    useState<boolean>(false);
+
+  const [activeMarker, setActiveMarker] = useState<SoundRecord | null>(null);
+
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
+  const [zoom, setZoom] = useState<number>(9);
+
+  const [soundRecords, setSoundRecords] = useState<SoundRecord[]>([]);
+  const [soundRecordFilters, setSoundRecordFilters] =
+    useState<SoundRecordFilter>({
+      name: '',
+      category: 0,
+      subCategory: 0,
+    });
+
+  useEffect(() => {
+    const fetchSoundRecord = async () => {
+      const response = await fetch(`http://localhost:8002/api/soundRecord`);
+      const data = await response.json();
+
+      setSoundRecords(data);
+    };
+
+    fetchSoundRecord();
+  }, []);
+
+  useEffect(() => {
+    try {
+      setLatitude(Number(searchParams.get('lat')));
+      setLongitude(Number(searchParams.get('lng')));
+      Number(searchParams.get('z')) && setZoom(Number(searchParams.get('z')));
+
+      setIssearchParamsLoaded(true);
+
+      // http://localhost:3001/map?lat=46.46&lng=22.20&z=8
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const center = new LatLng(latitude, longitude);
+
   // SAVE THIS INTO VARIABLE TO MAP GO TO POSITION !!!!!!
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       // console.log(position);
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (issearchParamsLoaded && !latitude && !longitude) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+          console.log(zoom);
+        });
+      }
+    }
+  }, [issearchParamsLoaded]);
+
+  const filteredSoundRecords = soundRecords.filter((soundRecord) => {
+    const instrument = soundRecord.instrument.toLowerCase();
+    const nameFilter = soundRecordFilters.name.toLowerCase();
+
+    return instrument.includes(nameFilter);
+  });
 
   return (
     <div className={styles.soundmap}>
       <MapContainer
-        center={[46.22406960789375, 20.672510248317746]}
+        center={center}
         zoomControl={false}
         scrollWheelZoom={true}
-        zoom={9}
+        zoom={zoom}
+        ref={mapRef}
       >
         {/* <FitBoundsControl dataBounds={dataBounds} /> */}
 
-        <ScrollToMenuControl />
-        <InformationControl showInformation={showInformation} />
-        <SearchFormControl showSearchForm={showSearchForm} />
-        <SoundFormControl showSoundForm={showSoundForm} />
-        <ScaleControl position="bottomright" />
+        {issearchParamsLoaded && latitude && longitude && (
+          <Recenter lat={latitude} lng={longitude} z={zoom} />
+        )}
+        <CurrentPosition />
+
+        {/* Panels and Controls */}
+        <MapPanels
+          soundRecords={soundRecords}
+          setSoundRecords={setSoundRecords}
+          soundRecordFilters={soundRecordFilters}
+          setSoundRecordFilters={setSoundRecordFilters}
+          setActiveMarker={setActiveMarker}
+        />
 
         <LayersControl position="topright">
           <LayersControl.BaseLayer checked name="OSM Streets">
@@ -64,34 +119,23 @@ const SoundMap = ({
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='Data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               maxZoom={19}
-              keepBuffer={50}
+              keepBuffer={10}
             />
           </LayersControl.BaseLayer>
         </LayersControl>
 
         <FeatureGroup>
-          {soundRecords[0] &&
-            soundRecords.map((record, index) => {
+          {filteredSoundRecords[0] &&
+            filteredSoundRecords.map((record) => {
               return (
-                <Marker
-                  // This key is enough as there can't be 2 node placed on each other
+                <SoundRecordMarker
                   key={record.id}
-                  position={
-                    new LatLng(record.latitude, record.longitude)
+                  record={record}
+                  isActive={
+                    activeMarker ? record.id === activeMarker.id : false
                   }
-                  icon={
-                    new L.Icon({
-                      iconUrl: soundRecordPinIcon,
-                      iconAnchor: new L.Point(20, 40),
-                      iconSize: new L.Point(40, 40),
-                      popupAnchor: [0, -35]
-                    })
-                  }
-                  draggable={false}
-                  autoPan={true}
-                >
-                  <SoundRecordPopup soundRecordId={record.id}/>
-                </Marker>
+                  setActiveMarker={setActiveMarker}
+                />
               );
             })}
         </FeatureGroup>

@@ -1,9 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import Button from './Button';
+import React from 'react';
 import CloseButton from './CloseButton';
 
 import styles from './MapForm.module.scss';
-import ModalRoot from './Modal/ModalRoot';
+import Modal from './Modal/Modal';
 
 interface MapFormProps {
   children: React.ReactNode;
@@ -13,7 +12,12 @@ interface MapFormProps {
 
 const MapForm = ({ children, onOutsideClick, onSubmit }: MapFormProps) => {
   return (
-    <ModalRoot onClose={onOutsideClick} style={{width: "80%"}}>
+    <Modal
+      backdrop={true}
+      overlay={false}
+      onClose={onOutsideClick}
+      style={{ width: '80%' }} // in the ...otherProps
+    >
       <form
         className={styles.form}
         onClick={(e) => e.stopPropagation()}
@@ -22,7 +26,7 @@ const MapForm = ({ children, onOutsideClick, onSubmit }: MapFormProps) => {
         <CloseButton onClose={onOutsideClick} />
         {children}
       </form>
-    </ModalRoot>
+    </Modal>
   );
 };
 

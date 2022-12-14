@@ -21,3 +21,9 @@ export const defaultSoundRecord = {
   imagePath: '',
   soundPath: '',
 };
+
+export interface SoundRecordFilter {
+  name: string;
+  category: number;
+  subCategory: number;
+}
