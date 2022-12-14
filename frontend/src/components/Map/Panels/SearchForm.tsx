@@ -6,9 +6,12 @@ import {
   SoundRecordFilter,
 } from '../../../models/soundrecord.model';
 import { getQueryParams } from '../../../utils/general.utils';
+import Button from '../../UI/Button';
 
 import CloseButton from '../../UI/CloseButton';
+import Input from '../../UI/Input';
 import Modal from '../../UI/Modal/Modal';
+import Select from '../../UI/Select';
 
 import styles from './SearchForm.module.scss';
 
@@ -52,12 +55,16 @@ const SearchForm = ({
 
         return { ...params, sInst: searchText };
       });
-    }, 400);
+    }, 350);
 
     return () => {
       waitTypingTimeout && clearTimeout(waitTypingTimeout);
     };
   }, [searchText]);
+
+  const clearSearchFieldsHandler = () => {
+    setSearchText('');
+  };
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
@@ -81,14 +88,15 @@ const SearchForm = ({
   return (
     <Modal
       backdrop={false}
-      overlay={false}
+      overlay={true}
       onClose={handleClose}
       className={styles['search-modal']}
     >
       <CloseButton onClose={handleClose} />
       <div className={styles['search-fields']}>
         <p>Search Instrument</p>
-        <input
+        <br />
+        <Input
           type="text"
           name="search"
           id="search"
@@ -99,28 +107,35 @@ const SearchForm = ({
         <div>
           <label htmlFor="category">Category:</label>
           <br />
-          <select
+          <Select
             id="category"
             name="category"
+            optionList={[
+              { value: '0', text: '-' },
+              { value: '1', text: 'Woodwinds' },
+              { value: '2', text: 'Brass' },
+            ]}
             required
             // onChange={handleTextChange}
-          >
-            <option>Product1 : Electronics </option>
-            <option>Product2 : Sports </option>
-          </select>
+          />
         </div>
         <div>
           <label htmlFor="subCategory">Sub Category:</label>
           <br />
-          <select
+          <Select
             id="subCategory"
             name="subCategory"
+            optionList={[
+              { value: '0', text: '-' },
+              { value: '1', text: 'Ocarina' },
+              { value: '2', text: 'Flute' },
+            ]}
             required
             // onChange={handleTextChange}
-          >
-            <option>Product1 : Electronics </option>
-            <option>Product2 : Sports </option>
-          </select>
+          />
+        </div>
+        <div>
+          <Button onClick={clearSearchFieldsHandler}>Clear</Button>
         </div>
       </div>
       <div className={styles['search-list']}>

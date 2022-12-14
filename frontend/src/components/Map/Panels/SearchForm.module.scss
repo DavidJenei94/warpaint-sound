@@ -5,33 +5,54 @@
   @include modalStyles.modalStyle;
 
   width: 30%;
+  min-width: 200px;
+  max-width: 350px;
   transform: translate(0, 0);
   top: 60px;
   left: 53px;
 }
 
-@media only screen and (max-width: styles.$smallScreenSize) {
+@media only screen and (max-width: styles.$mediumScreenSize) {
   .search-modal {
     top: 10px;
     width: 80%;
     height: 30%;
+    min-width: 200px;
+    max-width: 1000px;
   }
 }
 
 .search-fields {
   position: relative;
-  top: -30px;
+  top: -50px;
 
-  padding-bottom: 12px;
+  padding-bottom: 10px;
 
   box-shadow: styles.$bottomStrongBoxShadow;
+
+  & > p {
+    display:inline-block;
+  }
+
+  label {
+    display:inline-block;
+    margin: 6px 0 4px;
+    font-size: 12px;
+  }
+
+  button {
+    display:inline-block;
+    margin-top: 10px;
+    padding: 4px;
+  }
 }
 
 .search-list {
   position: relative;
-  top: -30px;
+  top: -50px;
 
   & > p {
+    font-size: 12px;
     margin: 0;
     padding: 8px 0;
     box-shadow: styles.$bottomLightBoxShadow;

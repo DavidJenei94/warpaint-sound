@@ -1,0 +1,19 @@
+@use '../../utils/styles.variables' as styles;
+
+.select {
+  @include styles.defaultInput;
+
+  // &:hover {
+  //   @include styles.paralElementHover;
+  // }
+
+  // &.disabled {
+  //   @include styles.paralElementBorderless;
+  //   color: styles.$disabledColor;
+    
+  //   &:hover {
+  //     cursor: default;
+  //     box-shadow: styles.$primaryBoxShadow;
+  //   }
+  // }
+}

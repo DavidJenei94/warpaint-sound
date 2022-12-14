@@ -4,6 +4,9 @@ $secondaryColor: #444444;
 $secondaryLightColor: #666666;
 $secondaryDarkColor: #222222;
 
+$lightContrastColor: #ffffff;
+$darkContrastColor: #000000;
+
 $fontFamily: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
   Helvetica, Arial, sans-serif;
 
@@ -16,3 +19,20 @@ $bottomStrongBoxShadow: 0px 5px 5px -5px rgba(255, 255, 255, 0.5);
 
 $smallScreenSize: 500px;
 $mediumScreenSize: 700px;
+
+@mixin appearance($value: none) {
+  -webkit-appearance: $value;
+  -moz-appearance: $value;
+  -ms-appearance: $value;
+  -o-appearance: $value;
+  appearance: $value;
+}
+
+@mixin defaultInput {
+  color: $primaryColor;
+  background-color: $secondaryLightColor;
+  border: 0 solid transparent;
+  box-shadow: $mainLightBoxShadow;
+  padding: 4px 8px;
+  font-size: 14px;
+}

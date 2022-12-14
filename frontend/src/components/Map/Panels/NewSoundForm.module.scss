@@ -1,5 +1,10 @@
 @use '../../../utils/styles.variables' as styles;
 
+// audio::-webkit-media-controls-play-button,
+// audio::-webkit-media-controls-panel {
+//   background-color: styles.$primaryColor;
+// }
+
 .header {
   margin: 0 0 8px;
 }
@@ -18,14 +23,21 @@
 
     margin-top: 16px;
 
-    input[type=text], select {
-      width: 70%
+    label {
+      display:inline-block;
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    input[type='text'],
+    select {
+      width: 70%;
     }
 
     .coordinates > div > p {
       font-size: 12px;
       margin: 4px 0;
-    } 
+    }
   }
 }
 
@@ -40,5 +52,3 @@
 .submit-button {
   margin: 16px 0;
 }
-
-

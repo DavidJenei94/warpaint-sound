@@ -15,7 +15,7 @@ const Information = () => {
   return (
     <Modal
       backdrop={true}
-      overlay={false}
+      overlay={true}
       onClose={handlOutsideClick}
       style={{ width: '80%', height: '80%' }}
     >

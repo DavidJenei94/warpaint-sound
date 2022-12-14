@@ -14,7 +14,7 @@ const MapForm = ({ children, onOutsideClick, onSubmit }: MapFormProps) => {
   return (
     <Modal
       backdrop={true}
-      overlay={false}
+      overlay={true}
       onClose={onOutsideClick}
       style={{ width: '80%' }} // in the ...otherProps
     >

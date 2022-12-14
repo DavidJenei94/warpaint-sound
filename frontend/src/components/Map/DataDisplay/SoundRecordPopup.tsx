@@ -4,6 +4,7 @@ import { SoundRecord } from '../../../models/soundrecord.model';
 
 import Button from '../../UI/Button';
 import CloseButton from '../../UI/CloseButton';
+import Input from '../../UI/Input';
 import Modal from '../../UI/Modal/Modal';
 
 import styles from './SoundRecordPopup.module.scss';
@@ -66,14 +67,18 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
         <Modal backdrop={true} overlay={true} onClose={closeReportContent}>
           <CloseButton onClose={closeReportContent} />
           <div className={styles['report-container']}>
-            <p>Do you want to report this Sound Record as inappropriate?</p>
-            <input
-              type="text"
-              placeholder="Any relevant comment."
-              value={reportText}
-              onChange={handleTextChange}
-              className={styles['report-comment']}
-            />
+            <p>
+              Do you want to report this Sound Record as incorrect or
+              inappropriate?
+            </p>
+            <div className={styles['report-comment']}>
+              <Input
+                type="text"
+                placeholder="Any relevant comment."
+                value={reportText}
+                onChange={handleTextChange}
+              />
+            </div>
             <div className={styles.actions}>
               <Button onClick={reportContent}>
                 <p>Report</p>

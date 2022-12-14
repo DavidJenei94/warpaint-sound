@@ -74,7 +74,10 @@
 
 .report-comment {
   margin-bottom: 16px;
-  width: 80%;
+
+  & > input {
+    width: 80%;
+  }
 }
 
 .zoomin {

@@ -15,7 +15,7 @@ const SearchFormControl = ({ showSearchForm }: SearchFormControlProps) => {
 
   const toggleMenuHandler = (event: React.MouseEvent) => {
     event.stopPropagation();
-    showSearchForm(true);
+    showSearchForm(prevValue => !prevValue);
   };
 
   const searchParam = searchParams.get('sInst');

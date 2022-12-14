@@ -1,0 +1,30 @@
+@use '../../utils/styles.variables' as styles;
+
+.input {
+  // color: styles.$primaryColor;
+  // background-color: styles.$secondaryLightColor;
+  // border: 0 solid transparent;
+  // box-shadow: styles.$mainLightBoxShadow;
+  // padding: 4px 8px;
+  // font-size: 14px;
+
+  @include styles.defaultInput;
+
+  &:hover {
+    // @include styles.paralElementHover;
+    cursor: text;
+  }
+
+  &::placeholder {
+    color: styles.$primaryColor;
+    opacity: 0.65;
+  }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
+
+  // &.invalid {
+  //   // box-shadow: styles.$errorBoxShadow;
+  // }
+}

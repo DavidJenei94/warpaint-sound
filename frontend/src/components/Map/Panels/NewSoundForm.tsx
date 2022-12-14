@@ -6,7 +6,9 @@ import {
 } from '../../../models/soundrecord.model';
 
 import Button from '../../UI/Button';
+import Input from '../../UI/Input';
 import MapForm from '../../UI/MapForm';
+import Select from '../../UI/Select';
 
 import styles from './NewSoundForm.module.scss';
 
@@ -15,7 +17,10 @@ interface NewSoundFormProps {
   addSoundRecord: Dispatch<SetStateAction<SoundRecord[]>>;
 }
 
-const NewSoundForm = ({ showNewSoundForm, addSoundRecord }: NewSoundFormProps) => {
+const NewSoundForm = ({
+  showNewSoundForm,
+  addSoundRecord,
+}: NewSoundFormProps) => {
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
   const [soundFile, setSoundFile] = useState<Blob | null>(null);
@@ -71,6 +76,19 @@ const NewSoundForm = ({ showNewSoundForm, addSoundRecord }: NewSoundFormProps) =
 
   const submitNewSoundHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (
+      !soundRecord.instrument ||
+      !soundRecord.category ||
+      !soundRecord.subCategory ||
+      !soundRecord.latitude ||
+      !soundRecord.longitude ||
+      !soundFile ||
+      !imageFile
+    ) {
+      alert("Not all required fields are filled.")
+      return;
+    }
 
     const formData = new FormData(); // preparing to send to the server
     formData.append('instrument', soundRecord.instrument);
@@ -133,47 +151,55 @@ const NewSoundForm = ({ showNewSoundForm, addSoundRecord }: NewSoundFormProps) =
           <div>
             <label htmlFor="instrument">Instrument name:</label>
             <br />
-            <input
+            <Input
               id="instrument"
               name="instrument"
+              value={soundRecord.instrument}
               type="text"
               placeholder="eg. Yamaha P-45, Gibson 1952 J-185..."
-              required
               onChange={handleTextChange}
+              required
             />
           </div>
           <div>
             <label htmlFor="category">Category:</label>
             <br />
-            <select
+            <Select
               id="category"
               name="category"
-              required
+              value={soundRecord.category}
               onChange={handleTextChange}
-            >
-              <option>Product1 : Electronics </option>
-              <option>Product2 : Sports </option>
-            </select>
+              optionList={[
+                { value: '0', text: '-' },
+                { value: '1', text: 'Woodwinds' },
+                { value: '2', text: 'Brass' },
+              ]}
+              required
+            />
           </div>
           <div>
             <label htmlFor="subCategory">Sub Category:</label>
             <br />
-            <select
+            <Select
               id="subCategory"
               name="subCategory"
-              required
+              value={soundRecord.subCategory}
               onChange={handleTextChange}
-            >
-              <option>Product1 : Electronics </option>
-              <option>Product2 : Sports </option>
-            </select>
+              optionList={[
+                { value: '0', text: '-' },
+                { value: '1', text: 'Ocarina' },
+                { value: '2', text: 'Flute' },
+              ]}
+              required
+            />
           </div>
           <div>
             <label htmlFor="description">Description:</label>
             <br />
-            <input
+            <Input
               id="description"
               name="description"
+              value={soundRecord.description}
               type="text"
               placeholder="Any useful information worth sharing."
               onChange={handleTextChange}
@@ -196,7 +222,7 @@ const NewSoundForm = ({ showNewSoundForm, addSoundRecord }: NewSoundFormProps) =
           <div>
             <label htmlFor="instrument-image">Image:</label>
             <br />
-            <input
+            <Input
               type="file"
               id="instrument-image"
               accept="image/*"
