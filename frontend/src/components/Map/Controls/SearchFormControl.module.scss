@@ -1,0 +1,13 @@
+.container {
+  position: relative;
+
+  .notification {
+    position: absolute;
+    top: -11px;
+    right: -2px;
+    
+    margin: 0;
+    color: rgb(255, 47, 47);
+    font-size: 20px;
+  }
+}

@@ -1,10 +1,11 @@
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import L, { LatLng } from 'leaflet';
 import { Marker, useMap } from 'react-leaflet';
 import { SoundRecord } from '../../../models/soundrecord.model';
 
-import soundRecordPinIcon from '../../../assets/map-assets/pin-small-icon.png';
 import SoundRecordPopup from './SoundRecordPopup';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+
+import soundRecordPinIcon from '../../../assets/map-assets/pin-small-icon.png';
 
 interface SoundRecordMarkerProps {
   record: SoundRecord;
@@ -20,6 +21,7 @@ const SoundRecordMarker = ({
   const map = useMap();
   const markerRef = useRef<any>(null);
 
+  // Trigger panto and openpopup when selected from list (like search)
   useEffect(() => {
     if (isActive) {
       map.panTo(new LatLng(record.latitude, record.longitude));

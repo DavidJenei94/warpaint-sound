@@ -18,13 +18,15 @@ import SoundRecordMarker from './DataDisplay/SoundRecordMarker';
 import styles from './SoundMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 import MapPanels from './Panels/MapPanels';
+import { MapQueryParams } from '../../models/map.model';
+import { getQueryParams } from '../../utils/general.utils';
 
 const SoundMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const mapRef = useRef<any>(null);
 
-  const [issearchParamsLoaded, setIssearchParamsLoaded] =
+  const [isSearchParamsLoaded, setIssearchParamsLoaded] =
     useState<boolean>(false);
 
   const [activeMarker, setActiveMarker] = useState<SoundRecord | null>(null);
@@ -41,6 +43,7 @@ const SoundMap = () => {
       subCategory: 0,
     });
 
+  // Fetch sound records from server
   useEffect(() => {
     const fetchSoundRecord = async () => {
       const response = await fetch(`http://localhost:8002/api/soundRecord`);
@@ -52,25 +55,49 @@ const SoundMap = () => {
     fetchSoundRecord();
   }, []);
 
+  // Refresh soundId of activemarker in query params when it is selected or loaded
+  useEffect(() => {
+    if (isSearchParamsLoaded && soundRecords[0]) {
+      setSearchParams((prevValue) => {
+        const params: MapQueryParams = getQueryParams(prevValue);
+
+        if (activeMarker === null) {
+          delete params.soundId;
+
+          return { ...params };
+        }
+
+        return { ...params, soundId: activeMarker.id.toString() };
+      });
+    }
+  }, [activeMarker, isSearchParamsLoaded, soundRecords]);
+
+  // Set query params on initialization
   useEffect(() => {
     try {
       setLatitude(Number(searchParams.get('lat')));
       setLongitude(Number(searchParams.get('lng')));
       Number(searchParams.get('z')) && setZoom(Number(searchParams.get('z')));
 
-      setIssearchParamsLoaded(true);
+      // Open popup if soundId is defined
+      const soundId = searchParams.get('soundId');
+      if (soundId && soundRecords[0]) {
+        const soundRecord = soundRecords.find(
+          (record) => record.id.toString() === soundId
+        );
 
-      // http://localhost:3001/map?lat=46.46&lng=22.20&z=8
+        soundRecord && setActiveMarker(soundRecord);
+      }
+
+      setIssearchParamsLoaded(true);
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [soundRecords]);
 
-  const center = new LatLng(latitude, longitude);
-
-  // SAVE THIS INTO VARIABLE TO MAP GO TO POSITION !!!!!!
+  // If search param is not defined, fetch and go to the user's location
   useEffect(() => {
-    if (issearchParamsLoaded && !latitude && !longitude) {
+    if (isSearchParamsLoaded && !latitude && !longitude) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
           setLatitude(position.coords.latitude);
@@ -79,7 +106,9 @@ const SoundMap = () => {
         });
       }
     }
-  }, [issearchParamsLoaded]);
+  }, [isSearchParamsLoaded]);
+
+  const center = new LatLng(latitude, longitude);
 
   const filteredSoundRecords = soundRecords.filter((soundRecord) => {
     const instrument = soundRecord.instrument.toLowerCase();
@@ -98,11 +127,15 @@ const SoundMap = () => {
         ref={mapRef}
       >
         {/* <FitBoundsControl dataBounds={dataBounds} /> */}
-
-        {issearchParamsLoaded && latitude && longitude && (
-          <Recenter lat={latitude} lng={longitude} z={zoom} />
+        
+        {isSearchParamsLoaded && (
+          <>
+            {latitude && longitude && (
+              <Recenter lat={latitude} lng={longitude} z={zoom} />
+            )}
+            <CurrentPosition />
+          </>
         )}
-        <CurrentPosition />
 
         {/* Panels and Controls */}
         <MapPanels

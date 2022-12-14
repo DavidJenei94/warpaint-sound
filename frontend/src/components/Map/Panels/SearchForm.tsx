@@ -1,7 +1,12 @@
-import { Layer } from 'leaflet';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useMap } from 'react-leaflet';
-import { SoundRecord, SoundRecordFilter } from '../../../models/soundrecord.model';
+import { useSearchParams } from 'react-router-dom';
+import { MapQueryParams } from '../../../models/map.model';
+import {
+  SoundRecord,
+  SoundRecordFilter,
+} from '../../../models/soundrecord.model';
+import { getQueryParams } from '../../../utils/general.utils';
+
 import CloseButton from '../../UI/CloseButton';
 import Modal from '../../UI/Modal/Modal';
 
@@ -24,29 +29,35 @@ const SearchForm = ({
   setSoundRecordFilters,
   setActiveMarker,
 }: SearchFormProps) => {
-  const [searchText, setSearchText] = useState<string>('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const map = useMap();
+  const [searchText, setSearchText] = useState<string>(
+    searchParams.get('sInst') === null ? '' : searchParams.get('sInst')!
+  );
 
   useEffect(() => {
     waitTypingTimeout = setTimeout(() => {
-      setSoundRecordFilters((prevValue) => ({...prevValue, name: searchText }))
+      setSoundRecordFilters((prevValue) => ({
+        ...prevValue,
+        name: searchText,
+      }));
+
+      setSearchParams((prevValue) => {
+        const params: MapQueryParams = getQueryParams(prevValue);
+
+        if (searchText === '') {
+          delete params.sInst;
+          return { ...params };
+        }
+
+        return { ...params, sInst: searchText };
+      });
     }, 400);
 
     return () => {
       waitTypingTimeout && clearTimeout(waitTypingTimeout);
     };
   }, [searchText]);
-
-  // const fetchSearch = async () => {
-  //   const response = await fetch(
-  //     `http://localhost:8002/api/soundRecord?searchText=${searchText}`
-  //   );
-  //   const data = await response.json();
-
-  //   console.log(data);
-  //   filterSoundRecords(data);
-  // };
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);

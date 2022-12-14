@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import { useSearchParams } from 'react-router-dom';
+import { getQueryParams } from '../../../utils/general.utils';
 import ScrollToMenuControl from '../Controls/ScrollToMenuControl';
 
 const CurrentPosition = () => {
@@ -11,10 +12,14 @@ const CurrentPosition = () => {
       const coordinates = map.getCenter();
       const zoom = map.getZoom();
 
-      setSearchParams({
-        lat: coordinates.lat.toString(),
-        lng: coordinates.lng.toString(),
-        z: zoom.toString(),
+      setSearchParams((prevValue) => {
+        const params = getQueryParams(prevValue);
+        return {
+          ...params,
+          lat: coordinates.lat.toString(),
+          lng: coordinates.lng.toString(),
+          z: zoom.toString(),
+        };
       });
     },
   });
