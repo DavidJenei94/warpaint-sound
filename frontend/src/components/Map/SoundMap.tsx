@@ -89,6 +89,16 @@ const SoundMap = () => {
         soundRecord && setActiveMarker(soundRecord);
       }
 
+      // get filter params
+      const searchName = searchParams.get('sInst');
+      if (searchName) {
+        setSoundRecordFilters((prevValue) => ({
+          name: searchName,
+          category: 0,
+          subCategory: 0,
+        }));
+      }
+
       setIssearchParamsLoaded(true);
     } catch (error) {
       console.log(error);
@@ -127,7 +137,7 @@ const SoundMap = () => {
         ref={mapRef}
       >
         {/* <FitBoundsControl dataBounds={dataBounds} /> */}
-        
+
         {isSearchParamsLoaded && (
           <>
             {latitude && longitude && (
