@@ -7,24 +7,27 @@ import MapControls from '../Controls/MapControls';
 
 import NewSoundForm from './NewSoundForm';
 import SearchForm from './SearchForm';
+import SoundRecordList from './SoundRecordList';
 
 interface MapPanelsProps {
-  soundRecords: SoundRecord[];
   setSoundRecords: Dispatch<SetStateAction<SoundRecord[]>>;
-  soundRecordFilters: SoundRecordFilter;
+  filteredSoundRecords: SoundRecord[];
   setSoundRecordFilters: Dispatch<SetStateAction<SoundRecordFilter>>;
+  activeMarker: SoundRecord | null;
   setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
 }
 
 const MapPanels = ({
-  soundRecords,
   setSoundRecords,
-  soundRecordFilters,
+  filteredSoundRecords,
   setSoundRecordFilters,
+  activeMarker,
   setActiveMarker,
 }: MapPanelsProps) => {
   const [isSearchFormShown, setIsSearchFormShown] = useState<boolean>(false);
   const [isNewSoundFormShown, setIsNewSoundFormShown] =
+    useState<boolean>(false);
+  const [isSoundRecordListShown, setIsSoundRecordListShown] =
     useState<boolean>(false);
 
   return (
@@ -32,13 +35,14 @@ const MapPanels = ({
       <MapControls
         showNewSoundForm={setIsNewSoundFormShown}
         showSearchForm={setIsSearchFormShown}
+        showSoundRecordList={setIsSoundRecordListShown}
       />
 
       {isSearchFormShown && (
         <SearchForm
           showSearchForm={setIsSearchFormShown}
-          soundRecords={soundRecords}
-          soundRecordFilters={soundRecordFilters}
+          showSoundRecordList={setIsSoundRecordListShown}
+          filteredSoundRecords={filteredSoundRecords}
           setSoundRecordFilters={setSoundRecordFilters}
           setActiveMarker={setActiveMarker}
         />
@@ -47,6 +51,15 @@ const MapPanels = ({
         <NewSoundForm
           showNewSoundForm={setIsNewSoundFormShown}
           addSoundRecord={setSoundRecords}
+        />
+      )}
+      {isSoundRecordListShown && (
+        <SoundRecordList
+          showSoundRecordList={setIsSoundRecordListShown}
+          showSearchForm={setIsSearchFormShown}
+          filteredSoundRecords={filteredSoundRecords}
+          activeMarker={activeMarker}
+          setActiveMarker={setActiveMarker}
         />
       )}
     </>

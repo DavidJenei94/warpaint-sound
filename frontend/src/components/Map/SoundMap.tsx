@@ -149,10 +149,10 @@ const SoundMap = () => {
 
         {/* Panels and Controls */}
         <MapPanels
-          soundRecords={soundRecords}
           setSoundRecords={setSoundRecords}
-          soundRecordFilters={soundRecordFilters}
+          filteredSoundRecords={filteredSoundRecords}
           setSoundRecordFilters={setSoundRecordFilters}
+          activeMarker={activeMarker}
           setActiveMarker={setActiveMarker}
         />
 

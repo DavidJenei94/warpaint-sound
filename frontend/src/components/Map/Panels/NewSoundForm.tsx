@@ -7,7 +7,7 @@ import {
 
 import Button from '../../UI/Button';
 import Input from '../../UI/Input';
-import MapForm from '../../UI/MapForm';
+import MapForm from '../../UI/Map/MapForm';
 import Select from '../../UI/Select';
 
 import styles from './NewSoundForm.module.scss';

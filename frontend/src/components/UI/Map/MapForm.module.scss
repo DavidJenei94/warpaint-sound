@@ -1,12 +1,6 @@
-@use '../../utils/styles.variables' as styles;
+@use '../../../utils/styles.variables' as styles;
 
   .form {
-    // position: fixed;
-    // top: 10%;
-    // left: 10%;
-    // width: 80%;
-    // height: 80%;
-
     overflow-y: auto;
 
     background-color: styles.$secondaryLightColor;

@@ -1,26 +1,17 @@
 @use '../../../utils/styles.variables' as styles;
 @use '../../UI/Map/ListPanel.module.scss' as listPanelStyles;
 
-.search-fields {
+.title {
   @include listPanelStyles.topListPanel;
+
+  margin: 12px 0;
 
   & > p {
     display: inline-block;
-  }
-
-  label {
-    display: inline-block;
-    margin: 6px 0 4px;
-    font-size: 12px;
-  }
-
-  button {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 4px;
+    margin: 2px 0;
   }
 }
 
-.search-list {
+.list {
   @include listPanelStyles.bottomListPanel;
 }

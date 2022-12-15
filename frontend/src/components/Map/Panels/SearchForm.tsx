@@ -8,17 +8,16 @@ import {
 import { getQueryParams } from '../../../utils/general.utils';
 import Button from '../../UI/Button';
 
-import CloseButton from '../../UI/CloseButton';
 import Input from '../../UI/Input';
-import Modal from '../../UI/Modal/Modal';
+import ListPanel from '../../UI/Map/ListPanel';
 import Select from '../../UI/Select';
 
 import styles from './SearchForm.module.scss';
 
 interface SearchFormProps {
   showSearchForm: Dispatch<SetStateAction<boolean>>;
-  soundRecords: SoundRecord[];
-  soundRecordFilters: SoundRecordFilter;
+  showSoundRecordList: Dispatch<SetStateAction<boolean>>;
+  filteredSoundRecords: SoundRecord[];
   setSoundRecordFilters: Dispatch<SetStateAction<SoundRecordFilter>>;
   setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
 }
@@ -27,8 +26,8 @@ let waitTypingTimeout: NodeJS.Timeout;
 
 const SearchForm = ({
   showSearchForm,
-  soundRecords,
-  soundRecordFilters,
+  showSoundRecordList,
+  filteredSoundRecords,
   setSoundRecordFilters,
   setActiveMarker,
 }: SearchFormProps) => {
@@ -37,6 +36,10 @@ const SearchForm = ({
   const [searchText, setSearchText] = useState<string>(
     searchParams.get('sInst') === null ? '' : searchParams.get('sInst')!
   );
+
+  useEffect(() => {
+    showSoundRecordList(false);
+  }, []);
 
   useEffect(() => {
     waitTypingTimeout = setTimeout(() => {
@@ -78,21 +81,15 @@ const SearchForm = ({
     setActiveMarker(soundRecord);
   };
 
-  const filteredSoundRecords = soundRecords.filter((soundRecord) => {
-    const instrument = soundRecord.instrument.toLowerCase();
-    const nameFilter = soundRecordFilters.name.toLowerCase();
+  // const filteredSoundRecords = soundRecords.filter((soundRecord) => {
+  //   const instrument = soundRecord.instrument.toLowerCase();
+  //   const nameFilter = soundRecordFilters.name.toLowerCase();
 
-    return instrument.includes(nameFilter);
-  });
+  //   return instrument.includes(nameFilter);
+  // });
 
   return (
-    <Modal
-      backdrop={false}
-      overlay={true}
-      onClose={handleClose}
-      className={styles['search-modal']}
-    >
-      <CloseButton onClose={handleClose} />
+    <ListPanel onClose={handleClose}>
       <div className={styles['search-fields']}>
         <p>Search Instrument</p>
         <br />
@@ -147,7 +144,7 @@ const SearchForm = ({
             >{`${record.instrument} (${record.subCategory})`}</p>
           ))}
       </div>
-    </Modal>
+    </ListPanel>
   );
 };
 

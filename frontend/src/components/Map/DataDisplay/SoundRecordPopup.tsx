@@ -95,13 +95,12 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
                 title="Report inappropriate content"
                 onClick={(e) => {
                   setIsReportShown(true);
-                  // map.closePopup();
                 }}
               >
                 <p>!</p>
               </Button>
             </div>
-            <h3>{soundRecord.instrument}</h3>
+            <h3 className={styles.instrument} title={`id: ${soundRecord.id}`}>{soundRecord.instrument}</h3>
             <div className={styles['main-content']}>
               <div>
                 <p>{soundRecord.category}</p>
@@ -112,7 +111,6 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
                 <img
                   src={'http://localhost:8002/api/' + soundRecord.imagePath}
                   onClick={() => setIsImageHovered(true)}
-                  // onMouseOut={() => setIsImageHovered(false)}
                 />
               </div>
             </div>
