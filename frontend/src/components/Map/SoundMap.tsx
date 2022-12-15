@@ -1,30 +1,29 @@
-import { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   FeatureGroup,
   LayersControl,
   MapContainer,
-  Marker,
-  ScaleControl,
   TileLayer,
 } from 'react-leaflet';
 import { SoundRecord, SoundRecordFilter } from '../../models/soundrecord.model';
-import L, { LatLng } from 'leaflet';
+import { LatLng } from 'leaflet';
 import { useSearchParams } from 'react-router-dom';
+import { MapQueryParams } from '../../models/map.model';
+import { getQueryParams } from '../../utils/general.utils';
 
 import Recenter from './Utils/Recenter';
 import CurrentPosition from './Utils/CurrentPosition';
 import SoundRecordMarker from './DataDisplay/SoundRecordMarker';
+import MapPanels from './Panels/MapPanels';
 
 import styles from './SoundMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import MapPanels from './Panels/MapPanels';
-import { MapQueryParams } from '../../models/map.model';
-import { getQueryParams } from '../../utils/general.utils';
 
 const SoundMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const mapRef = useRef<any>(null);
+  const [map, setMap] = useState<any>(null);
 
   const [isSearchParamsLoaded, setIssearchParamsLoaded] =
     useState<boolean>(false);
