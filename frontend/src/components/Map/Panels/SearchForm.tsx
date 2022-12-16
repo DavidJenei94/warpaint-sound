@@ -47,8 +47,14 @@ const SearchForm = ({
   const [searchText, setSearchText] = useState<string>(
     searchParams.get('sInst') === null ? '' : searchParams.get('sInst')!
   );
-  const [searchCategoryId, setSearchCategoryId] = useState<number>(0);
-  const [searchSubCategoryId, setSearchSubCategoryId] = useState<number>(0);
+  const [searchCategoryId, setSearchCategoryId] = useState<number>(
+    searchParams.get('sCat') === null ? 0 : Number(searchParams.get('sCat')!)
+  );
+  const [searchSubCategoryId, setSearchSubCategoryId] = useState<number>(
+    searchParams.get('sSubCat') === null
+      ? 0
+      : Number(searchParams.get('sSubCat')!)
+  );
 
   // close sound record list
   useEffect(() => {

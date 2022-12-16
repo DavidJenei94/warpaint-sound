@@ -15,7 +15,7 @@ const SearchFormControl = ({ showSearchForm }: SearchFormControlProps) => {
 
   const toggleMenuHandler = (event: React.MouseEvent) => {
     event.stopPropagation();
-    showSearchForm(prevValue => !prevValue);
+    showSearchForm((prevValue) => !prevValue);
   };
 
   // If any of the search params are truthy
@@ -26,8 +26,8 @@ const SearchFormControl = ({ showSearchForm }: SearchFormControlProps) => {
 
   return (
     <ControlButton position="topleft" title={'Search'}>
-      <div className={styles.container}>
-        <img src={searchIcon} width={30} onClick={toggleMenuHandler} />
+      <div className={styles.container} onClick={toggleMenuHandler}>
+        <img src={searchIcon} width={30} />
         {searchChecks && <p className={styles.notification}>●</p>}
       </div>
     </ControlButton>
