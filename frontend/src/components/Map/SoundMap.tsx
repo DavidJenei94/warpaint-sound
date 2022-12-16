@@ -172,16 +172,16 @@ const SoundMap = () => {
           setIsTriggeredByList={setIsTriggeredByList}
         />
 
-        <LayersControl position="topright">
-          <LayersControl.BaseLayer checked name="OSM Streets">
+        {/* <LayersControl position="topright">
+          <LayersControl.BaseLayer checked name="OSM Streets"> */}
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='Data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               maxZoom={19}
               keepBuffer={10}
             />
-          </LayersControl.BaseLayer>
-        </LayersControl>
+          {/* </LayersControl.BaseLayer>
+        </LayersControl> */}
 
         <FeatureGroup>
           {filteredSoundRecords[0] &&

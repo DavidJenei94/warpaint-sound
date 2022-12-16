@@ -20,11 +20,11 @@ const MapControls = ({
 }: MapControlsProps) => {
   return (
     <>
-      <ScrollToMenuControl />
       <InformationControl />
       <SearchFormControl showSearchForm={showSearchForm} />
       <NewSoundFormControl showNewSoundForm={showNewSoundForm} />
       <SoundRecordListControl showSoundRecordList={showSoundRecordList} />
+      <ScrollToMenuControl />
       <ScaleControl position="bottomright" />
     </>
   );
