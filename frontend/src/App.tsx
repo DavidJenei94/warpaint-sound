@@ -6,6 +6,7 @@ import Main from './components/Layout/Main';
 
 import './App.module.scss';
 import Information from './components/Map/Information/Information';
+import LoadingIcon from './components/UI/LoadingIcon';
 
 const Map = React.lazy(() => import('./components/Map/Map'));
 const Donation = React.lazy(() => import('./components/Donation/Donation'));
@@ -17,11 +18,11 @@ const App = () => {
   return (
     <>
       <NavBar />
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<LoadingIcon />}>
         <Main>
           <Routes>
             <Route path="/" element={<Navigate to="/map" replace />} />
-            <Route path="/map" element={<Map />} >
+            <Route path="/map" element={<Map />}>
               <Route path="information" element={<Information />} />
             </Route>
             <Route path="/statistics" element={<Statistics />} />

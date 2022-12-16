@@ -23,6 +23,8 @@ import MapPanels from './Panels/MapPanels';
 import styles from './SoundMap.module.scss';
 import 'leaflet/dist/leaflet.css';
 import MapClicker from './Utils/MapClicker';
+import { Categories } from '../../models/category.model';
+import LoadingIcon from '../UI/LoadingIcon';
 
 const SoundMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -46,14 +48,26 @@ const SoundMap = () => {
   const [soundRecords, setSoundRecords] = useState<SoundRecord[]>([]);
   const [soundRecordFilters, setSoundRecordFilters] =
     useState<SoundRecordFilter>(defaultSoundRecordFilter);
+  const [categories, setCategories] = useState<Categories>({
+    categories: [],
+    subCategories: [],
+  });
+  const [isLoading, setIsloading] = useState<boolean>(true);
 
   // Fetch sound records from server
   useEffect(() => {
     const fetchSoundRecord = async () => {
       const response = await fetch(`http://localhost:8002/api/soundRecord`);
       const data = await response.json();
-
       setSoundRecords(data);
+
+      const categoryResponse = await fetch(
+        `http://localhost:8002/api/category`
+      );
+      const categoryData = await categoryResponse.json();
+      setCategories(categoryData);
+
+      setIsloading(false);
     };
 
     fetchSoundRecord();
@@ -122,7 +136,6 @@ const SoundMap = () => {
         navigator.geolocation.getCurrentPosition((position) => {
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
-          console.log(zoom);
         });
       }
     }
@@ -152,6 +165,10 @@ const SoundMap = () => {
     return nameCheck && categoryCheck && subCategoryCheck;
   });
 
+  if (isLoading) {
+    <LoadingIcon />;
+  }
+
   return (
     <div className={styles.soundmap}>
       <MapContainer
@@ -174,6 +191,7 @@ const SoundMap = () => {
         {/* Panels and Controls */}
         <MapPanels
           setSoundRecords={setSoundRecords}
+          categories={categories}
           filteredSoundRecords={filteredSoundRecords}
           setSoundRecordFilters={setSoundRecordFilters}
           activeMarker={activeMarker}

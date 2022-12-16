@@ -17,6 +17,7 @@ import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 import styles from './SearchForm.module.scss';
 
 interface SearchFormProps {
+  categories: Categories;
   showSearchForm: Dispatch<SetStateAction<boolean>>;
   showSoundRecordList: Dispatch<SetStateAction<boolean>>;
   filteredSoundRecords: SoundRecord[];
@@ -29,6 +30,7 @@ interface SearchFormProps {
 let waitTypingTimeout: NodeJS.Timeout;
 
 const SearchForm = ({
+  categories,
   showSearchForm,
   showSoundRecordList,
   filteredSoundRecords,
@@ -38,11 +40,6 @@ const SearchForm = ({
   setIsTriggeredByList,
 }: SearchFormProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const [categories, setCategories] = useState<Categories>({
-    categories: [],
-    subCategories: [],
-  });
 
   const [searchText, setSearchText] = useState<string>(
     searchParams.get('sInst') === null ? '' : searchParams.get('sInst')!
@@ -59,18 +56,6 @@ const SearchForm = ({
   // close sound record list
   useEffect(() => {
     showSoundRecordList(false);
-  }, []);
-
-  // Get categories and subcategories
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await fetch(`http://localhost:8002/api/category`);
-      const data = await response.json();
-
-      setCategories(data);
-    };
-
-    fetchCategories();
   }, []);
 
   // Check search text change and update query params after a delay

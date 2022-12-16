@@ -15,12 +15,14 @@ import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 import styles from './NewSoundForm.module.scss';
 
 interface NewSoundFormProps {
+  categories: Categories;
   showNewSoundForm: Dispatch<SetStateAction<boolean>>;
   addSoundRecord: Dispatch<SetStateAction<SoundRecord[]>>;
   setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
 }
 
 const NewSoundForm = ({
+  categories,
   showNewSoundForm,
   addSoundRecord,
   setActiveMarker,
@@ -30,24 +32,10 @@ const NewSoundForm = ({
   const [soundFile, setSoundFile] = useState<Blob | null>(null);
   const [imageFile, setImageFile] = useState<Blob | null>(null);
 
-  const [categories, setCategories] = useState<Categories>({ categories: [], subCategories: [] });
-
   const [instrumentImageSrc, setInstrumentImageSrc] = useState(''); // For the preview image
   const { audioURL, isRecording, startRecording, stopRecording } =
     useRecorder();
 
-  // Get categories and subcategories
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await fetch(`http://localhost:8002/api/category`);
-      const data = await response.json();
-
-      setCategories(data);
-    };
-
-    fetchCategories();
-  }, []);
-  
   // Get position when form is opened
   useEffect(() => {
     if (navigator.geolocation) {
