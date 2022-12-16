@@ -7,19 +7,9 @@ const getSoundRecordModel = (sequelize, { DataTypes }) => {
         notEmpty: true,
       },
     },
-    category: {
-      type: DataTypes.STRING,
+    subCategoryId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    subCategory: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
     },
     description: {
       type: DataTypes.STRING,
@@ -35,19 +25,39 @@ const getSoundRecordModel = (sequelize, { DataTypes }) => {
     },
     imagePath: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
     soundPath: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    countryId: {
+      type: DataTypes.STRING(2),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    level: {
+      type: DataTypes.STRING,
+      defaultValue: 'basic',
+      allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
   });
+
+  SoundRecord.associate = (models) => {
+    SoundRecord.belongsTo(models.SubCategory, { foreignKey: 'subCategoryId' });
+    SoundRecord.belongsTo(models.Country, { foreignKey: 'countryId' });
+  };
 
   return SoundRecord;
 };

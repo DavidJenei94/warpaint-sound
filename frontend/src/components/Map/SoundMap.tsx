@@ -5,7 +5,11 @@ import {
   MapContainer,
   TileLayer,
 } from 'react-leaflet';
-import { SoundRecord, SoundRecordFilter } from '../../models/soundrecord.model';
+import {
+  defaultSoundRecordFilter,
+  SoundRecord,
+  SoundRecordFilter,
+} from '../../models/soundrecord.model';
 import { LatLng } from 'leaflet';
 import { useSearchParams } from 'react-router-dom';
 import { MapQueryParams } from '../../models/map.model';
@@ -23,12 +27,12 @@ const SoundMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const mapRef = useRef<any>(null);
-  const [map, setMap] = useState<any>(null);
 
   const [isSearchParamsLoaded, setIssearchParamsLoaded] =
     useState<boolean>(false);
 
   const [activeMarker, setActiveMarker] = useState<SoundRecord | null>(null);
+  const [isTriggeredByList, setIsTriggeredByList] = useState<boolean>(false);
 
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
@@ -36,11 +40,7 @@ const SoundMap = () => {
 
   const [soundRecords, setSoundRecords] = useState<SoundRecord[]>([]);
   const [soundRecordFilters, setSoundRecordFilters] =
-    useState<SoundRecordFilter>({
-      name: '',
-      category: 0,
-      subCategory: 0,
-    });
+    useState<SoundRecordFilter>(defaultSoundRecordFilter);
 
   // Fetch sound records from server
   useEffect(() => {
@@ -89,14 +89,20 @@ const SoundMap = () => {
       }
 
       // get filter params
-      const searchName = searchParams.get('sInst');
-      if (searchName) {
-        setSoundRecordFilters((prevValue) => ({
-          name: searchName,
-          category: 0,
-          subCategory: 0,
-        }));
-      }
+      const searchName = searchParams.get('sInst')
+        ? searchParams.get('sInst')!
+        : defaultSoundRecordFilter.name;
+      const searchCategory = searchParams.get('sCat')
+        ? Number(searchParams.get('sCat'))!
+        : defaultSoundRecordFilter.categoryId;
+      const searchSubCategory = searchParams.get('sSubCat')
+        ? Number(searchParams.get('sSubCat'))!
+        : defaultSoundRecordFilter.subCategoryId;
+      setSoundRecordFilters(() => ({
+        name: searchName,
+        categoryId: searchCategory,
+        subCategoryId: searchSubCategory,
+      }));
 
       setIssearchParamsLoaded(true);
     } catch (error) {
@@ -123,7 +129,17 @@ const SoundMap = () => {
     const instrument = soundRecord.instrument.toLowerCase();
     const nameFilter = soundRecordFilters.name.toLowerCase();
 
-    return instrument.includes(nameFilter);
+    const nameCheck = instrument.includes(nameFilter);
+    const categoryCheck =
+      soundRecordFilters.categoryId !== 0
+        ? soundRecordFilters.categoryId === soundRecord.categoryId
+        : true;
+    const subCategoryCheck =
+      soundRecordFilters.subCategoryId !== 0
+        ? soundRecordFilters.subCategoryId === soundRecord.subCategoryId
+        : true;
+
+    return nameCheck && categoryCheck && subCategoryCheck;
   });
 
   return (
@@ -153,6 +169,7 @@ const SoundMap = () => {
           setSoundRecordFilters={setSoundRecordFilters}
           activeMarker={activeMarker}
           setActiveMarker={setActiveMarker}
+          setIsTriggeredByList={setIsTriggeredByList}
         />
 
         <LayersControl position="topright">
@@ -177,6 +194,8 @@ const SoundMap = () => {
                     activeMarker ? record.id === activeMarker.id : false
                   }
                   setActiveMarker={setActiveMarker}
+                  isTriggeredByList={isTriggeredByList}
+                  setIsTriggeredByList={setIsTriggeredByList}
                 />
               );
             })}

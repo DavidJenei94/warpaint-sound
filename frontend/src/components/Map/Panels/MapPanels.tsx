@@ -15,6 +15,7 @@ interface MapPanelsProps {
   setSoundRecordFilters: Dispatch<SetStateAction<SoundRecordFilter>>;
   activeMarker: SoundRecord | null;
   setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
+  setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
 }
 
 const MapPanels = ({
@@ -23,6 +24,7 @@ const MapPanels = ({
   setSoundRecordFilters,
   activeMarker,
   setActiveMarker,
+  setIsTriggeredByList
 }: MapPanelsProps) => {
   const [isSearchFormShown, setIsSearchFormShown] = useState<boolean>(false);
   const [isNewSoundFormShown, setIsNewSoundFormShown] =
@@ -44,13 +46,16 @@ const MapPanels = ({
           showSoundRecordList={setIsSoundRecordListShown}
           filteredSoundRecords={filteredSoundRecords}
           setSoundRecordFilters={setSoundRecordFilters}
+          activeMarker={activeMarker}
           setActiveMarker={setActiveMarker}
+          setIsTriggeredByList={setIsTriggeredByList}
         />
       )}
       {isNewSoundFormShown && (
         <NewSoundForm
           showNewSoundForm={setIsNewSoundFormShown}
           addSoundRecord={setSoundRecords}
+          setActiveMarker={setActiveMarker}
         />
       )}
       {isSoundRecordListShown && (
@@ -60,6 +65,7 @@ const MapPanels = ({
           filteredSoundRecords={filteredSoundRecords}
           activeMarker={activeMarker}
           setActiveMarker={setActiveMarker}
+          setIsTriggeredByList={setIsTriggeredByList}
         />
       )}
     </>

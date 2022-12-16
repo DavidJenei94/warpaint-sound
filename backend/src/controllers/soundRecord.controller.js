@@ -2,7 +2,7 @@ import soundRecord from '../services/soundRecord.service.js';
 
 const getAll = async (req, res, next) => {
   try {
-    res.status(200).json(await soundRecord.getAll());
+    res.status(200).json(await soundRecord.getAll(req.query.searchText));
   } catch (err) {
     console.error(`Error while getting all routes:`, err.message);
     next(err);

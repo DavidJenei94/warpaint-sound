@@ -1,7 +1,9 @@
 export interface SoundRecord {
   id: number;
   instrument: string;
+  categoryId: number;
   category: string;
+  subCategoryId: number;
   subCategory: string;
   description: string;
   latitude: number;
@@ -13,7 +15,9 @@ export interface SoundRecord {
 export const defaultSoundRecord = {
   id: 0,
   instrument: '',
+  categoryId: 0,
   category: '',
+  subCategoryId: 0,
   subCategory: '',
   description: '',
   latitude: 0,
@@ -24,6 +28,12 @@ export const defaultSoundRecord = {
 
 export interface SoundRecordFilter {
   name: string;
-  category: number;
-  subCategory: number;
+  categoryId: number;
+  subCategoryId: number;
 }
+
+export const defaultSoundRecordFilter = {
+  name: '',
+  categoryId: 0,
+  subCategoryId: 0,
+};

@@ -1,0 +1,95 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Woodwinds",
+      "subCategories": [
+        {"id": 1, "name": "Other"},
+        {"id": 2, "name": "Ocarina"},
+        {"id": 3, "name": "Recorder"},
+        {"id": 4, "name": "Flute"},
+        {"id": 5, "name": "Clarinet"},
+        {"id": 6, "name": "Oboe"},
+        {"id": 7, "name": "Bassoon"},
+        {"id": 8, "name": "Saxophone"},
+        {"id": 9, "name": "Harmonica"},
+        {"id": 10, "name": "Pan pipes"},
+        {"id": 11, "name": "Accordion"},
+        {"id": 12, "name": "Bagpipe"},
+        {"id": 13, "name": "Piccolo"},
+        {"id": 14, "name": "Sarrusophone"}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Brass",
+      "subCategories": [
+        {"id": 15, "name": "Other"},
+        {"id": 16, "name": "Trumpet"},
+        {"id": 17, "name": "French Horn"},
+        {"id": 18, "name": "Tenor horn"},
+        {"id": 19, "name": "Tuba"},
+        {"id": 20, "name": "Trombone"},
+        {"id": 21, "name": "Cornet"},
+        {"id": 22, "name": "Flugel horn"},
+        {"id": 23, "name": "Euphonium"},
+        {"id": 24, "name": "Sousaphone"},
+        {"id": 25, "name": "Baritone horn"}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Percussion",
+      "subCategories": [
+        {"id": 26, "name": "Other"},
+        {"id": 27, "name": "Drum kit"},
+        {"id": 28, "name": "Xylophone"},
+        {"id": 29, "name": "Handpan"},
+        {"id": 30, "name": "Tongue drum"},
+        {"id": 31, "name": "Bongo"},
+        {"id": 32, "name": "Tambourine"},
+        {"id": 33, "name": "Snare drum"},
+        {"id": 34, "name": "Bass drum"},
+        {"id": 35, "name": "Cymbals"}
+      ]
+    },
+    {
+      "id": 4,
+      "name": "String",
+      "subCategories": [
+        {"id": 36, "name": "Other"},
+        {"id": 37, "name": "Acoustic guitar"},
+        {"id": 38, "name": "Classical guitar"},
+        {"id": 39, "name": "Electric guitar"},
+        {"id": 40, "name": "Bass guitar"},
+        {"id": 41, "name": "Violin"},
+        {"id": 42, "name": "Viola"},
+        {"id": 43, "name": "Cello"},
+        {"id": 44, "name": "Double bass"},
+        {"id": 45, "name": "Harp"},
+        {"id": 46, "name": "Lyre"},
+        {"id": 47, "name": "Lute"},
+        {"id": 48, "name": "Banjo"},
+        {"id": 49, "name": "Ukulele"},
+        {"id": 50, "name": "Mandolin"},
+        {"id": 51, "name": "Zither"},
+        {"id": 52, "name": "Balalaika"},
+        {"id": 53, "name": "Bandura"},
+        {"id": 54, "name": "Bouzouki"},
+        {"id": 55, "name": "Cimbalom"},
+        {"id": 56, "name": "Cittern"}
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Keyboard",
+      "subCategories": [
+        {"id": 57, "name": "Other"},
+        {"id": 58, "name": "Piano"},
+        {"id": 59, "name": "Harpsichord"},
+        {"id": 60, "name": "Organ"},
+        {"id": 61, "name": "Kalimba"}
+      ]
+    }
+  ]
+}

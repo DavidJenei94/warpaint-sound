@@ -18,13 +18,17 @@ const SearchFormControl = ({ showSearchForm }: SearchFormControlProps) => {
     showSearchForm(prevValue => !prevValue);
   };
 
-  const searchParam = searchParams.get('sInst');
+  // If any of the search params are truthy
+  const searchText = searchParams.get('sInst');
+  const searchCategory = searchParams.get('sCat');
+  const searchSubCategory = searchParams.get('sSubCat');
+  const searchChecks = searchText || searchCategory || searchSubCategory;
 
   return (
     <ControlButton position="topleft" title={'Search'}>
       <div className={styles.container}>
         <img src={searchIcon} width={30} onClick={toggleMenuHandler} />
-        {searchParam && <p className={styles.notification}>●</p>}
+        {searchChecks && <p className={styles.notification}>●</p>}
       </div>
     </ControlButton>
   );

@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import useRecorder from '../../../hooks/useRecorder';
+import { Categories } from '../../../models/category.model';
 import {
   defaultSoundRecord,
   SoundRecord,
@@ -7,29 +8,46 @@ import {
 
 import Button from '../../UI/Button';
 import Input from '../../UI/Input';
+import CategorySelect from '../../UI/Map/CategorySelect';
 import MapForm from '../../UI/Map/MapForm';
-import Select from '../../UI/Select';
+import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 
 import styles from './NewSoundForm.module.scss';
 
 interface NewSoundFormProps {
   showNewSoundForm: Dispatch<SetStateAction<boolean>>;
   addSoundRecord: Dispatch<SetStateAction<SoundRecord[]>>;
+  setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
 }
 
 const NewSoundForm = ({
   showNewSoundForm,
   addSoundRecord,
+  setActiveMarker,
 }: NewSoundFormProps) => {
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
   const [soundFile, setSoundFile] = useState<Blob | null>(null);
   const [imageFile, setImageFile] = useState<Blob | null>(null);
 
+  const [categories, setCategories] = useState<Categories>({ categories: [], subCategories: [] });
+
   const [instrumentImageSrc, setInstrumentImageSrc] = useState(''); // For the preview image
   const { audioURL, isRecording, startRecording, stopRecording } =
     useRecorder();
 
+  // Get categories and subcategories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch(`http://localhost:8002/api/category`);
+      const data = await response.json();
+
+      setCategories(data);
+    };
+
+    fetchCategories();
+  }, []);
+  
   // Get position when form is opened
   useEffect(() => {
     if (navigator.geolocation) {
@@ -71,7 +89,10 @@ const NewSoundForm = ({
   ) => {
     const { name, value } = event.target;
 
-    setSoundRecord((prevValue) => ({ ...prevValue, [name]: value }));
+    const adjValue =
+      name === 'categoryId' || name === 'subCategoryId' ? Number(value) : value;
+
+    setSoundRecord((prevValue) => ({ ...prevValue, [name]: adjValue }));
   };
 
   const submitNewSoundHandler = async (event: React.FormEvent) => {
@@ -79,21 +100,19 @@ const NewSoundForm = ({
 
     if (
       !soundRecord.instrument ||
-      !soundRecord.category ||
-      !soundRecord.subCategory ||
+      soundRecord.subCategoryId === 0 ||
       !soundRecord.latitude ||
       !soundRecord.longitude ||
       !soundFile ||
       !imageFile
     ) {
-      alert("Not all required fields are filled.")
+      alert('Not all required fields are filled.');
       return;
     }
 
     const formData = new FormData(); // preparing to send to the server
     formData.append('instrument', soundRecord.instrument);
-    formData.append('category', soundRecord.category);
-    formData.append('subCategory', soundRecord.subCategory);
+    formData.append('subCategoryId', soundRecord.subCategoryId.toString());
     formData.append('description', soundRecord.description);
     formData.append('latitude', soundRecord.latitude.toString());
     formData.append('longitude', soundRecord.longitude.toString());
@@ -109,10 +128,12 @@ const NewSoundForm = ({
       requestOptions
     );
     const data = await response.json();
+    const newSoundRecord = data.soundRecord;
 
-    addSoundRecord((prevState) => prevState.concat(data.soundRecord));
+    addSoundRecord((prevState) => prevState.concat(newSoundRecord));
 
     showNewSoundForm(false);
+    setActiveMarker(newSoundRecord);
   };
 
   const uploadImageHandler = async (
@@ -162,35 +183,22 @@ const NewSoundForm = ({
             />
           </div>
           <div>
-            <label htmlFor="category">Category:</label>
+            <label htmlFor="categoryId">Category:</label>
             <br />
-            <Select
-              id="category"
-              name="category"
-              value={soundRecord.category}
+            <CategorySelect
+              categoryId={soundRecord.categoryId}
               onChange={handleTextChange}
-              optionList={[
-                { value: '0', text: '-' },
-                { value: '1', text: 'Woodwinds' },
-                { value: '2', text: 'Brass' },
-              ]}
-              required
+              categories={categories}
             />
           </div>
           <div>
-            <label htmlFor="subCategory">Sub Category:</label>
+            <label htmlFor="subCategoryId">Sub Category:</label>
             <br />
-            <Select
-              id="subCategory"
-              name="subCategory"
-              value={soundRecord.subCategory}
+            <SubCategorySelect
+              subCategoryId={soundRecord.subCategoryId}
               onChange={handleTextChange}
-              optionList={[
-                { value: '0', text: '-' },
-                { value: '1', text: 'Ocarina' },
-                { value: '2', text: 'Flute' },
-              ]}
-              required
+              categories={categories}
+              categoryId={soundRecord.categoryId}
             />
           </div>
           <div>

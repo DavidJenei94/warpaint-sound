@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Popup, useMap } from 'react-leaflet';
+import {  useState } from 'react';
+import { Popup } from 'react-leaflet';
 import { SoundRecord } from '../../../models/soundrecord.model';
 
 import Button from '../../UI/Button';
@@ -10,30 +10,13 @@ import Modal from '../../UI/Modal/Modal';
 import styles from './SoundRecordPopup.module.scss';
 
 interface SoundRecordPopupProps {
-  soundRecordId: number;
+  soundRecord: SoundRecord;
 }
 
-const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
-  const [soundRecord, setSoundRecord] = useState<SoundRecord | null>(null);
-
+const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
   const [isReportShown, setIsReportShown] = useState<boolean>(false);
   const [reportText, setReportText] = useState<string>('');
   const [isImageHovered, setIsImageHovered] = useState<boolean>(false);
-
-  const map = useMap();
-
-  useEffect(() => {
-    const fetchSoundRecord = async () => {
-      const response = await fetch(
-        `http://localhost:8002/api/soundRecord/${soundRecordId}`
-      );
-      const data = await response.json();
-
-      setSoundRecord(data.soundRecord);
-    };
-
-    fetchSoundRecord();
-  }, []);
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReportText(event.target.value);
@@ -87,7 +70,7 @@ const SoundRecordPopup = ({ soundRecordId }: SoundRecordPopupProps) => {
           </div>
         </Modal>
       )}
-      <Popup className={styles.popup} minWidth={30} maxWidth={500}>
+      <Popup className={styles.popup} minWidth={30} maxWidth={500} >
         {soundRecord && (
           <div className={styles['popup-content']}>
             <div className={styles['report-button']}>

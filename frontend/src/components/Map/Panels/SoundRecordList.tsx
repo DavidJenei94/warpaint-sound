@@ -13,6 +13,7 @@ interface SoundRecordListProps {
   filteredSoundRecords: SoundRecord[];
   activeMarker: SoundRecord | null;
   setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
+  setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
 }
 
 const SoundRecordList = ({
@@ -21,6 +22,7 @@ const SoundRecordList = ({
   filteredSoundRecords,
   activeMarker,
   setActiveMarker,
+  setIsTriggeredByList
 }: SoundRecordListProps) => {
   const [soundRecordsOnScreen, setSoundRecordsOnScreen] = useState<
     SoundRecord[]
@@ -51,6 +53,7 @@ const SoundRecordList = ({
   };
 
   const showMarkerPopup = (soundRecord: SoundRecord) => {
+    setIsTriggeredByList(true);
     setActiveMarker(soundRecord);
   };
 

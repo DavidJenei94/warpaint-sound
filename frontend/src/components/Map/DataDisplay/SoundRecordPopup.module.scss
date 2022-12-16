@@ -62,33 +62,36 @@
     }
 
     img {
-      width: 120px;
+      width: 140px;
+      max-height: 200px;
       cursor: pointer;
     }
   }
 }
 
-.actions > * {
-  margin: 8px;
-}
-
-.report-comment {
-  margin-bottom: 16px;
-
-  & > input {
-    width: 80%;
-  }
-}
-
 .zoomin {
-  max-width: 90%;
-  max-height: 90%;
+  min-width: 200px;
+  min-height: 200px;
+  max-width: 75vw;
+  max-height: 75vh;
 }
 
 .report-container {
   padding: 8px 24px 16px;
-
+  
   & > p {
     margin-top: 0;
+  }
+  
+  .report-comment {
+    margin-bottom: 16px;
+  
+    & > input {
+      width: 80%;
+    }
+  }
+  
+  .actions > * {
+    margin: 8px;
   }
 }

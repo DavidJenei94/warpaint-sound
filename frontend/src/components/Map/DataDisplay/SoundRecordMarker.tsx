@@ -11,12 +11,16 @@ interface SoundRecordMarkerProps {
   record: SoundRecord;
   isActive: boolean;
   setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
+  isTriggeredByList: boolean;
+  setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
 }
 
 const SoundRecordMarker = ({
   record,
   isActive,
   setActiveMarker,
+  isTriggeredByList,
+  setIsTriggeredByList,
 }: SoundRecordMarkerProps) => {
   const map = useMap();
   const markerRef = useRef<any>(null);
@@ -48,14 +52,18 @@ const SoundRecordMarker = ({
       ref={markerRef}
       eventHandlers={{
         popupclose: (e) => {
-          setActiveMarker(null);
+          if (!isTriggeredByList) {
+            setActiveMarker(null);
+          }
         },
         click: (e) => {
+          setIsTriggeredByList(false);
           setActiveMarker(record);
+          console.log('click');
         },
       }}
     >
-      <SoundRecordPopup soundRecordId={record.id} />
+      <SoundRecordPopup soundRecord={record} />
     </Marker>
   );
 };
