@@ -2,7 +2,7 @@ import { LatLngBounds } from 'leaflet';
 import { useMap } from 'react-leaflet';
 import ControlButton from './ControlButton';
 
-import boundDataIcon from '../../../assets/map-assets/databound-button-icon.png';
+import boundDataIcon from '../../../assets/map-assets/databound-icon.png';
 
 interface FitBoundsControlProps {
   dataBounds: LatLngBounds;
@@ -16,8 +16,8 @@ const FitBoundsControl = ({ dataBounds }: FitBoundsControlProps) => {
   };
 
   return (
-    <ControlButton position="topleft" title="Fit bounds to data">
-      <img src={boundDataIcon} onClick={fitDataToBounds} />
+    <ControlButton position="topleft" title="Fit Map to Sound Records">
+      <img src={boundDataIcon} width={30} onClick={fitDataToBounds} />
     </ControlButton>
   );
 };

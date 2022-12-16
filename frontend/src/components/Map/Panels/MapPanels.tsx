@@ -1,3 +1,4 @@
+import { LatLngBounds } from 'leaflet';
 import { Dispatch, SetStateAction, useState } from 'react';
 import {
   SoundRecord,
@@ -16,6 +17,7 @@ interface MapPanelsProps {
   activeMarker: SoundRecord | null;
   setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
   setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
+  dataBounds: LatLngBounds;
 }
 
 const MapPanels = ({
@@ -24,7 +26,8 @@ const MapPanels = ({
   setSoundRecordFilters,
   activeMarker,
   setActiveMarker,
-  setIsTriggeredByList
+  setIsTriggeredByList,
+  dataBounds,
 }: MapPanelsProps) => {
   const [isSearchFormShown, setIsSearchFormShown] = useState<boolean>(false);
   const [isNewSoundFormShown, setIsNewSoundFormShown] =
@@ -38,6 +41,7 @@ const MapPanels = ({
         showNewSoundForm={setIsNewSoundFormShown}
         showSearchForm={setIsSearchFormShown}
         showSoundRecordList={setIsSoundRecordListShown}
+        dataBounds={dataBounds}
       />
 
       {isSearchFormShown && (

@@ -1,8 +1,6 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { useMap, useMapEvents } from 'react-leaflet';
+import { useMapEvents } from 'react-leaflet';
 import { useSearchParams } from 'react-router-dom';
 import { getQueryParams } from '../../../utils/general.utils';
-import ScrollToMenuControl from '../Controls/ScrollToMenuControl';
 
 const CurrentPosition = () => {
   const [searchParams, setSearchParams] = useSearchParams();

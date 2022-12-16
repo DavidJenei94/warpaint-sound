@@ -10,7 +10,7 @@ import {
   SoundRecord,
   SoundRecordFilter,
 } from '../../models/soundrecord.model';
-import { LatLng } from 'leaflet';
+import { LatLng, LatLngBounds } from 'leaflet';
 import { useSearchParams } from 'react-router-dom';
 import { MapQueryParams } from '../../models/map.model';
 import { getQueryParams } from '../../utils/general.utils';
@@ -22,11 +22,16 @@ import MapPanels from './Panels/MapPanels';
 
 import styles from './SoundMap.module.scss';
 import 'leaflet/dist/leaflet.css';
+import MapClicker from './Utils/MapClicker';
 
 const SoundMap = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const mapRef = useRef<any>(null);
+  const dataRef = useRef<any>(null);
+  const [dataBounds, setDataBounds] = useState<LatLngBounds>(
+    new LatLngBounds(new LatLng(-180, -90), new LatLng(180, 90))
+  );
 
   const [isSearchParamsLoaded, setIssearchParamsLoaded] =
     useState<boolean>(false);
@@ -123,6 +128,11 @@ const SoundMap = () => {
     }
   }, [isSearchParamsLoaded]);
 
+  // refresh databounds to fit
+  useEffect(() => {
+    dataRef.current && setDataBounds(dataRef.current.getBounds());
+  }, [soundRecords, soundRecordFilters]);
+
   const center = new LatLng(latitude, longitude);
 
   const filteredSoundRecords = soundRecords.filter((soundRecord) => {
@@ -151,10 +161,9 @@ const SoundMap = () => {
         zoom={zoom}
         ref={mapRef}
       >
-        {/* <FitBoundsControl dataBounds={dataBounds} /> */}
-
         {isSearchParamsLoaded && (
           <>
+            <MapClicker setActiveMarker={setActiveMarker} />
             {latitude && longitude && (
               <Recenter lat={latitude} lng={longitude} z={zoom} />
             )}
@@ -170,20 +179,17 @@ const SoundMap = () => {
           activeMarker={activeMarker}
           setActiveMarker={setActiveMarker}
           setIsTriggeredByList={setIsTriggeredByList}
+          dataBounds={dataBounds}
         />
 
-        {/* <LayersControl position="topright">
-          <LayersControl.BaseLayer checked name="OSM Streets"> */}
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='Data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              maxZoom={19}
-              keepBuffer={10}
-            />
-          {/* </LayersControl.BaseLayer>
-        </LayersControl> */}
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='Data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          maxZoom={19}
+          keepBuffer={10}
+        />
 
-        <FeatureGroup>
+        <FeatureGroup ref={dataRef}>
           {filteredSoundRecords[0] &&
             filteredSoundRecords.map((record) => {
               return (
