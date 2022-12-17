@@ -24,7 +24,7 @@
     margin-top: 16px;
 
     label {
-      display:inline-block;
+      display: inline-block;
       margin-bottom: 4px;
       font-size: 16px;
     }
@@ -37,6 +37,19 @@
     .coordinates > div > p {
       font-size: 12px;
       margin: 4px 0;
+    }
+  }
+}
+
+.terms {
+  margin: 12px;
+
+  .checkcontent {
+    & > a {
+      text-decoration: none;
+      font-family: inherit;
+      color: styles.$primaryColor;
+      text-decoration: underline;
     }
   }
 }

@@ -1,3 +1,14 @@
+@use '../../../utils/styles.variables' as styles;
+
 .container {
   padding: 0 32px 32px;
+
+  .checkcontent {
+    & > a {
+      text-decoration: none;
+      font-family: inherit;
+      color: styles.$primaryColor;
+      text-decoration: underline;
+    }
+  }
 }

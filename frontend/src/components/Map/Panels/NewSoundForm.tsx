@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { Link } from 'react-router-dom';
 import useRecorder from '../../../hooks/useRecorder';
 import { Categories } from '../../../models/category.model';
 import {
@@ -14,6 +15,7 @@ import {
 import FeedbackContext from '../../../store/feedback-context';
 
 import Button from '../../UI/Button';
+import CheckBox from '../../UI/CheckBox';
 import Input from '../../UI/Input';
 import CategorySelect from '../../UI/Map/CategorySelect';
 import MapForm from '../../UI/Map/MapForm';
@@ -44,6 +46,8 @@ const NewSoundForm = ({
   const [instrumentImageSrc, setInstrumentImageSrc] = useState(''); // For the preview image
   const { audioURL, isRecording, startRecording, stopRecording } =
     useRecorder();
+
+  const [termAccepted, setTermsAccepted] = useState<boolean>(false);
 
   // Get position when form is opened
   useEffect(() => {
@@ -88,6 +92,10 @@ const NewSoundForm = ({
     setSoundRecord((prevValue) => ({ ...prevValue, [name]: adjValue }));
   };
 
+  const termsCheckHandler = () => {
+    setTermsAccepted((prevState) => !prevState);
+  };
+
   const uploadImageHandler = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -113,6 +121,7 @@ const NewSoundForm = ({
     event.preventDefault();
 
     if (
+      !termAccepted ||
       !soundRecord.instrument ||
       soundRecord.subCategoryId === 0 ||
       !soundRecord.latitude ||
@@ -265,6 +274,18 @@ const NewSoundForm = ({
             </div>
           </div>
         </div>
+      </div>
+      <div className={styles.terms}>
+        <CheckBox
+          id="terms"
+          checked={termAccepted}
+          onChange={termsCheckHandler}
+        >
+          <div className={styles.checkcontent}>
+            I read and accept the{' '}
+            <Link to="/map/terms">terms and conditions</Link>.
+          </div>
+        </CheckBox>
       </div>
       <div className={styles['submit-button']}>
         <Button type="submit">

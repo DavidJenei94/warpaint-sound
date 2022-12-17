@@ -1,0 +1,59 @@
+@use '../../utils/styles.variables' as styles;
+
+.container {
+  * {
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  input[type='checkbox'] {
+    display: none;
+
+    & + label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span.empty {
+        margin: 0;
+      }
+
+      span:first-of-type {
+        height: 20px;
+        width: 20px;
+        margin: 0 10px 0 0; /*layout relationship between check and label*/
+
+        &.empty {
+          margin: 0;
+        }
+
+        box-shadow: styles.$mainLightBoxShadow;
+
+        &:hover {
+          box-shadow: styles.$mainStrongBoxShadow;
+          cursor: pointer;
+        }
+      }
+    }
+
+    &:checked {
+      & + label {
+        span:first-of-type {
+          padding: 0;
+
+          &:after {
+            position: relative;
+            top: -2px;
+            content: '✔';
+            color: styles.$primaryColor;
+          }
+
+          &:hover {
+            box-shadow: styles.$mainStrongBoxShadow;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

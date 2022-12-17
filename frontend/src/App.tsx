@@ -5,10 +5,11 @@ import NavBar from './components/Layout/NavBar';
 import Main from './components/Layout/Main';
 import FeedbackContext from './store/feedback-context';
 import Information from './components/Map/Information/Information';
+import Terms from './components/Map/Information/Terms';
+import FeedbackBar from './components/UI/FeedbackBar';
 
 import './App.module.scss';
 import LoadingIcon from './components/UI/LoadingIcon';
-import FeedbackBar from './components/UI/FeedbackBar';
 
 const Map = React.lazy(() => import('./components/Map/Map'));
 const Donation = React.lazy(() => import('./components/Donation/Donation'));
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/" element={<Navigate to="/map" replace />} />
             <Route path="/map" element={<Map />}>
               <Route path="information" element={<Information />} />
+              <Route path="terms" element={<Terms />} />
             </Route>
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/donation" element={<Donation />} />

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import CloseButton from '../../UI/CloseButton';
 
@@ -29,6 +29,9 @@ const Information = () => {
             uploaded by others...
           </p>
           <p>No personal information is stored...</p>
+          <div className={styles.checkcontent}>
+            <Link to="/map/terms">Terms and Conditions</Link>
+          </div>
         </div>
       </>
     </Modal>
