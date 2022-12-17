@@ -42,9 +42,9 @@ const SoundRecordMarker = ({
       icon={
         new L.Icon({
           iconUrl: soundRecordPinIcon,
-          iconAnchor: new L.Point(20, 40),
-          iconSize: new L.Point(40, 40),
-          popupAnchor: [0, -35],
+          iconAnchor: new L.Point(22, 44),
+          iconSize: new L.Point(44, 44),
+          popupAnchor: [0, -40],
         })
       }
       draggable={false}
