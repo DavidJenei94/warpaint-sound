@@ -1,10 +1,17 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import useRecorder from '../../../hooks/useRecorder';
 import { Categories } from '../../../models/category.model';
 import {
   defaultSoundRecord,
   SoundRecord,
 } from '../../../models/soundrecord.model';
+import FeedbackContext from '../../../store/feedback-context';
 
 import Button from '../../UI/Button';
 import Input from '../../UI/Input';
@@ -27,6 +34,8 @@ const NewSoundForm = ({
   addSoundRecord,
   setActiveMarker,
 }: NewSoundFormProps) => {
+  const ctx = useContext(FeedbackContext);
+
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
   const [soundFile, setSoundFile] = useState<Blob | null>(null);
@@ -68,10 +77,6 @@ const NewSoundForm = ({
     fetchAudioUrl();
   }, [audioURL]);
 
-  const handlOutsideClick = () => {
-    showNewSoundForm(false);
-  };
-
   const handleTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -81,6 +86,27 @@ const NewSoundForm = ({
       name === 'categoryId' || name === 'subCategoryId' ? Number(value) : value;
 
     setSoundRecord((prevValue) => ({ ...prevValue, [name]: adjValue }));
+  };
+
+  const uploadImageHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const input = event.target;
+    if (!input || !input.files || !input.files![0]) {
+      ctx.showMessage('Error while uploading file.', 3000);
+      return;
+    }
+
+    const file = input.files![0];
+    setImageFile(file);
+
+    // For the preview image
+    const src = URL.createObjectURL(file);
+    setInstrumentImageSrc(src);
+  };
+
+  const handlOutsideClick = () => {
+    showNewSoundForm(false);
   };
 
   const submitNewSoundHandler = async (event: React.FormEvent) => {
@@ -94,7 +120,7 @@ const NewSoundForm = ({
       !soundFile ||
       !imageFile
     ) {
-      alert('Not all required fields are filled.');
+      ctx.showMessage('Not all required fields are filled.', 3000);
       return;
     }
 
@@ -107,46 +133,27 @@ const NewSoundForm = ({
     formData.append('soundFile', soundFile!);
     formData.append('imageFile', imageFile!);
 
-    const requestOptions = {
-      method: 'POST',
-      body: formData,
-    };
-    const response = await fetch(
-      'http://localhost:8002/api/soundRecord',
-      requestOptions
-    );
-    const data = await response.json();
-    const newSoundRecord = data.soundRecord;
+    try {
+      const requestOptions = {
+        method: 'POST',
+        body: formData,
+      };
+      const response = await fetch(
+        'http://localhost:8002/api/soundRecord',
+        requestOptions
+      );
+      const data = await response.json();
+      const newSoundRecord = data.soundRecord;
 
-    addSoundRecord((prevState) => prevState.concat(newSoundRecord));
+      addSoundRecord((prevState) => prevState.concat(newSoundRecord));
 
-    showNewSoundForm(false);
-    setActiveMarker(newSoundRecord);
-  };
+      showNewSoundForm(false);
+      setActiveMarker(newSoundRecord);
 
-  const uploadImageHandler = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const input = event.target;
-    if (!input) {
-      alert('The browser does not does not support file input.');
-      return;
+      ctx.showMessage('New Sound Record added.', 2000);
+    } catch (error: any) {
+      ctx.showMessage(error.message, 3000);
     }
-    if (!input.files) {
-      alert('The browser does not does not support this file input.');
-      return;
-    }
-    if (!input.files![0]) {
-      alert('The file did not loaded properly.');
-      return;
-    }
-
-    const file = input.files![0];
-    setImageFile(file);
-
-    // For the preview image
-    const src = URL.createObjectURL(file);
-    setInstrumentImageSrc(src);
   };
 
   return (

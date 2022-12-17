@@ -186,7 +186,7 @@ const SearchForm = ({
           />
         </div>
         <div>
-          <Button onClick={clearSearchFieldsHandler}>Clear</Button>
+          <Button onClick={clearSearchFieldsHandler}>Clear Filters</Button>
         </div>
       </div>
       <div className={styles['search-list']}>

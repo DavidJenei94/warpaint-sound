@@ -8,7 +8,6 @@ interface MapClickerProps {
 const MapClicker = ({ setActiveMarker }: MapClickerProps) => {
   const map = useMapEvents({
     click: () => {
-      console.log('clicked');
       setActiveMarker(null);
     },
   });

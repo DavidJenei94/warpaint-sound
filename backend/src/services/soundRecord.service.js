@@ -69,11 +69,8 @@ const editSoundRecords = (soundRecords) => {
 };
 
 const create = async (soundRecord, files) => {
-  console.log(soundRecord);
   if (
     !soundRecord.instrument ||
-    // !soundRecord.category ||
-    // !soundRecord.subCategory ||
     !soundRecord.latitude ||
     !soundRecord.longitude ||
     !files.imageFile ||

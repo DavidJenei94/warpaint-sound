@@ -1,10 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import {
-  FeatureGroup,
-  LayersControl,
-  MapContainer,
-  TileLayer,
-} from 'react-leaflet';
+import { useEffect, useState, useRef, useContext } from 'react';
+import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet';
 import {
   defaultSoundRecordFilter,
   SoundRecord,
@@ -14,19 +9,21 @@ import { LatLng, LatLngBounds } from 'leaflet';
 import { useSearchParams } from 'react-router-dom';
 import { MapQueryParams } from '../../models/map.model';
 import { getQueryParams } from '../../utils/general.utils';
+import FeedbackContext from '../../store/feedback-context';
+import { Categories } from '../../models/category.model';
 
 import Recenter from './Utils/Recenter';
 import CurrentPosition from './Utils/CurrentPosition';
 import SoundRecordMarker from './DataDisplay/SoundRecordMarker';
 import MapPanels from './Panels/MapPanels';
+import LoadingIcon from '../UI/LoadingIcon';
+import MapClicker from './Utils/MapClicker';
 
 import styles from './SoundMap.module.scss';
 import 'leaflet/dist/leaflet.css';
-import MapClicker from './Utils/MapClicker';
-import { Categories } from '../../models/category.model';
-import LoadingIcon from '../UI/LoadingIcon';
 
 const SoundMap = () => {
+  const ctx = useContext(FeedbackContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const mapRef = useRef<any>(null);
@@ -56,21 +53,25 @@ const SoundMap = () => {
 
   // Fetch sound records from server
   useEffect(() => {
-    const fetchSoundRecord = async () => {
-      const response = await fetch(`http://localhost:8002/api/soundRecord`);
-      const data = await response.json();
-      setSoundRecords(data);
+    const fetchSoundRecordAndCategories = async () => {
+      try {
+        const response = await fetch(`http://localhost:8002/api/soundRecord`);
+        const data = await response.json();
+        setSoundRecords(data);
 
-      const categoryResponse = await fetch(
-        `http://localhost:8002/api/category`
-      );
-      const categoryData = await categoryResponse.json();
-      setCategories(categoryData);
+        const categoryResponse = await fetch(
+          `http://localhost:8002/api/category`
+        );
+        const categoryData = await categoryResponse.json();
+        setCategories(categoryData);
 
-      setIsloading(false);
+        setIsloading(false);
+      } catch (error) {
+        ctx.showMessage('Error while loading Sound Records.', 4000);
+      }
     };
 
-    fetchSoundRecord();
+    fetchSoundRecordAndCategories();
   }, []);
 
   // Refresh soundId of activemarker in query params when it is selected or loaded
@@ -124,8 +125,8 @@ const SoundMap = () => {
       }));
 
       setIssearchParamsLoaded(true);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      ctx.showMessage('Error while reading the query params.', 4000);
     }
   }, [soundRecords]);
 

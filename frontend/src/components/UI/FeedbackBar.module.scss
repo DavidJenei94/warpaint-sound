@@ -1,0 +1,14 @@
+@use '../../utils/styles.variables' as styles;
+@use './Modal/Modal.module.scss' as modalStyles;
+
+.feedback {
+  @include modalStyles.modalStyle;
+
+  z-index: 2000;
+  position: fixed;
+  left: 50%;
+  top: 90%;
+  min-width: 70%;
+  text-align: center;
+  padding: 4px;
+}

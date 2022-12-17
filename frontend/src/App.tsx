@@ -1,12 +1,14 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useContext, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
 import NavBar from './components/Layout/NavBar';
 import Main from './components/Layout/Main';
+import FeedbackContext from './store/feedback-context';
+import Information from './components/Map/Information/Information';
 
 import './App.module.scss';
-import Information from './components/Map/Information/Information';
 import LoadingIcon from './components/UI/LoadingIcon';
+import FeedbackBar from './components/UI/FeedbackBar';
 
 const Map = React.lazy(() => import('./components/Map/Map'));
 const Donation = React.lazy(() => import('./components/Donation/Donation'));
@@ -15,8 +17,11 @@ const Statistics = React.lazy(
 );
 
 const App = () => {
+  const ctx = useContext(FeedbackContext);
+
   return (
     <>
+      {ctx.isMessageShown && <FeedbackBar>{ctx.message}</FeedbackBar>}
       <NavBar />
       <Suspense fallback={<LoadingIcon />}>
         <Main>
