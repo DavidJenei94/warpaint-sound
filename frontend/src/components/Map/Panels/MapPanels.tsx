@@ -7,6 +7,7 @@ import {
 } from '../../../models/soundrecord.model';
 
 import MapControls from '../Controls/MapControls';
+import Donation from './Donation';
 import NewSoundForm from './NewSoundForm';
 import SearchForm from './SearchForm';
 import SoundRecordList from './SoundRecordList';
@@ -37,6 +38,7 @@ const MapPanels = ({
     useState<boolean>(false);
   const [isSoundRecordListShown, setIsSoundRecordListShown] =
     useState<boolean>(false);
+  const [isDonationShown, setIsDonationShown] = useState<boolean>(false);
 
   return (
     <>
@@ -44,6 +46,7 @@ const MapPanels = ({
         showNewSoundForm={setIsNewSoundFormShown}
         showSearchForm={setIsSearchFormShown}
         showSoundRecordList={setIsSoundRecordListShown}
+        showDonation={setIsDonationShown}
         dataBounds={dataBounds}
       />
 
@@ -77,6 +80,7 @@ const MapPanels = ({
           setIsTriggeredByList={setIsTriggeredByList}
         />
       )}
+      {isDonationShown && <Donation showDonation={setIsDonationShown} />}
     </>
   );
 };

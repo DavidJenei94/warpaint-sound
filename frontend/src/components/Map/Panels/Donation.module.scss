@@ -1,0 +1,31 @@
+@use '../../../utils/styles.variables' as styles;
+@use '../../UI/Map/ListPanel.module.scss' as listPanelStyles;
+
+.title {
+  @include listPanelStyles.topListPanel;
+
+  margin: 12px 0;
+
+  & > p {
+    display: inline-block;
+    margin: 2px 0;
+  }
+}
+
+.list {
+  position: relative;
+  top: -30px;
+  padding: 6px;
+
+  & > p,
+  li {
+    font-size: 16px;
+    margin: 0;
+    padding: 6px 0;
+  }
+
+  & > ul {
+    margin: 4px 0 16px;
+    text-align: left;
+  }
+}
