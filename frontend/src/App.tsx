@@ -1,4 +1,4 @@
-import React, { Suspense, useContext, useEffect } from 'react';
+import React, { Suspense, useContext } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
 import NavBar from './components/Layout/NavBar';
@@ -12,7 +12,7 @@ import './App.module.scss';
 import LoadingIcon from './components/UI/LoadingIcon';
 
 const Map = React.lazy(() => import('./components/Map/Map'));
-const Donation = React.lazy(() => import('./components/Donation/Donation'));
+const Donation = React.lazy(() => import('./components/About/About'));
 const Statistics = React.lazy(
   () => import('./components/Statistics/Statistics')
 );
