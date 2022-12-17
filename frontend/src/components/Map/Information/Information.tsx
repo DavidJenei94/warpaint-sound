@@ -7,9 +7,9 @@ import Modal from '../../UI/Modal/Modal';
 
 const Information = () => {
   const navigate = useNavigate();
-  
+
   const handlOutsideClick = () => {
-    navigate("/map");
+    navigate('/map');
   };
 
   return (
@@ -23,15 +23,28 @@ const Information = () => {
         <CloseButton onClose={handlOutsideClick} />
         <div className={styles.container}>
           <h1>Warpaint Sound</h1>
-          <p>This page is only a hobby project...</p>
           <p>
-            Where you can upload and browse the sounds of different instruments
-            uploaded by others...
+            This application is only a hobby project and its purpose is to
+            provide some information about different musical instruments and to make
+            joy.
           </p>
-          <p>No personal information is stored...</p>
-          <div className={styles.checkcontent}>
-            <Link to="/map/terms">Terms and Conditions</Link>
-          </div>
+          <p>
+            You can upload Sound Records of your instruments at your current
+            location (most accurate by phone's GPS) and browse the sounds of the
+            ones uploaded by others.
+          </p>
+          <p>
+            You are able to search by name or category and list the sound
+            records on current view.
+          </p>
+          <p>
+            No personal information is stored however by uploading a Sound
+            Record You must accept the{' '}
+            <div className={styles.checkcontent}>
+              <Link to="/map/terms">Terms and Conditions</Link>
+            </div>
+          </p>
+          <p>Good browsing and have fun!</p>
         </div>
       </>
     </Modal>

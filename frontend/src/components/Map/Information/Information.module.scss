@@ -2,8 +2,12 @@
 
 .container {
   padding: 0 32px 32px;
+  & > p {
+    font-size: 18px;
+  }
 
   .checkcontent {
+
     & > a {
       text-decoration: none;
       font-family: inherit;
