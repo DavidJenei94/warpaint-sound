@@ -5,6 +5,7 @@ import {
   SoundRecord,
   SoundRecordFilter,
 } from '../../../models/soundrecord.model';
+import ListPanel from '../../UI/Map/ListPanel';
 
 import MapControls from '../Controls/MapControls';
 import Donation from './Donation';
@@ -33,12 +34,59 @@ const MapPanels = ({
   setIsTriggeredByList,
   dataBounds,
 }: MapPanelsProps) => {
-  const [isSearchFormShown, setIsSearchFormShown] = useState<boolean>(false);
   const [isNewSoundFormShown, setIsNewSoundFormShown] =
     useState<boolean>(false);
+  const [isSearchFormShown, setIsSearchFormShown] = useState<boolean>(false);
   const [isSoundRecordListShown, setIsSoundRecordListShown] =
     useState<boolean>(false);
   const [isDonationShown, setIsDonationShown] = useState<boolean>(false);
+
+  const handleListPanelClose = (panelException: string) => {
+    switch (panelException) {
+      case 'SearchForm':
+        setIsSoundRecordListShown(false);
+        setIsDonationShown(false);
+        break;
+      case 'SoundRecordList':
+        setIsSearchFormShown(false);
+        setIsDonationShown(false);
+        break;
+      case 'Donation':
+        setIsSearchFormShown(false);
+        setIsSoundRecordListShown(false);
+        break;
+      default:
+        setIsSearchFormShown(false);
+        setIsSoundRecordListShown(false);
+        setIsDonationShown(false);
+        break;
+    }
+  };
+
+  let listPanelContent: JSX.Element | null = null;
+  if (isSearchFormShown) {
+    listPanelContent = (
+      <SearchForm
+        categories={categories}
+        filteredSoundRecords={filteredSoundRecords}
+        setSoundRecordFilters={setSoundRecordFilters}
+        activeMarker={activeMarker}
+        setActiveMarker={setActiveMarker}
+        setIsTriggeredByList={setIsTriggeredByList}
+      />
+    );
+  } else if (isSoundRecordListShown) {
+    listPanelContent = (
+      <SoundRecordList
+        filteredSoundRecords={filteredSoundRecords}
+        activeMarker={activeMarker}
+        setActiveMarker={setActiveMarker}
+        setIsTriggeredByList={setIsTriggeredByList}
+      />
+    );
+  } else if (isDonationShown) {
+    listPanelContent = <Donation/>;
+  }
 
   return (
     <>
@@ -48,20 +96,15 @@ const MapPanels = ({
         showSoundRecordList={setIsSoundRecordListShown}
         showDonation={setIsDonationShown}
         dataBounds={dataBounds}
+        handleListPanelClose={handleListPanelClose}
       />
 
-      {isSearchFormShown && (
-        <SearchForm
-          categories={categories}
-          showSearchForm={setIsSearchFormShown}
-          showSoundRecordList={setIsSoundRecordListShown}
-          filteredSoundRecords={filteredSoundRecords}
-          setSoundRecordFilters={setSoundRecordFilters}
-          activeMarker={activeMarker}
-          setActiveMarker={setActiveMarker}
-          setIsTriggeredByList={setIsTriggeredByList}
-        />
+      {listPanelContent && (
+        <ListPanel onClose={() => handleListPanelClose('')}>
+          {listPanelContent}
+        </ListPanel>
       )}
+
       {isNewSoundFormShown && (
         <NewSoundForm
           categories={categories}
@@ -70,17 +113,6 @@ const MapPanels = ({
           setActiveMarker={setActiveMarker}
         />
       )}
-      {isSoundRecordListShown && (
-        <SoundRecordList
-          showSoundRecordList={setIsSoundRecordListShown}
-          showSearchForm={setIsSearchFormShown}
-          filteredSoundRecords={filteredSoundRecords}
-          activeMarker={activeMarker}
-          setActiveMarker={setActiveMarker}
-          setIsTriggeredByList={setIsTriggeredByList}
-        />
-      )}
-      {isDonationShown && <Donation showDonation={setIsDonationShown} />}
     </>
   );
 };

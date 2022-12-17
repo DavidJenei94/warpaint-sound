@@ -10,7 +10,6 @@ import { getQueryParams } from '../../../utils/general.utils';
 import Button from '../../UI/Button';
 
 import Input from '../../UI/Input';
-import ListPanel from '../../UI/Map/ListPanel';
 import CategorySelect from '../../UI/Map/CategorySelect';
 import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 
@@ -18,8 +17,6 @@ import styles from './SearchForm.module.scss';
 
 interface SearchFormProps {
   categories: Categories;
-  showSearchForm: Dispatch<SetStateAction<boolean>>;
-  showSoundRecordList: Dispatch<SetStateAction<boolean>>;
   filteredSoundRecords: SoundRecord[];
   setSoundRecordFilters: Dispatch<SetStateAction<SoundRecordFilter>>;
   activeMarker: SoundRecord | null;
@@ -31,8 +28,6 @@ let waitTypingTimeout: NodeJS.Timeout;
 
 const SearchForm = ({
   categories,
-  showSearchForm,
-  showSoundRecordList,
   filteredSoundRecords,
   setSoundRecordFilters,
   activeMarker,
@@ -52,11 +47,6 @@ const SearchForm = ({
       ? 0
       : Number(searchParams.get('sSubCat')!)
   );
-
-  // close sound record list
-  useEffect(() => {
-    showSoundRecordList(false);
-  }, []);
 
   // Check search text change and update query params after a delay
   useEffect(() => {
@@ -144,17 +134,13 @@ const SearchForm = ({
     }
   };
 
-  const handleClose = () => {
-    showSearchForm(false);
-  };
-
   const showMarkerPopup = (soundRecord: SoundRecord) => {
     setIsTriggeredByList(true);
     setActiveMarker(soundRecord);
   };
 
   return (
-    <ListPanel onClose={handleClose}>
+    <>
       <div className={styles['search-fields']}>
         <p>Search Instrument</p>
         <br />
@@ -203,7 +189,7 @@ const SearchForm = ({
             >{`${record.instrument} (${record.subCategory})`}</p>
           ))}
       </div>
-    </ListPanel>
+    </>
   );
 };
 

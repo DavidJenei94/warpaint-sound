@@ -8,13 +8,18 @@ import searchIcon from '../../../assets/map-assets/search-icon.png';
 
 interface SearchFormControlProps {
   showSearchForm: Dispatch<SetStateAction<boolean>>;
+  handleListPanelClose: (panelException: string) => void;
 }
 
-const SearchFormControl = ({ showSearchForm }: SearchFormControlProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+const SearchFormControl = ({
+  showSearchForm,
+  handleListPanelClose,
+}: SearchFormControlProps) => {
+  const [searchParams] = useSearchParams();
 
   const toggleMenuHandler = (event: React.MouseEvent) => {
     event.stopPropagation();
+    handleListPanelClose('SearchForm');
     showSearchForm((prevValue) => !prevValue);
   };
 
