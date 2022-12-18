@@ -40,9 +40,9 @@ const Information = () => {
           <p>
             No personal information is stored however by uploading a Sound
             Record You must accept the{' '}
-            <div className={styles.checkcontent}>
+            <span className={styles.checkcontent}>
               <Link to="/map/terms">Terms and Conditions</Link>
-            </div>
+            </span>
           </p>
           <p>Good browsing and have fun!</p>
         </div>

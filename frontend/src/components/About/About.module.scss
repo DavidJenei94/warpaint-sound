@@ -1,0 +1,12 @@
+@use '../../utils/styles.variables' as styles;
+
+.about-container {
+  margin: 32px;
+
+  text-align: center;
+
+  .garmin-link {
+    color: styles.$primaryColor;
+    text-decoration: underline;
+  }
+}

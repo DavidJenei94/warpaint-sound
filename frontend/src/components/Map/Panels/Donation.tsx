@@ -14,8 +14,8 @@ const Donation = () => {
           I can provide the best service and create new projects.
         </p>
         <p>
-          By donating you can choose a Sound Record, which will get a premium
-          appearance:
+          By donating you can choose a Sound Record (write me the "soundId" from
+          the url in the donation comment), which will get a premium appearance:
         </p>
         <ul>
           <li>One-time: chromium look</li>

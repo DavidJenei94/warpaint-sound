@@ -25,7 +25,7 @@ const NavBar = () => {
       </div>
       <NavItem to="/map">Sound Map</NavItem>
       <NavItem to="/statistics">Statistics</NavItem>
-      <NavItem to="/donation">Donation</NavItem>
+      <NavItem to="/about">About</NavItem>
     </div>
   );
 };

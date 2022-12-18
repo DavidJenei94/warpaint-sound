@@ -11,7 +11,6 @@ const NavItem = ({ children, to }: NavItemProps) => {
   return (
     <NavLink
       to={to}
-      // style={{ color: 'inherit', textDecoration: 'inherit'}}
       className={({ isActive }) =>
         isActive ? `${styles.link} ${styles.active}` : `${styles.link}`
       }

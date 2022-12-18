@@ -1,0 +1,12 @@
+@use "../../../utils/styles.variables" as styles;
+
+.container {
+  padding-top: 20px;
+  text-align: center;
+
+  & > button {
+
+    padding: 8px;
+    background-color: styles.$secondaryColor;
+  }
+}
