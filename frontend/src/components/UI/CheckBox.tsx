@@ -18,9 +18,6 @@ const CheckBox = ({
 }: CheckBoxProps) => {
   const emptyTextClass: string = !children ? styles.empty : '';
 
-  console.log(checked);
-  
-
   return (
     <div className={styles['container']}>
       <Input type="checkbox" checked={checked} id={id} {...otherProps} />

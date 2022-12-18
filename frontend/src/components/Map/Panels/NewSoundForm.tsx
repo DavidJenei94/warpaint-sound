@@ -75,6 +75,10 @@ const NewSoundForm = ({
       const audioFile = new File([audioBlob], 'sound.wav', {
         type: 'audio/wav',
       });
+      if (audioFile.size / 1000 > 1000) {
+        ctx.showMessage('Audio file size is greater then 1 MB!', 3000);
+        return;
+      }
       setSoundFile(audioFile);
     };
 
@@ -106,6 +110,11 @@ const NewSoundForm = ({
     }
 
     const file = input.files![0];
+
+    if (file.size / 1000 > 3000) {
+      ctx.showMessage('Image file size is greater then 3 MB!', 3000);
+      return;
+    }
     setImageFile(file);
 
     // For the preview image
@@ -232,7 +241,7 @@ const NewSoundForm = ({
         </div>
         <div>
           <div>
-            <label htmlFor="instrument-image">Image:</label>
+            <label htmlFor="instrument-image">Image (Max 3 MB):</label>
             <br />
             <Input
               type="file"
@@ -249,7 +258,7 @@ const NewSoundForm = ({
             />
           </div>
           <div>
-            <label htmlFor="instrument-sound">Record Sound:</label>
+            <label htmlFor="instrument-sound">Record Sound (Max 5 MB ~ 30 sec):</label>
             <br />
             <audio src={audioURL} id="instrument-sound" controls />
             <br />
