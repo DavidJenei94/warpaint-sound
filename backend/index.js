@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import db from './src/models/index.js';
 import soundRecordRouter from './src/routes/soundRecord.route.js';
 import categoryRouter from './src/routes/category.route.js';
+import statisticsRouter from './src/routes/statistics.route.js';
 
 import upload, { acceptedFiles } from './src/middlewares/fileUpload.js';
 import readCategoryData from './src/utils/readCategoryData.js';
@@ -27,6 +28,7 @@ app.use(cors());
 
 app.use('/api/soundRecord', upload.fields(acceptedFiles), soundRecordRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/statistics', statisticsRouter);
 
 // For sending image and audio files
 app.get('/api/uploads/:filePath', (req, res) => {

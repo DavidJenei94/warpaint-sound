@@ -1,0 +1,20 @@
+@use "../../utils/styles.variables" as styles;
+
+.container {
+  border: 1px solid styles.$primaryColor;
+  width: 400px;
+  height: 400px;
+  
+  & > p {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .chart {
+    width: 100%;
+    
+    & > * {
+      margin: 0 auto;
+    }
+  }
+}

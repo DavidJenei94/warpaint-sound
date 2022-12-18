@@ -4,7 +4,7 @@ const getAll = async (req, res, next) => {
   try {
     res.status(200).json(await category.getAll());
   } catch (err) {
-    console.error(`Error while getting all routes:`, err.message);
+    console.error(`Error while getting all Category:`, err.message);
     next(err);
   }
 };
