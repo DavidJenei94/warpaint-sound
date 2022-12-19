@@ -8,7 +8,7 @@ import {
 import { LatLng, LatLngBounds } from 'leaflet';
 import { useSearchParams } from 'react-router-dom';
 import { MapQueryParams } from '../../models/map.model';
-import { getQueryParams } from '../../utils/general.utils';
+import { backendUrl, getQueryParams } from '../../utils/general.utils';
 import FeedbackContext from '../../store/feedback-context';
 import { Categories } from '../../models/category.model';
 
@@ -55,14 +55,22 @@ const SoundMap = () => {
   useEffect(() => {
     const fetchSoundRecordAndCategories = async () => {
       try {
-        const response = await fetch(`http://localhost:8002/api/soundRecord`);
+        const response = await fetch(`${backendUrl}/api/soundRecord`);
         const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+
         setSoundRecords(data);
 
-        const categoryResponse = await fetch(
-          `http://localhost:8002/api/category`
-        );
+        const categoryResponse = await fetch(`${backendUrl}/api/category`);
         const categoryData = await categoryResponse.json();
+
+        if (!response.ok) {
+          throw new Error(categoryData.message);
+        }
+
         setCategories(categoryData);
 
         setIsloading(false);

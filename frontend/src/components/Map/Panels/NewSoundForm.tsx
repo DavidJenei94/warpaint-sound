@@ -13,6 +13,7 @@ import {
   SoundRecord,
 } from '../../../models/soundrecord.model';
 import FeedbackContext from '../../../store/feedback-context';
+import { backendUrl } from '../../../utils/general.utils';
 
 import Button from '../../UI/Button';
 import CheckBox from '../../UI/CheckBox';
@@ -79,6 +80,7 @@ const NewSoundForm = ({
         ctx.showMessage('Audio file size is greater then 1 MB!', 3000);
         return;
       }
+
       setSoundFile(audioFile);
     };
 
@@ -142,6 +144,17 @@ const NewSoundForm = ({
       return;
     }
 
+    if (
+      soundRecord.instrument.length > 127 ||
+      soundRecord.description.length > 255
+    ) {
+      ctx.showMessage(
+        'Length of instrument name or description is too long.',
+        3000
+      );
+      return;
+    }
+
     const formData = new FormData(); // preparing to send to the server
     formData.append('instrument', soundRecord.instrument);
     formData.append('subCategoryId', soundRecord.subCategoryId.toString());
@@ -157,7 +170,7 @@ const NewSoundForm = ({
         body: formData,
       };
       const response = await fetch(
-        'http://localhost:8002/api/soundRecord',
+        `${backendUrl}/api/soundRecord`,
         requestOptions
       );
       const data = await response.json();
@@ -198,6 +211,7 @@ const NewSoundForm = ({
               placeholder="eg. Yamaha P-45, Gibson 1952 J-185..."
               onChange={handleTextChange}
               required
+              maxLength={127}
             />
           </div>
           <div>

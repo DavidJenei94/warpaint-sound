@@ -32,19 +32,13 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
   };
 
   let levelClass: string = "";
-  switch (soundRecord.category) {
+  switch (soundRecord.level) {
     case "universe":
       levelClass = "popup-universe"
       break;
     case "chromium":
       levelClass = "popup-chromium"
       break;
-    // case "Percussion":
-    //   levelClass = "popup-universe"
-    //   break;
-    // case "Brass":
-    //   levelClass = "popup-chromium"
-    //   break;
     default:
       levelClass = "popup-basic"
       break;

@@ -1,7 +1,7 @@
 const getSoundRecordModel = (sequelize, { DataTypes }) => {
   const SoundRecord = sequelize.define('SoundRecord', {
     instrument: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(128),
       allowNull: false,
       validate: {
         notEmpty: true,
