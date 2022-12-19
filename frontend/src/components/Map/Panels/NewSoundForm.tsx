@@ -161,6 +161,11 @@ const NewSoundForm = ({
         requestOptions
       );
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
       const newSoundRecord = data.soundRecord;
 
       addSoundRecord((prevState) => prevState.concat(newSoundRecord));
@@ -221,9 +226,11 @@ const NewSoundForm = ({
               id="description"
               name="description"
               value={soundRecord.description}
+              title="(Max 255 characters)"
               type="text"
               placeholder="Any useful information worth sharing."
               onChange={handleTextChange}
+              maxLength={255}
             />
           </div>
           <div className={styles.coordinates}>
@@ -258,7 +265,9 @@ const NewSoundForm = ({
             />
           </div>
           <div>
-            <label htmlFor="instrument-sound">Record Sound (Max 5 MB ~ 30 sec):</label>
+            <label htmlFor="instrument-sound">
+              Record Sound (Max 5 MB ~ 30 sec):
+            </label>
             <br />
             <audio src={audioURL} id="instrument-sound" controls />
             <br />
