@@ -14,6 +14,8 @@ import CategorySelect from '../../UI/Map/CategorySelect';
 import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 
 import styles from './SearchForm.module.scss';
+import universeIcon from '../../../assets/premium-assets/universe-icon.png';
+import chromiumIcon from '../../../assets/premium-assets/chromium-icon.png';
 
 interface SearchFormProps {
   categories: Categories;
@@ -139,6 +141,17 @@ const SearchForm = ({
     setActiveMarker(soundRecord);
   };
 
+  const getLevelIcon = (level: string) => {
+    switch (level) {
+      case 'universe':
+        return universeIcon;
+      case 'chromium':
+        return chromiumIcon;
+      default:
+        return '';
+    }
+  };
+
   return (
     <>
       <div className={styles['search-fields']}>
@@ -186,7 +199,16 @@ const SearchForm = ({
                   ? styles.active
                   : ''
               }
-            >{`${record.instrument} (${record.subCategory})`}</p>
+            >
+              {`${record.instrument} (${record.subCategory})`}{' '}
+              <span>
+                <img
+                  className={styles['level-icon']}
+                  key={record.id}
+                  src={getLevelIcon(record.level)}
+                />
+              </span>
+            </p>
           ))}
       </div>
     </>
