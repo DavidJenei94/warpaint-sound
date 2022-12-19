@@ -31,6 +31,25 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
     setIsReportShown(false);
   };
 
+  let levelClass: string = "";
+  switch (soundRecord.category) {
+    case "universe":
+      levelClass = "popup-universe"
+      break;
+    case "chromium":
+      levelClass = "popup-chromium"
+      break;
+    // case "Percussion":
+    //   levelClass = "popup-universe"
+    //   break;
+    // case "Brass":
+    //   levelClass = "popup-chromium"
+    //   break;
+    default:
+      levelClass = "popup-basic"
+      break;
+  }
+
   return (
     <div>
       {isImageHovered && (
@@ -70,7 +89,7 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
           </div>
         </Modal>
       )}
-      <Popup className={styles.popup} minWidth={30} maxWidth={500} >
+      <Popup className= {`${styles.popup} ${styles[levelClass]}`} minWidth={30} maxWidth={500} >
         {soundRecord && (
           <div className={styles['popup-content']}>
             <div className={styles['report-button']}>

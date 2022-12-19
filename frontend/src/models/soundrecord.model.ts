@@ -10,6 +10,7 @@ export interface SoundRecord {
   longitude: number;
   imagePath: string;
   soundPath: string;
+  level: string;
 }
 
 export const defaultSoundRecord = {
@@ -24,6 +25,7 @@ export const defaultSoundRecord = {
   longitude: 0,
   imagePath: '',
   soundPath: '',
+  level: 'basic',
 };
 
 export interface SoundRecordFilter {
