@@ -4,6 +4,8 @@ import { useMapEvents } from 'react-leaflet';
 import { SoundRecord } from '../../../models/soundrecord.model';
 
 import styles from './SoundRecordList.module.scss';
+import universeIcon from '../../../assets/premium-assets/universe-icon.png';
+import chromiumIcon from '../../../assets/premium-assets/chromium-icon.png';
 
 interface SoundRecordListProps {
   filteredSoundRecords: SoundRecord[];
@@ -46,6 +48,17 @@ const SoundRecordList = ({
     setActiveMarker(soundRecord);
   };
 
+  const getLevelIcon = (level: string) => {
+    switch (level) {
+      case 'universe':
+        return universeIcon;
+      case 'chromium':
+        return chromiumIcon;
+      default:
+        return '';
+    }
+  };
+
   return (
     <>
       <div className={styles.title}>
@@ -56,15 +69,26 @@ const SoundRecordList = ({
       <div className={styles.list}>
         {soundRecordsOnScreen[0] &&
           soundRecordsOnScreen.map((record) => (
-            <p
-              key={record.id}
-              onClick={() => showMarkerPopup(record)}
-              className={
-                activeMarker && activeMarker.id === record.id
-                  ? styles.active
-                  : ''
-              }
-            >{`${record.instrument} (${record.subCategory})`}</p>
+            <>
+              <p
+                key={record.id}
+                onClick={() => showMarkerPopup(record)}
+                className={
+                  activeMarker && activeMarker.id === record.id
+                    ? styles.active
+                    : ''
+                }
+              >
+                {`${record.instrument} (${record.subCategory})`}
+                <span>
+                  <img
+                    className={styles['level-icon']}
+                    key={record.id}
+                    src={getLevelIcon(record.level)}
+                  />
+                </span>
+              </p>
+            </>
           ))}
       </div>
     </>
