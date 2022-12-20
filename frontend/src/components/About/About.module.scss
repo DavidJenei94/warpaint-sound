@@ -1,12 +1,76 @@
 @use '../../utils/styles.variables' as styles;
 
 .about-container {
-  margin: 32px;
+  margin: 36px;
 
   text-align: center;
+
+  .mission {
+    margin: 32px 0;
+  }
+
+  .profile-picture {
+    float: left;
+
+    width: 30%;
+    margin: 0 24px 12px 0;
+  }
+
+  .main-text {
+    & > * {
+      text-align: left;
+    }
+
+    .donation {
+      text-align: center;
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+
+        & > li {
+          margin: 8px;
+        }
+      }
+
+      span {
+        cursor: pointer;
+      }
+
+      span:hover {
+        text-decoration: underline;
+      }
+
+      .premium-image {
+        display: block;
+        margin: 12px auto 24px;
+        width: 30%;
+
+        cursor: pointer;
+      }
+    }
+  }
 
   .garmin-link {
     color: styles.$primaryColor;
     text-decoration: underline;
+  }
+}
+
+@media only screen and (max-width: styles.$mediumScreenSize) {
+  .about-container {
+    .profile-picture {
+      float: none;
+
+      width: 100%;
+      margin: 0;
+    }
+    .main-text {
+      .donation {
+        .premium-image {
+          width: 80%;
+        }
+      }
+    }
   }
 }

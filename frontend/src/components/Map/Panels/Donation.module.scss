@@ -17,8 +17,7 @@
   top: -30px;
   padding: 6px;
 
-  & > p,
-  li {
+  & > p {
     font-size: 16px;
     margin: 0;
     padding: 6px 0;
@@ -27,5 +26,25 @@
   & > ul {
     margin: 4px 0 16px;
     text-align: left;
+
+    & > li {
+      font-size: 16px;
+      margin: 0;
+      padding: 6px 0;
+
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .premium-image {
+    display: block;
+    margin: 12px auto 24px;
+    width: 80%;
+
+    cursor: pointer;
   }
 }

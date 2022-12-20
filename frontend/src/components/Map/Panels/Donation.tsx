@@ -1,8 +1,33 @@
+import { useState } from 'react';
+
 import BuyMeACoffee from '../../UI/BuyMeACoffee';
 
 import styles from './Donation.module.scss';
+import universeImage from '../../../assets/premium-assets/universe-dark-small.jpg';
+import chromiumImage from '../../../assets/premium-assets/chromium-dark-small.jpg';
 
 const Donation = () => {
+    const [premiumSample, setPremiumSample] = useState<string>('');
+
+  const showPremiumLook = (level: string) => {
+    console.log(level);
+
+    switch (level) {
+      case 'chromium':
+        setPremiumSample(chromiumImage);
+        break;
+      case 'universe':
+        setPremiumSample(universeImage);
+        break;
+    }
+  };
+
+  const hidePremiumLook = () => {
+    console.log('onMouseOutPremiumLook');
+
+    setPremiumSample('');
+  };
+
   return (
     <>
       <div className={styles.title}>
@@ -18,9 +43,14 @@ const Donation = () => {
           the url in the donation comment), which will get a premium appearance:
         </p>
         <ul>
-          <li>One-time: chromium look</li>
-          <li>Subscription: universe look</li>
+          <li onClick={() => {showPremiumLook("chromium")}}>One-time: chromium look</li>
+          <li onClick={() => {showPremiumLook("universe")}}>Subscription: universe look</li>
         </ul>
+        <img
+                className={styles['premium-image']}
+                src={premiumSample}
+                onClick={hidePremiumLook}
+              />
         <BuyMeACoffee />
       </div>
     </>
