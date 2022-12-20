@@ -21,7 +21,12 @@ const SoundRecordListControl = ({
 
   return (
     <ControlButton position="topleft" title={'List visible Sound Records'}>
-      <img src={soundRecordsListIcon} width={30} onClick={toggleMenuHandler} />
+      <img
+        src={soundRecordsListIcon}
+        width={30}
+        onClick={toggleMenuHandler}
+        alt="List visible sound records control icon"
+      />
     </ControlButton>
   );
 };

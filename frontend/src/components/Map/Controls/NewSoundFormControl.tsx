@@ -16,8 +16,13 @@ const NewSoundFormControl = ({
   };
 
   return (
-    <ControlButton position="bottomleft" title={'Add Sound'}>
-      <img src={addSoundIcon} width={30} onClick={toggleMenuHandler} />
+    <ControlButton position="bottomleft" title={'Add Sound Record'}>
+      <img
+        src={addSoundIcon}
+        width={30}
+        onClick={toggleMenuHandler}
+        alt="Add sound record icon"
+      />
     </ControlButton>
   );
 };

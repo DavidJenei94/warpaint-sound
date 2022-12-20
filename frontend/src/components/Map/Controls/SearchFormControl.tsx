@@ -32,7 +32,11 @@ const SearchFormControl = ({
   return (
     <ControlButton position="topleft" title={'Search'}>
       <div className={styles.container} onClick={toggleMenuHandler}>
-        <img src={searchIcon} width={30} />
+        <img
+          src={searchIcon}
+          width={30}
+          alt="Search Sound Record control icon"
+        />
         {searchChecks && <p className={styles.notification}>●</p>}
       </div>
     </ControlButton>

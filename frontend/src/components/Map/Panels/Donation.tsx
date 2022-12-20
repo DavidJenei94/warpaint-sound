@@ -7,7 +7,7 @@ import universeImage from '../../../assets/premium-assets/universe-dark-small.jp
 import chromiumImage from '../../../assets/premium-assets/chromium-dark-small.jpg';
 
 const Donation = () => {
-    const [premiumSample, setPremiumSample] = useState<string>('');
+  const [premiumSample, setPremiumSample] = useState<string>('');
 
   const showPremiumLook = (level: string) => {
     console.log(level);
@@ -43,14 +43,27 @@ const Donation = () => {
           the url in the donation comment), which will get a premium appearance:
         </p>
         <ul>
-          <li onClick={() => {showPremiumLook("chromium")}}>One-time: chromium look</li>
-          <li onClick={() => {showPremiumLook("universe")}}>Subscription: universe look</li>
+          <li
+            onClick={() => {
+              showPremiumLook('chromium');
+            }}
+          >
+            One-time: chromium look
+          </li>
+          <li
+            onClick={() => {
+              showPremiumLook('universe');
+            }}
+          >
+            Subscription: universe look
+          </li>
         </ul>
         <img
-                className={styles['premium-image']}
-                src={premiumSample}
-                onClick={hidePremiumLook}
-              />
+          className={styles['premium-image']}
+          src={premiumSample}
+          onClick={hidePremiumLook}
+          alt="Premium Sound Record Layout sample look"
+        />
         <BuyMeACoffee />
       </div>
     </>

@@ -36,6 +36,7 @@ const ScrollToMenuControl = () => {
         src={onBottomOfPage ? scrollToMenuIcon : scrollToMapIcon}
         width={30}
         onClick={scrollTo}
+        alt="Scroll to map or menu icon"
       />
     </ControlButton>
   );

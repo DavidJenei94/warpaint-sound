@@ -276,6 +276,7 @@ const NewSoundForm = ({
               id="instrument-image-preview"
               src={instrumentImageSrc}
               width={100}
+              alt="Preview of Image of instrument of the Sound Record"
             />
           </div>
           <div>

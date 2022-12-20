@@ -202,11 +202,14 @@ const SearchForm = ({
             >
               {`${record.instrument} (${record.subCategory})`}{' '}
               <span>
-                <img
-                  className={styles['level-icon']}
-                  key={record.id}
-                  src={getLevelIcon(record.level)}
-                />
+                {getLevelIcon(record.level) && (
+                  <img
+                    className={styles['level-icon']}
+                    key={record.id}
+                    src={getLevelIcon(record.level)}
+                    alt="Icon for a premium Sound Record"
+                  />
+                )}
               </span>
             </p>
           ))}

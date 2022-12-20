@@ -13,7 +13,12 @@ const InformationControl = () => {
 
   return (
     <ControlButton position="topleft" title={'Information'}>
-      <img src={informationIcon} width={30} onClick={showInformationHandler} />
+      <img
+        src={informationIcon}
+        width={30}
+        onClick={showInformationHandler}
+        alt="Information control icon"
+      />
     </ControlButton>
   );
 };

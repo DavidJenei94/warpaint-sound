@@ -20,7 +20,12 @@ const DonationControl = ({
 
   return (
     <ControlButton position="topleft" title={'Donation'}>
-      <img src={donationIcon} width={30} onClick={showDonationHandler} />
+      <img
+        src={donationIcon}
+        width={30}
+        onClick={showDonationHandler}
+        alt="Donation Control Icon"
+      />
     </ControlButton>
   );
 };

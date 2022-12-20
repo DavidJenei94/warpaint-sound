@@ -1,9 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 
+import Modal from '../../UI/Modal/Modal';
 import CloseButton from '../../UI/CloseButton';
 
 import styles from './Information.module.scss';
-import Modal from '../../UI/Modal/Modal';
+import WpSLogo from '../../../assets/WarpaintSound-logo.png';
 
 const Information = () => {
   const navigate = useNavigate();
@@ -23,10 +24,15 @@ const Information = () => {
         <CloseButton onClose={handlOutsideClick} />
         <div className={styles.container}>
           <h1>Warpaint Sound</h1>
+          <img
+            className={styles.logo}
+            src={WpSLogo}
+            alt="Warpaint Sound logo"
+          />
           <p>
             This application is only a hobby project and its purpose is to
-            provide some information about different musical instruments and to make
-            joy.
+            provide some information about different musical instruments and to
+            make joy.
           </p>
           <p>
             You can upload Sound Records of your instruments at your current

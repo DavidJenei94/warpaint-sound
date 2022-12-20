@@ -1,5 +1,5 @@
 import styles from './BuyMeACoffee.module.scss';
-import buyMeACoffeeIcon from "../../assets/map-assets/buy-me-a-coffee-icon.png"
+import buyMeACoffeeIcon from '../../assets/map-assets/buy-me-a-coffee-icon.png';
 
 const BuyMeACoffee = () => {
   return (
@@ -11,7 +11,7 @@ const BuyMeACoffee = () => {
       <img
         className={styles.image}
         src={buyMeACoffeeIcon}
-        alt="Buy me a coffee"
+        alt="Donation/Buy me a coffee icon"
       />
       <span className={styles.text}>Support My Work</span>
     </a>

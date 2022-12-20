@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import { Popup } from 'react-leaflet';
 import { SoundRecord } from '../../../models/soundrecord.model';
 
@@ -31,16 +31,16 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
     setIsReportShown(false);
   };
 
-  let levelClass: string = "";
+  let levelClass: string = '';
   switch (soundRecord.level) {
-    case "universe":
-      levelClass = "popup-universe"
+    case 'universe':
+      levelClass = 'popup-universe';
       break;
-    case "chromium":
-      levelClass = "popup-chromium"
+    case 'chromium':
+      levelClass = 'popup-chromium';
       break;
     default:
-      levelClass = "popup-basic"
+      levelClass = 'popup-basic';
       break;
   }
 
@@ -56,6 +56,7 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
             className={styles.zoomin}
             src={'http://localhost:8002/api/' + soundRecord!.imagePath}
             onClick={() => setIsImageHovered(false)}
+            alt="Poped up Image of instrument of the Sound Record"
           />
         </Modal>
       )}
@@ -83,7 +84,11 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
           </div>
         </Modal>
       )}
-      <Popup className= {`${styles.popup} ${styles[levelClass]}`} minWidth={30} maxWidth={500} >
+      <Popup
+        className={`${styles.popup} ${styles[levelClass]}`}
+        minWidth={30}
+        maxWidth={500}
+      >
         {soundRecord && (
           <div className={styles['popup-content']}>
             <div className={styles['report-button']}>
@@ -96,7 +101,9 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
                 <p>!</p>
               </Button>
             </div>
-            <h3 className={styles.instrument} title={`id: ${soundRecord.id}`}>{soundRecord.instrument}</h3>
+            <h3 className={styles.instrument} title={`id: ${soundRecord.id}`}>
+              {soundRecord.instrument}
+            </h3>
             <div className={styles['main-content']}>
               <div>
                 <p>{soundRecord.category}</p>
@@ -107,6 +114,7 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
                 <img
                   src={'http://localhost:8002/api/' + soundRecord.imagePath}
                   onClick={() => setIsImageHovered(true)}
+                  alt="Image of instrument of the Sound Record"
                 />
               </div>
             </div>

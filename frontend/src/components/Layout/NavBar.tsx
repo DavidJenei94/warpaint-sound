@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import NavItem from './NavItem';
 
 import styles from './NavBar.module.scss';
-import wpvLogo from '../../assets/WpV-logo.png';
+import wpSLogo from '../../assets/WarpaintSound-logo.png';
 
 const NavBar = () => {
   let navigate = useNavigate();
@@ -16,7 +16,7 @@ const NavBar = () => {
     <div className={styles.navbar}>
       <div onClick={navigateToInformation}>
         <img
-          src={wpvLogo}
+          src={wpSLogo}
           alt="Warpaint Sound logo"
           title="Warpaint Sound"
           width={40}
