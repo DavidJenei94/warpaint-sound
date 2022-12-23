@@ -35,29 +35,19 @@
   position: relative;
   top: -50px;
 
-  .active {
-    background-color: styles.$secondaryColor;
-  }
+  & > div > div > div {
+    & > p {
+      font-size: 12px;
+      margin: 0;
+      padding: 8px 0;
+      box-shadow: styles.$bottomLightBoxShadow;
 
-  & > p {
-    font-size: 12px;
-    margin: 0;
-    padding: 8px 0;
-    box-shadow: styles.$bottomLightBoxShadow;
-
-    &:hover {
-      cursor: pointer;
-      background-color: styles.$secondaryColor;
-    }
-    & > span {
-      position: relative;
-
-      .level-icon {
-        position: absolute;
-        top: -2px;
-        width: 18px;
-
-        margin-left: 8px;
+      &:hover {
+        cursor: pointer;
+        background-color: styles.$secondaryColor;
+      }
+      & > span {
+        position: relative;
       }
     }
   }

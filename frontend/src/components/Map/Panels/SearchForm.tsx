@@ -16,6 +16,7 @@ import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 import styles from './SearchForm.module.scss';
 import universeIcon from '../../../assets/premium-assets/universe-icon.png';
 import chromiumIcon from '../../../assets/premium-assets/chromium-icon.png';
+import SoundRecordList from './ListPanels/SoundRecordList';
 
 interface SearchFormProps {
   categories: Categories;
@@ -188,32 +189,12 @@ const SearchForm = ({
           <Button onClick={clearSearchFieldsHandler}>Clear Filters</Button>
         </div>
       </div>
-      <div className={styles['search-list']}>
-        {filteredSoundRecords[0] &&
-          filteredSoundRecords.map((record) => (
-            <p
-              key={record.id}
-              onClick={() => showMarkerPopup(record)}
-              className={
-                activeMarker && activeMarker.id === record.id
-                  ? styles.active
-                  : ''
-              }
-            >
-              {`${record.instrument} (${record.subCategory})`}{' '}
-              <span>
-                {getLevelIcon(record.level) && (
-                  <img
-                    className={styles['level-icon']}
-                    key={record.id}
-                    src={getLevelIcon(record.level)}
-                    alt="Icon for a premium Sound Record"
-                  />
-                )}
-              </span>
-            </p>
-          ))}
-      </div>
+      <SoundRecordList
+        records={filteredSoundRecords}
+        activeMarker={activeMarker}
+        setActiveMarker={setActiveMarker}
+        setIsTriggeredByList={setIsTriggeredByList}
+      />
     </>
   );
 };

@@ -11,7 +11,7 @@ import MapControls from '../Controls/MapControls';
 import Donation from './Donation';
 import NewSoundForm from './NewSoundForm';
 import SearchForm from './SearchForm';
-import SoundRecordList from './SoundRecordList';
+import SoundRecordList from './SoundRecordOnScreen';
 
 interface MapPanelsProps {
   setSoundRecords: Dispatch<SetStateAction<SoundRecord[]>>;
