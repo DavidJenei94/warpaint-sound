@@ -1,6 +1,5 @@
 import { LatLngBounds } from 'leaflet';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Categories } from '../../../models/category.model';
 import {
   SoundRecord,
   SoundRecordFilter,
@@ -14,24 +13,14 @@ import SearchForm from './SearchForm';
 import SoundRecordList from './SoundRecordOnScreen';
 
 interface MapPanelsProps {
-  setSoundRecords: Dispatch<SetStateAction<SoundRecord[]>>;
-  categories: Categories;
   filteredSoundRecords: SoundRecord[];
   setSoundRecordFilters: Dispatch<SetStateAction<SoundRecordFilter>>;
-  activeMarker: SoundRecord | null;
-  setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
-  setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
   dataBounds: LatLngBounds;
 }
 
 const MapPanels = ({
-  setSoundRecords,
-  categories,
   filteredSoundRecords,
   setSoundRecordFilters,
-  activeMarker,
-  setActiveMarker,
-  setIsTriggeredByList,
   dataBounds,
 }: MapPanelsProps) => {
   const [isNewSoundFormShown, setIsNewSoundFormShown] =
@@ -67,25 +56,16 @@ const MapPanels = ({
   if (isSearchFormShown) {
     listPanelContent = (
       <SearchForm
-        categories={categories}
         filteredSoundRecords={filteredSoundRecords}
         setSoundRecordFilters={setSoundRecordFilters}
-        activeMarker={activeMarker}
-        setActiveMarker={setActiveMarker}
-        setIsTriggeredByList={setIsTriggeredByList}
       />
     );
   } else if (isSoundRecordListShown) {
     listPanelContent = (
-      <SoundRecordList
-        filteredSoundRecords={filteredSoundRecords}
-        activeMarker={activeMarker}
-        setActiveMarker={setActiveMarker}
-        setIsTriggeredByList={setIsTriggeredByList}
-      />
+      <SoundRecordList filteredSoundRecords={filteredSoundRecords} />
     );
   } else if (isDonationShown) {
-    listPanelContent = <Donation/>;
+    listPanelContent = <Donation />;
   }
 
   return (
@@ -106,12 +86,7 @@ const MapPanels = ({
       )}
 
       {isNewSoundFormShown && (
-        <NewSoundForm
-          categories={categories}
-          showNewSoundForm={setIsNewSoundFormShown}
-          addSoundRecord={setSoundRecords}
-          setActiveMarker={setActiveMarker}
-        />
+        <NewSoundForm showNewSoundForm={setIsNewSoundFormShown} />
       )}
     </>
   );

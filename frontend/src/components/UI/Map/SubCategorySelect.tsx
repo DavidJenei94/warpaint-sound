@@ -1,4 +1,4 @@
-import { Categories } from '../../../models/category.model';
+import { useAppSelector } from '../../../hooks/redux-hooks';
 
 import Select from '../Select';
 
@@ -7,16 +7,16 @@ interface SubCategorySelectProps {
   onChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
-  categories: Categories;
   categoryId: number;
 }
 
 const SubCategorySelect = ({
   subCategoryId,
   onChange,
-  categories,
   categoryId,
 }: SubCategorySelectProps) => {
+  const categories = useAppSelector((state) => state.categories);
+
   const optionList =
     categoryId !== 0
       ? categories.subCategories.filter((subCategory) => {

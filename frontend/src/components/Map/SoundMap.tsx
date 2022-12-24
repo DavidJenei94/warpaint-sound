@@ -10,7 +10,8 @@ import { useSearchParams } from 'react-router-dom';
 import { MapQueryParams } from '../../models/map.model';
 import { backendUrl, getQueryParams } from '../../utils/general.utils';
 import FeedbackContext from '../../store/feedback-context';
-import { Categories } from '../../models/category.model';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { mapActions } from '../../store/map-redux';
 
 import Recenter from './Utils/Recenter';
 import CurrentPosition from './Utils/CurrentPosition';
@@ -24,6 +25,10 @@ import 'leaflet/dist/leaflet.css';
 
 const SoundMap = () => {
   const ctx = useContext(FeedbackContext);
+  const dispatch = useAppDispatch();
+  const activeSoundRecord: SoundRecord | null = useAppSelector((state) => state.activeSoundRecord);
+  const soundRecords: SoundRecord[] = useAppSelector((state) => state.soundRecords);
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const mapRef = useRef<any>(null);
@@ -35,20 +40,12 @@ const SoundMap = () => {
   const [isSearchParamsLoaded, setIssearchParamsLoaded] =
     useState<boolean>(false);
 
-  const [activeMarker, setActiveMarker] = useState<SoundRecord | null>(null);
-  const [isTriggeredByList, setIsTriggeredByList] = useState<boolean>(false);
-
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(9);
 
-  const [soundRecords, setSoundRecords] = useState<SoundRecord[]>([]);
   const [soundRecordFilters, setSoundRecordFilters] =
     useState<SoundRecordFilter>(defaultSoundRecordFilter);
-  const [categories, setCategories] = useState<Categories>({
-    categories: [],
-    subCategories: [],
-  });
   const [isLoading, setIsloading] = useState<boolean>(true);
 
   // Fetch sound records from server
@@ -62,7 +59,7 @@ const SoundMap = () => {
           throw new Error(data.message);
         }
 
-        setSoundRecords(data);
+        dispatch(mapActions.setSoundRecords(data))
 
         const categoryResponse = await fetch(`${backendUrl}/api/category`);
         const categoryData = await categoryResponse.json();
@@ -71,7 +68,7 @@ const SoundMap = () => {
           throw new Error(categoryData.message);
         }
 
-        setCategories(categoryData);
+        dispatch(mapActions.setCategories(categoryData))
 
         setIsloading(false);
       } catch (error) {
@@ -82,22 +79,22 @@ const SoundMap = () => {
     fetchSoundRecordAndCategories();
   }, []);
 
-  // Refresh soundId of activemarker in query params when it is selected or loaded
+  // Refresh soundId of activeSOundRecord in query params when it is selected or loaded
   useEffect(() => {
     if (isSearchParamsLoaded && soundRecords[0]) {
       setSearchParams((prevValue) => {
         const params: MapQueryParams = getQueryParams(prevValue);
 
-        if (activeMarker === null) {
+        if (activeSoundRecord === null) {
           delete params.soundId;
 
           return { ...params };
         }
 
-        return { ...params, soundId: activeMarker.id.toString() };
+        return { ...params, soundId: activeSoundRecord.id.toString() };
       });
     }
-  }, [activeMarker, isSearchParamsLoaded, soundRecords]);
+  }, [activeSoundRecord, isSearchParamsLoaded, soundRecords]);
 
   // Set query params on initialization
   useEffect(() => {
@@ -113,7 +110,7 @@ const SoundMap = () => {
           (record) => record.id.toString() === soundId
         );
 
-        soundRecord && setActiveMarker(soundRecord);
+        soundRecord && dispatch(mapActions.setActiveSoundRecord(soundRecord));
       }
 
       // get filter params
@@ -189,7 +186,7 @@ const SoundMap = () => {
       >
         {isSearchParamsLoaded && (
           <>
-            <MapClicker setActiveMarker={setActiveMarker} />
+            <MapClicker/>
             {latitude && longitude && (
               <Recenter lat={latitude} lng={longitude} z={zoom} />
             )}
@@ -199,13 +196,8 @@ const SoundMap = () => {
 
         {/* Panels and Controls */}
         <MapPanels
-          setSoundRecords={setSoundRecords}
-          categories={categories}
           filteredSoundRecords={filteredSoundRecords}
           setSoundRecordFilters={setSoundRecordFilters}
-          activeMarker={activeMarker}
-          setActiveMarker={setActiveMarker}
-          setIsTriggeredByList={setIsTriggeredByList}
           dataBounds={dataBounds}
         />
 
@@ -224,11 +216,8 @@ const SoundMap = () => {
                   key={record.id}
                   record={record}
                   isActive={
-                    activeMarker ? record.id === activeMarker.id : false
+                    activeSoundRecord ? record.id === activeSoundRecord.id : false
                   }
-                  setActiveMarker={setActiveMarker}
-                  isTriggeredByList={isTriggeredByList}
-                  setIsTriggeredByList={setIsTriggeredByList}
                 />
               );
             })}

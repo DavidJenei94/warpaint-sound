@@ -1,14 +1,13 @@
-import { Dispatch, SetStateAction } from 'react';
 import { useMapEvents } from 'react-leaflet';
-import { SoundRecord } from '../../../models/soundrecord.model';
+import { useAppDispatch } from '../../../hooks/redux-hooks';
+import { mapActions } from '../../../store/map-redux';
 
-interface MapClickerProps {
-  setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
-}
-const MapClicker = ({ setActiveMarker }: MapClickerProps) => {
+const MapClicker = () => {
+  const dispatch = useAppDispatch();
+
   const map = useMapEvents({
     click: () => {
-      setActiveMarker(null);
+      dispatch(mapActions.setActiveSoundRecord(null));
     },
   });
 

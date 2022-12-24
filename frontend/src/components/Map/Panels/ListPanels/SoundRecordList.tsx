@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useRef } from 'react';
-import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
+import { useRef } from 'react';
+import { FixedSizeList as List } from 'react-window';
 import {
   useWindowDimensions,
   useElementDimensions,
@@ -12,17 +12,9 @@ import styles from './SoundRecordList.module.scss';
 
 interface SoundRecordListProps {
   records: SoundRecord[];
-  activeMarker: SoundRecord | null;
-  setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
-  setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
 }
 
-const SoundRecordList = ({
-  records,
-  activeMarker,
-  setActiveMarker,
-  setIsTriggeredByList,
-}: SoundRecordListProps) => {
+const SoundRecordList = ({ records }: SoundRecordListProps) => {
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const listRef = useRef<any>(null);
 
@@ -41,9 +33,6 @@ const SoundRecordList = ({
             <SoundRecordsListItem
               key={records[props.index].id}
               record={records[props.index]}
-              activeMarker={activeMarker}
-              setActiveMarker={setActiveMarker}
-              setIsTriggeredByList={setIsTriggeredByList}
             />
           </div>
         )}

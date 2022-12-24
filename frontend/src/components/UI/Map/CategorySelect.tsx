@@ -1,4 +1,4 @@
-import { Categories } from '../../../models/category.model';
+import { useAppSelector } from '../../../hooks/redux-hooks';
 
 import Select from '../../UI/Select';
 
@@ -7,14 +7,11 @@ interface CategorySelectProps {
   onChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
-  categories: Categories;
 }
 
-const CategorySelect = ({
-  categoryId,
-  onChange,
-  categories,
-}: CategorySelectProps) => {
+const CategorySelect = ({ categoryId, onChange }: CategorySelectProps) => {
+  const categories = useAppSelector((state) => state.categories);
+
   const categoryOptionList = categories.categories.map((category) => {
     return { value: category.id.toString(), text: category.name };
   });

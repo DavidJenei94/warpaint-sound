@@ -6,13 +6,14 @@ import React, {
   useState,
 } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import useRecorder from '../../../hooks/useRecorder';
-import { Categories } from '../../../models/category.model';
 import {
   defaultSoundRecord,
   SoundRecord,
 } from '../../../models/soundrecord.model';
 import FeedbackContext from '../../../store/feedback-context';
+import { mapActions } from '../../../store/map-redux';
 import { backendUrl } from '../../../utils/general.utils';
 
 import Button from '../../UI/Button';
@@ -25,19 +26,13 @@ import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 import styles from './NewSoundForm.module.scss';
 
 interface NewSoundFormProps {
-  categories: Categories;
   showNewSoundForm: Dispatch<SetStateAction<boolean>>;
-  addSoundRecord: Dispatch<SetStateAction<SoundRecord[]>>;
-  setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
 }
 
-const NewSoundForm = ({
-  categories,
-  showNewSoundForm,
-  addSoundRecord,
-  setActiveMarker,
-}: NewSoundFormProps) => {
+const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
   const ctx = useContext(FeedbackContext);
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector((state) => state.categories);
 
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
@@ -181,10 +176,10 @@ const NewSoundForm = ({
 
       const newSoundRecord = data.soundRecord;
 
-      addSoundRecord((prevState) => prevState.concat(newSoundRecord));
+      dispatch(mapActions.addSoundRecord(newSoundRecord));
 
       showNewSoundForm(false);
-      setActiveMarker(newSoundRecord);
+      dispatch(mapActions.setActiveSoundRecord(newSoundRecord));
 
       ctx.showMessage('New Sound Record added.', 2000);
     } catch (error: any) {
@@ -220,7 +215,6 @@ const NewSoundForm = ({
             <CategorySelect
               categoryId={soundRecord.categoryId}
               onChange={handleTextChange}
-              categories={categories}
             />
           </div>
           <div>
@@ -229,7 +223,6 @@ const NewSoundForm = ({
             <SubCategorySelect
               subCategoryId={soundRecord.subCategoryId}
               onChange={handleTextChange}
-              categories={categories}
               categoryId={soundRecord.categoryId}
             />
           </div>

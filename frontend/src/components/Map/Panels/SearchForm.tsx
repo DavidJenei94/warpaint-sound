@@ -1,41 +1,30 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Categories } from '../../../models/category.model';
 import { MapQueryParams } from '../../../models/map.model';
 import {
   SoundRecord,
   SoundRecordFilter,
 } from '../../../models/soundrecord.model';
 import { getQueryParams } from '../../../utils/general.utils';
-import Button from '../../UI/Button';
 
+import Button from '../../UI/Button';
 import Input from '../../UI/Input';
 import CategorySelect from '../../UI/Map/CategorySelect';
 import SubCategorySelect from '../../UI/Map/SubCategorySelect';
-
-import styles from './SearchForm.module.scss';
-import universeIcon from '../../../assets/premium-assets/universe-icon.png';
-import chromiumIcon from '../../../assets/premium-assets/chromium-icon.png';
 import SoundRecordList from './ListPanels/SoundRecordList';
 
+import styles from './SearchForm.module.scss';
+
 interface SearchFormProps {
-  categories: Categories;
   filteredSoundRecords: SoundRecord[];
   setSoundRecordFilters: Dispatch<SetStateAction<SoundRecordFilter>>;
-  activeMarker: SoundRecord | null;
-  setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
-  setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
 }
 
 let waitTypingTimeout: NodeJS.Timeout;
 
 const SearchForm = ({
-  categories,
   filteredSoundRecords,
   setSoundRecordFilters,
-  activeMarker,
-  setActiveMarker,
-  setIsTriggeredByList,
 }: SearchFormProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -137,22 +126,6 @@ const SearchForm = ({
     }
   };
 
-  const showMarkerPopup = (soundRecord: SoundRecord) => {
-    setIsTriggeredByList(true);
-    setActiveMarker(soundRecord);
-  };
-
-  const getLevelIcon = (level: string) => {
-    switch (level) {
-      case 'universe':
-        return universeIcon;
-      case 'chromium':
-        return chromiumIcon;
-      default:
-        return '';
-    }
-  };
-
   return (
     <>
       <div className={styles['search-fields']}>
@@ -172,7 +145,6 @@ const SearchForm = ({
           <CategorySelect
             categoryId={searchCategoryId}
             onChange={handleCategoryChange}
-            categories={categories}
           />
         </div>
         <div>
@@ -181,7 +153,6 @@ const SearchForm = ({
           <SubCategorySelect
             subCategoryId={searchSubCategoryId}
             onChange={handleCategoryChange}
-            categories={categories}
             categoryId={searchCategoryId}
           />
         </div>
@@ -189,12 +160,7 @@ const SearchForm = ({
           <Button onClick={clearSearchFieldsHandler}>Clear Filters</Button>
         </div>
       </div>
-      <SoundRecordList
-        records={filteredSoundRecords}
-        activeMarker={activeMarker}
-        setActiveMarker={setActiveMarker}
-        setIsTriggeredByList={setIsTriggeredByList}
-      />
+      <SoundRecordList records={filteredSoundRecords} />
     </>
   );
 };

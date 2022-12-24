@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
-
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux-hooks';
+import { mapActions } from '../../../../store/map-redux';
 import { SoundRecord } from '../../../../models/soundrecord.model';
 
 import styles from './SoundRecordListItem.module.scss';
@@ -19,20 +19,15 @@ const getLevelIcon = (level: string) => {
 
 interface SoundRecordsListItemProps {
   record: SoundRecord;
-  activeMarker: SoundRecord | null;
-  setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
-  setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
 }
 
-const SoundRecordsListItem = ({
-  record,
-  activeMarker,
-  setActiveMarker,
-  setIsTriggeredByList,
-}: SoundRecordsListItemProps) => {
+const SoundRecordsListItem = ({ record }: SoundRecordsListItemProps) => {
+  const dispatch = useAppDispatch();
+  const activeSoundRecord = useAppSelector((state) => state.activeSoundRecord);
+
   const showMarkerPopup = (soundRecord: SoundRecord) => {
-    setIsTriggeredByList(true);
-    setActiveMarker(soundRecord);
+    dispatch(mapActions.setActivatedByList(true));
+    dispatch(mapActions.setActiveSoundRecord(soundRecord));
   };
 
   return (
@@ -41,7 +36,9 @@ const SoundRecordsListItem = ({
         key={record.id}
         onClick={() => showMarkerPopup(record)}
         className={
-          activeMarker && activeMarker.id === record.id ? styles.active : ''
+          activeSoundRecord && activeSoundRecord.id === record.id
+            ? styles.active
+            : ''
         }
       >
         {`${record.instrument} (${record.subCategory})`}

@@ -1,7 +1,9 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import L, { LatLng } from 'leaflet';
 import { Marker, useMap } from 'react-leaflet';
 import { SoundRecord } from '../../../models/soundrecord.model';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { mapActions } from '../../../store/map-redux';
 
 import SoundRecordPopup from './SoundRecordPopup';
 
@@ -14,18 +16,14 @@ import keyboardPinIcon from '../../../assets/map-assets/pin-keyboard-icon.png';
 interface SoundRecordMarkerProps {
   record: SoundRecord;
   isActive: boolean;
-  setActiveMarker: Dispatch<SetStateAction<SoundRecord | null>>;
-  isTriggeredByList: boolean;
-  setIsTriggeredByList: Dispatch<SetStateAction<boolean>>;
 }
 
-const SoundRecordMarker = ({
-  record,
-  isActive,
-  setActiveMarker,
-  isTriggeredByList,
-  setIsTriggeredByList,
-}: SoundRecordMarkerProps) => {
+const SoundRecordMarker = ({ record, isActive }: SoundRecordMarkerProps) => {
+  const dispatch = useAppDispatch();
+  const activedtedByList: boolean = useAppSelector(
+    (state) => state.activatedByList
+  );
+
   const markerRef = useRef<any>(null);
   const map = useMap();
 
@@ -81,16 +79,16 @@ const SoundRecordMarker = ({
       ref={markerRef}
       eventHandlers={{
         popupclose: (e) => {
-          if (!isTriggeredByList) {
-            setActiveMarker(null);
+          if (!activedtedByList) {
+            dispatch(mapActions.setActiveSoundRecord(null));
           }
         },
         popupopen: (e) => {
           markerRef.current.setZIndexOffset(1000);
         },
         click: (e) => {
-          setIsTriggeredByList(false);
-          setActiveMarker(record);
+          dispatch(mapActions.setActivatedByList(false));
+          dispatch(mapActions.setActiveSoundRecord(record));
         },
       }}
     >
