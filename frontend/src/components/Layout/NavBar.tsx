@@ -15,12 +15,14 @@ const NavBar = () => {
   return (
     <div className={styles.navbar}>
       <div onClick={navigateToInformation}>
-        <img
-          src={wpSLogo}
-          alt="Warpaint Sound logo"
-          title="Warpaint Sound"
-          width={40}
-        />
+        {wpSLogo && (
+          <img
+            src={wpSLogo}
+            alt="Warpaint Sound logo"
+            title="Warpaint Sound"
+            width={40}
+          />
+        )}
         <p>Warpaint Sound</p>
       </div>
       <NavItem to="/map">Sound Map</NavItem>

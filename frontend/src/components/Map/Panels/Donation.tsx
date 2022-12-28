@@ -58,12 +58,14 @@ const Donation = () => {
             Subscription: universe look
           </li>
         </ul>
-        <img
-          className={styles['premium-image']}
-          src={premiumSample}
-          onClick={hidePremiumLook}
-          alt="Premium Sound Record Layout sample look"
-        />
+        {premiumSample && (
+          <img
+            className={styles['premium-image']}
+            src={premiumSample}
+            onClick={hidePremiumLook}
+            alt="Premium Sound Record Layout sample look"
+          />
+        )}
         <BuyMeACoffee />
       </div>
     </>

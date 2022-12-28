@@ -265,12 +265,14 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
               required
             />
             <br />
-            <img
-              id="instrument-image-preview"
-              src={instrumentImageSrc}
-              width={100}
-              alt="Preview of Image of instrument of the Sound Record"
-            />
+            {instrumentImageSrc && (
+              <img
+                id="instrument-image-preview"
+                src={instrumentImageSrc}
+                width={100}
+                alt="Preview of Image of instrument of the Sound Record"
+              />
+            )}
           </div>
           <div>
             <label htmlFor="instrument-sound">

@@ -37,11 +37,13 @@ const About = () => {
           My mission is to collect and make available for everyone to enjoy the
           sounds of different musical instruments around the world.
         </p>
-        <img
-          className={styles['profile-picture']}
-          src={profilePicture}
-          alt="Profile picture of developer"
-        />
+        {profilePicture && (
+          <img
+            className={styles['profile-picture']}
+            src={profilePicture}
+            alt="Profile picture of developer"
+          />
+        )}
         <div className={styles['main-text']}>
           <div className={styles.profile}>
             <p>
@@ -86,12 +88,14 @@ const About = () => {
                   </span>
                 </li>
               </ul>
-              <img
-                className={styles['premium-image']}
-                src={premiumSample}
-                onClick={hidePremiumLook}
-                alt="Premium image background"
-              />
+              {premiumSample && (
+                <img
+                  className={styles['premium-image']}
+                  src={premiumSample}
+                  onClick={hidePremiumLook}
+                  alt="Premium image background"
+                />
+              )}
 
               <BuyMeACoffee />
               <p>
