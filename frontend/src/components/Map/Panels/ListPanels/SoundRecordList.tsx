@@ -24,7 +24,7 @@ const SoundRecordList = ({ records }: SoundRecordListProps) => {
     <div className={styles.list} ref={listRef}>
       <List
         width={listWidth - 1} // -1 to prevent horizontal scrollbar appearance on resizing
-        height={screenWidth < 700 ? screenHeight * 0.2 : screenHeight * 0.55}
+        height={screenWidth < 700 ? screenHeight * 0.2 : screenHeight * 0.65}
         itemCount={records.length}
         itemSize={35}
       >
