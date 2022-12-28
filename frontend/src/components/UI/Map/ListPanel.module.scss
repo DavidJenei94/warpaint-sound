@@ -35,6 +35,16 @@
   position: relative;
   top: -50px;
 
+  & > div {
+    &::-webkit-scrollbar {
+      width: 5px;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: styles.$primaryTransparentColor;
+    }
+  }
+
   & > div > div > div {
     & > p {
       font-size: 12px;
