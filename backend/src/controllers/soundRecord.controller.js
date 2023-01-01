@@ -1,4 +1,5 @@
 import soundRecord from '../services/soundRecord.service.js';
+import removeSoundRecordUploads from '../utils/removeUploads.js';
 
 const getAll = async (req, res, next) => {
   try {
@@ -11,10 +12,9 @@ const getAll = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    res
-      .status(200)
-      .json(await soundRecord.create(req.body, req.files));
+    res.status(200).json(await soundRecord.create(req.body, req.files));
   } catch (err) {
+    removeSoundRecordUploads(req.files);
     console.error(`Error while creating Sound Record:`, err.message);
     next(err);
   }
