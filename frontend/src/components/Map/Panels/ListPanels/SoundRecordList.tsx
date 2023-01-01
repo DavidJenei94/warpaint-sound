@@ -1,9 +1,6 @@
 import { useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
-import {
-  useWindowDimensions,
-  useElementDimensions,
-} from '../../../../hooks/useDimensions';
+import { useElementDimensions } from '../../../../hooks/useDimensions';
 import { SoundRecord } from '../../../../models/soundrecord.model';
 
 import SoundRecordsListItem from './SoundRecordListItem';
@@ -15,16 +12,15 @@ interface SoundRecordListProps {
 }
 
 const SoundRecordList = ({ records }: SoundRecordListProps) => {
-  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const listRef = useRef<any>(null);
 
-  const { width: listWidth } = useElementDimensions(listRef);
+  const { width: listWidth, height: listHeight } = useElementDimensions(listRef);
 
   return (
     <div className={styles.list} ref={listRef}>
       <List
         width={listWidth - 1} // -1 to prevent horizontal scrollbar appearance on resizing
-        height={screenWidth < 700 ? screenHeight * 0.2 : screenHeight * 0.65}
+        height={listHeight}
         itemCount={records.length}
         itemSize={35}
       >
