@@ -8,10 +8,11 @@ import {
 import { LatLng, LatLngBounds } from 'leaflet';
 import { useSearchParams } from 'react-router-dom';
 import { MapQueryParams } from '../../models/map.model';
-import { backendUrl, getQueryParams } from '../../utils/general.utils';
+import { getQueryParams } from '../../utils/general.utils';
 import FeedbackContext from '../../store/feedback-context';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { mapActions } from '../../store/map-redux';
+import fetchSoundRecordsAndCategories from '../../service/soundRecord-api';
 
 import Recenter from './Utils/Recenter';
 import CurrentPosition from './Utils/CurrentPosition';
@@ -26,8 +27,12 @@ import 'leaflet/dist/leaflet.css';
 const SoundMap = () => {
   const ctx = useContext(FeedbackContext);
   const dispatch = useAppDispatch();
-  const activeSoundRecord: SoundRecord | null = useAppSelector((state) => state.activeSoundRecord);
-  const soundRecords: SoundRecord[] = useAppSelector((state) => state.soundRecords);
+  const activeSoundRecord: SoundRecord | null = useAppSelector(
+    (state) => state.activeSoundRecord
+  );
+  const soundRecords: SoundRecord[] = useAppSelector(
+    (state) => state.soundRecords
+  );
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -50,33 +55,20 @@ const SoundMap = () => {
 
   // Fetch sound records from server
   useEffect(() => {
-    const fetchSoundRecordAndCategories = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${backendUrl}/api/soundRecord`);
-        const data = await response.json();
+        const data = await fetchSoundRecordsAndCategories();
 
-        if (!response.ok) {
-          throw new Error(data.message);
-        }
-
-        dispatch(mapActions.setSoundRecords(data))
-
-        const categoryResponse = await fetch(`${backendUrl}/api/category`);
-        const categoryData = await categoryResponse.json();
-
-        if (!response.ok) {
-          throw new Error(categoryData.message);
-        }
-
-        dispatch(mapActions.setCategories(categoryData))
+        dispatch(mapActions.setSoundRecords(data.soundRecords));
+        dispatch(mapActions.setCategories(data.categories));
 
         setIsloading(false);
-      } catch (error) {
+      } catch (error: any) {
         ctx.showMessage('Error while loading Sound Records.', 4000);
       }
     };
 
-    fetchSoundRecordAndCategories();
+    fetchData();
   }, []);
 
   // Refresh soundId of activeSOundRecord in query params when it is selected or loaded
@@ -186,7 +178,7 @@ const SoundMap = () => {
       >
         {isSearchParamsLoaded && (
           <>
-            <MapClicker/>
+            <MapClicker />
             {latitude && longitude && (
               <Recenter lat={latitude} lng={longitude} z={zoom} />
             )}
@@ -216,7 +208,9 @@ const SoundMap = () => {
                   key={record.id}
                   record={record}
                   isActive={
-                    activeSoundRecord ? record.id === activeSoundRecord.id : false
+                    activeSoundRecord
+                      ? record.id === activeSoundRecord.id
+                      : false
                   }
                 />
               );
