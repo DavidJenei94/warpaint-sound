@@ -7,6 +7,7 @@ import db from './src/models/index.js';
 import soundRecordRouter from './src/routes/soundRecord.route.js';
 import categoryRouter from './src/routes/category.route.js';
 import statisticsRouter from './src/routes/statistics.route.js';
+import authRouter from './src/routes/auth.route.js';
 
 import upload, { acceptedFiles } from './src/middlewares/fileUpload.js';
 import readCategoryData from './src/utils/readCategoryData.js';
@@ -22,13 +23,14 @@ const __dirname = path.dirname(__filename);
 
 const port = process.env.PORT || 8002;
 const app = express();
-// app.use(express.json({ limit: '5mb' }));
-// app.use(express.urlencoded({ limit: '5mb', extended: true }));
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
 app.use(cors());
 
 app.use('/api/soundRecord', upload.fields(acceptedFiles), soundRecordRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/statistics', statisticsRouter);
+app.use('/api/auth', authRouter);
 
 // For sending image and audio files
 app.get('/api/uploads/:filePath', (req, res) => {

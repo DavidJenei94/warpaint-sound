@@ -7,6 +7,7 @@ import { FeedbackContextProvider } from './store/feedback-context';
 import store from './store/store';
 
 import App from './App';
+import { AuthContextProvider } from './store/auth-context';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,11 +15,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <FeedbackContextProvider>
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
+      <AuthContextProvider>
+        <Provider store={store}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Provider>
+      </AuthContextProvider>
     </FeedbackContextProvider>
   </React.StrictMode>
 );

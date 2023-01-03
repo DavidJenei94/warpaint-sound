@@ -27,10 +27,8 @@
     box-shadow: styles.$mainStrongBoxShadow;
   }
 
-  &.disabled {
-    // @include styles.paralElementBorderless;
-    // color: styles.$disabledColor;
-    padding: 4px;
+  &:disabled {
+    color: styles.$secondaryLightColor;
 
     &:hover {
       cursor: default;

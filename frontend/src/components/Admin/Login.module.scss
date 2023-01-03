@@ -1,0 +1,20 @@
+@use '../../utils/styles.variables' as styles;
+
+.container {
+  margin-top: 50px;
+  text-align: center;
+
+  form > input {
+    margin: 8px 0 24px;
+    background-color: styles.$secondaryColor;
+  }
+
+  button {
+    padding: 8px;
+    background-color: styles.$secondaryColor;
+
+    p {
+      font-size: 16px;
+    }
+  }
+}

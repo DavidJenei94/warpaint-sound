@@ -14,6 +14,8 @@ import NotFound from './components/UI/NotFound/NotFound';
 
 const Map = React.lazy(() => import('./components/Map/Map'));
 const About = React.lazy(() => import('./components/About/About'));
+const Login = React.lazy(() => import('./components/Admin/Login'));
+const Admin = React.lazy(() => import('./components/Admin/Admin'));
 const Statistics = React.lazy(
   () => import('./components/Statistics/Statistics')
 );
@@ -28,14 +30,22 @@ const App = () => {
       <Suspense fallback={<LoadingIcon />}>
         <Main>
           <Routes>
-            <Route path="/" element={<Navigate to="/map/information" replace />} />
-            <Route path="/home" element={<Navigate to="/map/information" replace />} />
+            <Route
+              path="/"
+              element={<Navigate to="/map/information" replace />}
+            />
+            <Route
+              path="/home"
+              element={<Navigate to="/map/information" replace />}
+            />
             <Route path="/map" element={<Map />}>
               <Route path="information" element={<Information />} />
               <Route path="terms" element={<Terms />} />
             </Route>
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Main>
