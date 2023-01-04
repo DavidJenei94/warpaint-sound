@@ -12,13 +12,12 @@ import LoadingIcon from './components/UI/LoadingIcon';
 import './App.module.scss';
 import NotFound from './components/UI/NotFound/NotFound';
 
+import Statistics from './components/Statistics/Statistics';
+import About from './components/About/About';
+
 const Map = React.lazy(() => import('./components/Map/Map'));
-const About = React.lazy(() => import('./components/About/About'));
 const Login = React.lazy(() => import('./components/Admin/Login'));
 const Admin = React.lazy(() => import('./components/Admin/Admin'));
-const Statistics = React.lazy(
-  () => import('./components/Statistics/Statistics')
-);
 
 const App = () => {
   const ctx = useContext(FeedbackContext);
