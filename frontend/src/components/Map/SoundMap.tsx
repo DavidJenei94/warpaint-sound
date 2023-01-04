@@ -12,7 +12,7 @@ import { getQueryParams } from '../../utils/general.utils';
 import FeedbackContext from '../../store/feedback-context';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { mapActions } from '../../store/map-redux';
-import fetchSoundRecordsAndCategories from '../../service/soundRecord-api';
+import { fetchSoundRecordsAndCategories } from '../../service/soundRecord-api';
 
 import Recenter from './Utils/Recenter';
 import CurrentPosition from './Utils/CurrentPosition';

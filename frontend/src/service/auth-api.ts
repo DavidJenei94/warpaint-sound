@@ -6,10 +6,8 @@ export const refreshToken = async (token: string) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-access-token': token,
       },
-      body: JSON.stringify({
-        token: token,
-      }),
     });
 
     const data = await response.json();

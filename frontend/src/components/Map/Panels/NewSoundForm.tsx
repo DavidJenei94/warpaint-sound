@@ -12,6 +12,7 @@ import {
   defaultSoundRecord,
   SoundRecord,
 } from '../../../models/soundrecord.model';
+import { addSoundRecord } from '../../../service/soundRecord-api';
 import FeedbackContext from '../../../store/feedback-context';
 import { mapActions } from '../../../store/map-redux';
 import { backendUrl } from '../../../utils/general.utils';
@@ -160,21 +161,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
     formData.append('imageFile', imageFile!);
 
     try {
-      const requestOptions = {
-        method: 'POST',
-        body: formData,
-      };
-      const response = await fetch(
-        `${backendUrl}/api/soundRecord`,
-        requestOptions
-      );
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-
-      const newSoundRecord = data.soundRecord;
+      const newSoundRecord = await addSoundRecord(formData);
 
       dispatch(mapActions.addSoundRecord(newSoundRecord));
 

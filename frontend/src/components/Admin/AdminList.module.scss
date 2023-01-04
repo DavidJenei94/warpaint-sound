@@ -1,0 +1,35 @@
+@use '../../utils/styles.variables' as styles;
+
+.list {
+  height: 40vh;
+  width: 100%;
+
+  box-shadow: styles.$bottomLightBoxShadow;
+
+  & > div {
+    &::-webkit-scrollbar {
+      width: 5px;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: styles.$primaryTransparentColor;
+    }
+  }
+
+  & > div > div > div {
+    & > p {
+      font-size: 12px;
+      margin: 0;
+      padding: 8px 0;
+      box-shadow: styles.$bottomLightBoxShadow;
+
+      &:hover {
+        cursor: pointer;
+        background-color: styles.$secondaryColor;
+      }
+      & > span {
+        position: relative;
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@use '../../utils/styles.variables' as styles;
+
+.element {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+
+  .id,
+  .actions {
+    width: 100%;
+  }
+
+  .id {
+    margin: 12px 0 8px;
+  }
+
+  .actions {
+    margin-bottom: 16px;
+
+    & > button {
+      margin: 0 8px;
+      background-color: styles.$secondaryColor;
+    }
+  }
+
+  input {
+    width: fit-content;
+    background-color: styles.$secondaryColor;
+  }
+}

@@ -1,7 +1,7 @@
 import fs from 'fs';
 
-const removeSoundRecordUploads = (files) => {
-  fs.unlink(files.imageFile[0].path, (error) => {
+const removeSoundRecordUploads = (imagePath, soundPath) => {
+  fs.unlink(imagePath, (error) => {
     if (error)
       throw new HttpError(
         'Sound Record Image file does not exist or cannot be deleted.',
@@ -9,7 +9,7 @@ const removeSoundRecordUploads = (files) => {
       );
   });
 
-  fs.unlink(files.soundFile[0].path, (error) => {
+  fs.unlink(soundPath, (error) => {
     if (error)
       throw new HttpError(
         'Sound Record Sound file does not exist or cannot be deleted.',

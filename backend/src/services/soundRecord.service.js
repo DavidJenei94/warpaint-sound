@@ -1,10 +1,9 @@
-import fs from 'fs';
-import sequelize, { Op } from 'sequelize';
 import fetch from 'node-fetch';
 
 import db from '../models/index.js';
 
 import HttpError from '../utils/HttpError.js';
+import removeSoundRecordUploads from '../utils/removeUploads.js';
 
 const SoundRecord = db.models.SoundRecord;
 const Category = db.models.Category;
@@ -12,28 +11,7 @@ const SubCategory = db.models.SubCategory;
 const Country = db.models.Country;
 
 const getAll = async (searchText) => {
-  let dbSoundRecords;
-  // dbSoundRecords = await SoundRecord.findAll({
-  //   include: [
-  //     {
-  //       model: SubCategory,
-  //       required: true,
-  //       attributes: ['name'],
-  //       include: [
-  //         {
-  //           model: Category,
-  //           required: true,
-  //           attributes: ['id', 'name'],
-  //         },
-  //       ],
-  //     },
-  //   ],
-  //   attributes: { exclude: ['createdAt', 'updatedAt'] },
-  // });
-
-  // console.log(dbSoundRecords);
-
-  dbSoundRecords = await SoundRecord.findAll({
+  const dbSoundRecords = await SoundRecord.findAll({
     include: { all: true, nested: true },
     attributes: { exclude: ['createdAt', 'updatedAt'] },
   });
@@ -79,12 +57,17 @@ const create = async (soundRecord, files) => {
     throw new HttpError('Some data missing from request.', 400);
   }
 
-  const response = await fetch(
-    `http://api.geonames.org/countryCode?lat=${soundRecord.latitude}&lng=${
-      soundRecord.longitude
-    }&username=${'warpaintvision'}`
-  );
-  const countryCode = await response.text();
+  let countryCode;
+  try {
+    const response = await fetch(
+      `http://api.geonames.org/countryCode?lat=${soundRecord.latitude}&lng=${
+        soundRecord.longitude
+      }&username=${'warpaintvision'}`
+    );
+    countryCode = await response.text();
+  } catch (error) {
+    countryCode = '';
+  }
 
   const dbSoundRecord = await SoundRecord.create({
     instrument: soundRecord.instrument,
@@ -129,56 +112,65 @@ const get = async (soundRecordId) => {
 };
 
 const update = async (soundRecord) => {
-  // if (soundRecord) {
-  //   const dbSoundRecord = await SoundRecord.update(
-  //     {
-  //       instrument: soundRecord.instrument,
-  //       category: soundRecord.category,
-  //       subCategory: soundRecord.subCategory,
-  //       description: soundRecord.description,
-  //       latitude: soundRecord.coordinates[0],
-  //       longitude: soundRecord.coordinates[1],
-  //       imagePath: soundRecord.imageUrl,
-  //       soundPath: soundRecord.soundUrl,
-  //     },
-  //     { where: { id: soundRecord.id } }
-  //   );
+  if (soundRecord) {
+    let countryCode;
+    try {
+      const response = await fetch(
+        `http://api.geonames.org/countryCode?lat=${soundRecord.latitude}&lng=${
+          soundRecord.longitude
+        }&username=${'warpaintvision'}`
+      );
+      countryCode = await response.text();
+    } catch (error) {
+      countryCode = '';
+    }
 
-  //   if (!dbSoundRecord || dbSoundRecord[0] === 0) {
-  //     throw new HttpError('Error in updating SoundRecord.', 400);
-  //   }
-  // }
+    const dbSoundRecord = await SoundRecord.update(
+      {
+        instrument: soundRecord.instrument,
+        subCategoryId: soundRecord.subCategoryId,
+        description: soundRecord.description,
+        countryId: countryCode.trim(),
+        latitude: soundRecord.latitude,
+        longitude: soundRecord.longitude,
+        imagePath: soundRecord.imagePath,
+        soundPath: soundRecord.soundPath,
+        level: soundRecord.level,
+      },
+      { where: { id: soundRecord.id } }
+    );
 
-  // if (route && geoJson && geoJson.features.length !== 0) {
-  //   const geoJsonString = JSON.stringify(geoJson);
-  //   const path = route.path;
-
-  //   fs.writeFile(path, geoJsonString, (error) => {
-  //     if (error) {
-  //       throw new HttpError('Error in updating route.', 400);
-  //     }
-  //   });
-  // }
+    if (!dbSoundRecord || dbSoundRecord[0] === 0) {
+      throw new HttpError('Error in updating SoundRecord.', 400);
+    }
+  }
 
   return { message: 'SoundRecord is updated!' };
 };
 
 const remove = async (soundRecordId) => {
-  // // delete files
-  // // fs.unlink(routePath, (error) => {
-  // //   if (error)
-  // //     throw new HttpError('Route does not exist or cannot be deleted.', 400);
-  // // });
-  // const dbSoundRecord = await SoundRecord.destroy({
-  //   where: { id: soundRecordId },
-  // });
-  // if (!dbSoundRecord) {
-  //   throw new HttpError(
-  //     'SoundRecord does not exist or cannot be deleted.',
-  //     400
-  //   );
-  // }
-  // return { message: 'SoundRecord deleted.' };
+  const dbSoundRecord = await SoundRecord.findByPk(soundRecordId, {
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+  });
+
+  if (!dbSoundRecord) {
+    throw new HttpError('SoundRecord does not exist in the database.', 400);
+  }
+
+  // delete files
+  removeSoundRecordUploads(dbSoundRecord.imagePath, dbSoundRecord.soundPath);
+
+  //remove from DB
+  const dbDeletedSoundRecord = await SoundRecord.destroy({
+    where: { id: soundRecordId },
+  });
+  if (!dbDeletedSoundRecord) {
+    throw new HttpError(
+      'SoundRecord does not exist or cannot be deleted.',
+      400
+    );
+  }
+  return { message: 'SoundRecord deleted.' };
 };
 
 export default {

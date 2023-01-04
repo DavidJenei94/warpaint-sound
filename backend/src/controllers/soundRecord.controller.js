@@ -14,7 +14,10 @@ const create = async (req, res, next) => {
   try {
     res.status(200).json(await soundRecord.create(req.body, req.files));
   } catch (err) {
-    removeSoundRecordUploads(req.files);
+    removeSoundRecordUploads(
+      req.files.imageFile[0].path,
+      req.files.soundFile[0].path
+    );
     console.error(`Error while creating Sound Record:`, err.message);
     next(err);
   }
@@ -31,7 +34,7 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    res.status(200).json(await soundRecord.update(req.params.soundRecord));
+    res.status(200).json(await soundRecord.update(req.body.soundRecord));
   } catch (err) {
     console.error(`Error while updating Sound Record:`, err.message);
     next(err);

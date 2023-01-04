@@ -1,0 +1,30 @@
+@use '../../utils/styles.variables' as styles;
+
+.container {
+  margin: 4px 0;
+
+  .element {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+
+    p {
+      margin: 4px;
+    }
+
+    .id {
+      width: 64px;
+    }
+
+    .name {
+      width: 200px;
+    }
+
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: styles.$secondaryLightColor;
+  }
+}

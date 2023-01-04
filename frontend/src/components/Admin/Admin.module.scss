@@ -1,0 +1,13 @@
+@use '../../utils/styles.variables' as styles;
+
+.container {
+  margin: 50px 0 0;
+  text-align: center;
+
+  .filter {
+    input {
+      margin: 0 16px 24px;
+      background-color: styles.$secondaryColor;
+    }
+  }
+}
