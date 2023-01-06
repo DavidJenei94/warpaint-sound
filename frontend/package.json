@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.9",
     "chart.js": "^4.1.1",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "get-blob-duration": "^1.2.0",
     "leaflet": "^1.9.3",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.0.1",

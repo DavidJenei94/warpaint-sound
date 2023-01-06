@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { useAppDispatch } from '../../../hooks/redux-hooks';
 import useRecorder from '../../../hooks/useRecorder';
 import {
   defaultSoundRecord,
@@ -15,7 +15,7 @@ import {
 import { addSoundRecord } from '../../../service/soundRecord-api';
 import FeedbackContext from '../../../store/feedback-context';
 import { mapActions } from '../../../store/map-redux';
-import { backendUrl } from '../../../utils/general.utils';
+import getBlobDuration from 'get-blob-duration';
 
 import Button from '../../UI/Button';
 import CheckBox from '../../UI/CheckBox';
@@ -26,6 +26,7 @@ import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 
 import styles from './NewSoundForm.module.scss';
 
+
 interface NewSoundFormProps {
   showNewSoundForm: Dispatch<SetStateAction<boolean>>;
 }
@@ -33,7 +34,6 @@ interface NewSoundFormProps {
 const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
   const ctx = useContext(FeedbackContext);
   const dispatch = useAppDispatch();
-  const categories = useAppSelector((state) => state.categories);
 
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
@@ -72,9 +72,22 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
       const audioFile = new File([audioBlob], 'sound.wav', {
         type: 'audio/wav',
       });
-      if (audioFile.size / 1000 > 1000) {
-        ctx.showMessage('Audio file size is greater then 1 MB!', 3000);
+
+      if (audioFile.size / 1000 > 5000) {
+        ctx.showMessage('Audio file size is greater then 5 MB!', 3000);
         return;
+      }
+
+      // Blob default value is text/html
+      if (audioBlob.type !== 'text/html') {
+        const duration = await getBlobDuration(audioBlob);
+        if (duration > 60) {
+          ctx.showMessage(
+            'Audio file duration is longer than 60 seconds!',
+            3000
+          );
+          return;
+        }
       }
 
       setSoundFile(audioFile);
