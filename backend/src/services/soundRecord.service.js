@@ -66,7 +66,7 @@ const create = async (soundRecord, files) => {
     );
     countryCode = await response.text();
   } catch (error) {
-    countryCode = '';
+    countryCode = '00';
   }
 
   const dbSoundRecord = await SoundRecord.create({
@@ -122,7 +122,7 @@ const update = async (soundRecord) => {
       );
       countryCode = await response.text();
     } catch (error) {
-      countryCode = '';
+      countryCode = '00';
     }
 
     const dbSoundRecord = await SoundRecord.update(
