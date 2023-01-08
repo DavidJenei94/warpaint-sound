@@ -16,6 +16,7 @@ import { addSoundRecord } from '../../../service/soundRecord-api';
 import FeedbackContext from '../../../store/feedback-context';
 import { mapActions } from '../../../store/map-redux';
 import getBlobDuration from 'get-blob-duration';
+import { downgradeImage } from '../../../utils/media.utils';
 
 import Button from '../../UI/Button';
 import CheckBox from '../../UI/CheckBox';
@@ -25,7 +26,6 @@ import MapForm from '../../UI/Map/MapForm';
 import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 
 import styles from './NewSoundForm.module.scss';
-
 
 interface NewSoundFormProps {
   showNewSoundForm: Dispatch<SetStateAction<boolean>>;
@@ -73,8 +73,8 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
         type: 'audio/wav',
       });
 
-      if (audioFile.size / 1000 > 5000) {
-        ctx.showMessage('Audio file size is greater then 5 MB!', 3000);
+      if (audioFile.size / 1000 > 10000) {
+        ctx.showMessage('Audio file size is greater than 10 MB!', 3000);
         return;
       }
 
@@ -120,17 +120,24 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
       return;
     }
 
-    const file = input.files![0];
-
-    if (file.size / 1000 > 3000) {
-      ctx.showMessage('Image file size is greater then 3 MB!', 3000);
+    let file: File | null = input.files![0];
+    if (file.size / 1000 > 10000) {
+      ctx.showMessage('Image file size is greater then 10 MB!', 3000);
       return;
     }
+
+    // downgrade larger images
+    if (file.size / 1000 > 2000) {
+      file = await downgradeImage(file);
+    }
+
     setImageFile(file);
 
     // For the preview image
-    const src = URL.createObjectURL(file);
-    setInstrumentImageSrc(src);
+    if (file) {
+      const src = URL.createObjectURL(file);
+      setInstrumentImageSrc(src);
+    }
   };
 
   const handlOutsideClick = () => {
@@ -255,7 +262,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
         </div>
         <div>
           <div>
-            <label htmlFor="instrument-image">Image (Max 3 MB):</label>
+            <label htmlFor="instrument-image">Image (Max 10 MB):</label>
             <br />
             <Input
               type="file"
@@ -276,7 +283,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
           </div>
           <div>
             <label htmlFor="instrument-sound">
-              Record Sound (Max 5 MB ~ 30 sec):
+              Record Sound (Max 10 MB or 60 sec):
             </label>
             <br />
             <audio src={audioURL} id="instrument-sound" controls />
