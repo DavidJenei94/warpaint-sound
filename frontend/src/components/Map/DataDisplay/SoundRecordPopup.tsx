@@ -1,6 +1,9 @@
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Popup } from 'react-leaflet';
+import { Popup, useMap } from 'react-leaflet';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { SoundRecord } from '../../../models/soundrecord.model';
+import { mapActions } from '../../../store/map-redux';
 
 import Button from '../../UI/Button';
 import CloseButton from '../../UI/CloseButton';
@@ -11,12 +14,49 @@ import styles from './SoundRecordPopup.module.scss';
 
 interface SoundRecordPopupProps {
   soundRecord: SoundRecord;
+  openPopup: () => void;
 }
 
-const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
+const SoundRecordPopup = ({
+  soundRecord,
+  openPopup,
+}: SoundRecordPopupProps) => {
   const [isReportShown, setIsReportShown] = useState<boolean>(false);
   const [reportText, setReportText] = useState<string>('');
   const [isImageHovered, setIsImageHovered] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+  const activatedByList: boolean = useAppSelector(
+    (state) => state.activatedByList
+  );
+
+  const activeSoundRecord: SoundRecord | null = useAppSelector(
+    (state) => state.activeSoundRecord
+  );
+
+  const map = useMap();
+
+  // Trigger panTo and openpopup when selected from list (like search)
+  useEffect(() => {
+    const isActive = activeSoundRecord
+      ? soundRecord.id === activeSoundRecord.id
+      : false;
+
+    if (isActive && activatedByList) {
+      // If clicked from list, change the zoom level to 0
+      // It will prevent the move event and will show the popup
+      // It will reload the map tiles on that zoom
+      // (with move event with state plus rerendering happens which does not open popup)
+      if (map.getZoom() > 5 && map.getZoom() !== 18) {
+        map.setZoom(0);
+      }
+
+      map.setView([soundRecord.latitude, soundRecord.longitude], 18);
+      openPopup();
+
+      dispatch(mapActions.setActivatedByList(false));
+    }
+  }, [activeSoundRecord, activatedByList]);
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReportText(event.target.value);
@@ -88,6 +128,8 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
         className={`${styles.popup} ${styles[levelClass]}`}
         minWidth={30}
         maxWidth={500}
+        autoPan={false}
+        keepInView={false}
       >
         {soundRecord && (
           <div className={styles['popup-content']}>
@@ -128,5 +170,4 @@ const SoundRecordPopup = ({ soundRecord }: SoundRecordPopupProps) => {
     </div>
   );
 };
-
 export default SoundRecordPopup;

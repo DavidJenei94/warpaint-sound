@@ -11,8 +11,6 @@ const About = () => {
   const [premiumSample, setPremiumSample] = useState<string>('');
 
   const showPremiumLook = (level: string) => {
-    console.log(level);
-
     switch (level) {
       case 'chromium':
         setPremiumSample(chromiumImage);
@@ -24,8 +22,6 @@ const About = () => {
   };
 
   const hidePremiumLook = () => {
-    console.log('onMouseOutPremiumLook');
-
     setPremiumSample('');
   };
 

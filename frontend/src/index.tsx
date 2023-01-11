@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <FeedbackContextProvider>
       <AuthContextProvider>
         <Provider store={store}>
@@ -23,7 +23,7 @@ root.render(
         </Provider>
       </AuthContextProvider>
     </FeedbackContextProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

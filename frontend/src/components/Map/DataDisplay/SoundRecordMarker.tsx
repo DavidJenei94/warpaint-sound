@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import L, { LatLng } from 'leaflet';
 import { Marker, useMap } from 'react-leaflet';
 import { SoundRecord } from '../../../models/soundrecord.model';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { useAppDispatch } from '../../../hooks/redux-hooks';
 import { mapActions } from '../../../store/map-redux';
 
 import SoundRecordPopup from './SoundRecordPopup';
@@ -20,28 +20,9 @@ interface SoundRecordMarkerProps {
 
 const SoundRecordMarker = ({ record, isActive }: SoundRecordMarkerProps) => {
   const dispatch = useAppDispatch();
-  const activedtedByList: boolean = useAppSelector(
-    (state) => state.activatedByList
-  );
 
   const markerRef = useRef<any>(null);
   const map = useMap();
-
-  useEffect(() => {}, [isActive]);
-
-  // Trigger panTo and openpopup when selected from list (like search)
-  // Send other popups back (popupclose is not triggered on markers rendered after the current marker)
-  useEffect(() => {
-    if (isActive) {
-      map.panTo(new LatLng(record.latitude, record.longitude));
-
-      const marker = markerRef.current;
-      marker && marker.openPopup();
-    }
-    if (!isActive) {
-      markerRef.current.setZIndexOffset(500);
-    }
-  }, [isActive]);
 
   let pinIcon: string = '';
   switch (record.categoryId) {
@@ -62,6 +43,10 @@ const SoundRecordMarker = ({ record, isActive }: SoundRecordMarkerProps) => {
       break;
   }
 
+  const openMarkerPopup = () => {
+    markerRef && markerRef.current.openPopup();
+  };
+
   return (
     <Marker
       key={record.id}
@@ -75,16 +60,21 @@ const SoundRecordMarker = ({ record, isActive }: SoundRecordMarkerProps) => {
         })
       }
       draggable={false}
-      autoPan={true}
+      autoPan={false}
+      autoPanOnFocus={false}
       ref={markerRef}
       eventHandlers={{
         popupclose: (e) => {
-          if (!activedtedByList) {
-            dispatch(mapActions.setActiveSoundRecord(null));
-          }
+          dispatch(mapActions.setActivatedByList(false));
+          dispatch(mapActions.setActiveSoundRecord(null));
+
+          markerRef.current.setZIndexOffset(500);
         },
         popupopen: (e) => {
+          dispatch(mapActions.setActiveSoundRecord(record));
+
           markerRef.current.setZIndexOffset(1000);
+          map.panTo(new LatLng(record.latitude, record.longitude));
         },
         click: (e) => {
           dispatch(mapActions.setActivatedByList(false));
@@ -92,7 +82,7 @@ const SoundRecordMarker = ({ record, isActive }: SoundRecordMarkerProps) => {
         },
       }}
     >
-      <SoundRecordPopup soundRecord={record} />
+      <SoundRecordPopup soundRecord={record} openPopup={openMarkerPopup} />
     </Marker>
   );
 };
