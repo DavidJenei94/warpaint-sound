@@ -72,15 +72,13 @@ const About = () => {
             <div className={styles.donation}>
               <ul>
                 <li>
-                  One-time:{' '}
                   <span onClick={() => showPremiumLook('chromium')}>
-                    chromium look
+                    {`One-time: (> 5€) chromium look`}
                   </span>
                 </li>
                 <li>
-                  Subscription:{' '}
                   <span onClick={() => showPremiumLook('universe')}>
-                    universe look
+                    Subscription: universe look
                   </span>
                 </li>
               </ul>

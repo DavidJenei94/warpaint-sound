@@ -44,7 +44,7 @@ const Donation = () => {
               showPremiumLook('chromium');
             }}
           >
-            One-time: chromium look
+            {`One-time (> 5€): chromium look`}
           </li>
           <li
             onClick={() => {
