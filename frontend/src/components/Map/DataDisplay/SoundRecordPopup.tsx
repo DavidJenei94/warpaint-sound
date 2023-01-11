@@ -88,6 +88,7 @@ const SoundRecordPopup = ({
     <div>
       {isImageHovered && (
         <Modal
+          className={styles['image-modal']}
           backdrop={true}
           overlay={true}
           onClose={() => setIsImageHovered(false)}

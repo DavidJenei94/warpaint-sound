@@ -1,4 +1,5 @@
 @use '../../../utils/styles.variables' as styles;
+@use '../../UI/Modal/Modal.module.scss' as modalStyles;
 
 .popup-basic {
   // outer box
@@ -40,6 +41,20 @@
   }
 }
 
+.image-modal {
+  @include modalStyles.modalStyle;
+
+  background: none;
+  border: 0;
+
+  .zoomin {
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 75vw;
+    max-height: 75vh;
+  }
+}
+
 .popup {
   a,
   span {
@@ -61,7 +76,6 @@
     }
   }
 
-  // triangle
   // background styles at popup-"level" on top of file
 
   .popup-content {
@@ -109,13 +123,6 @@
       cursor: pointer;
     }
   }
-}
-
-.zoomin {
-  min-width: 200px;
-  min-height: 200px;
-  max-width: 75vw;
-  max-height: 75vh;
 }
 
 .report-container {
