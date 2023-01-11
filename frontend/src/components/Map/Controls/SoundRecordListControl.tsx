@@ -20,7 +20,7 @@ const SoundRecordListControl = ({
   };
 
   return (
-    <ControlButton position="topleft" title={'List visible Sound Records'}>
+    <ControlButton title={'List visible Sound Records'}>
       <img
         src={soundRecordsListIcon}
         width={30}

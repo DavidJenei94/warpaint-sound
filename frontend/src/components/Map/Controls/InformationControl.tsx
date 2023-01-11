@@ -12,7 +12,7 @@ const InformationControl = () => {
   };
 
   return (
-    <ControlButton position="topleft" title={'Information'}>
+    <ControlButton title={'Information'}>
       <img
         src={informationIcon}
         width={30}

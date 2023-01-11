@@ -28,10 +28,7 @@ const ScrollToMenuControl = () => {
   };
 
   return (
-    <ControlButton
-      position="topleft"
-      title={onBottomOfPage ? 'Scroll To Menu' : 'Scroll To Map'}
-    >
+    <ControlButton title={onBottomOfPage ? 'Scroll To Menu' : 'Scroll To Map'}>
       <img
         src={onBottomOfPage ? scrollToMenuIcon : scrollToMapIcon}
         width={30}

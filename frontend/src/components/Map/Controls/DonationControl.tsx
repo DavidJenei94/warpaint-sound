@@ -19,7 +19,7 @@ const DonationControl = ({
   };
 
   return (
-    <ControlButton position="topleft" title={'Donation'}>
+    <ControlButton title={'Donation'}>
       <img
         src={donationIcon}
         width={30}

@@ -9,6 +9,9 @@ import NewSoundFormControl from './NewSoundFormControl';
 import SoundRecordListControl from './SoundRecordListControl';
 import FitBoundsControl from './FitBoundsControl';
 import DonationControl from './DonationControl';
+import Control from 'react-leaflet-custom-control';
+
+import styles from './MapControls.module.scss';
 
 interface MapControlsProps {
   showSearchForm: Dispatch<SetStateAction<boolean>>;
@@ -29,22 +32,27 @@ const MapControls = ({
 }: MapControlsProps) => {
   return (
     <>
-      <InformationControl />
+      <Control position={'topleft'}>
+        <div className={styles.topleft}>
+          <InformationControl />
+          <SearchFormControl
+            showSearchForm={showSearchForm}
+            handleListPanelClose={handleListPanelClose}
+          />
+          <SoundRecordListControl
+            showSoundRecordList={showSoundRecordList}
+            handleListPanelClose={handleListPanelClose}
+          />
+          <FitBoundsControl dataBounds={dataBounds} />
+          <DonationControl
+            showDonation={showDonation}
+            handleListPanelClose={handleListPanelClose}
+          />
+          <ScrollToMenuControl />
+        </div>
+      </Control>
+
       <NewSoundFormControl showNewSoundForm={showNewSoundForm} />
-      <SearchFormControl
-        showSearchForm={showSearchForm}
-        handleListPanelClose={handleListPanelClose}
-      />
-      <SoundRecordListControl
-        showSoundRecordList={showSoundRecordList}
-        handleListPanelClose={handleListPanelClose}
-      />
-      <FitBoundsControl dataBounds={dataBounds} />
-      <DonationControl
-        showDonation={showDonation}
-        handleListPanelClose={handleListPanelClose}
-      />
-      <ScrollToMenuControl />
       <ScaleControl position="bottomright" />
     </>
   );

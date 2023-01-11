@@ -16,7 +16,7 @@ const FitBoundsControl = ({ dataBounds }: FitBoundsControlProps) => {
   };
 
   return (
-    <ControlButton position="topleft" title="Fit Map to Sound Records">
+    <ControlButton title="Fit Map to Sound Records">
       <img
         src={boundDataIcon}
         width={30}

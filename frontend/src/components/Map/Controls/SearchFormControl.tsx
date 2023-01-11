@@ -30,7 +30,7 @@ const SearchFormControl = ({
   const searchChecks = searchText || searchCategory || searchSubCategory;
 
   return (
-    <ControlButton position="topleft" title={'Search'}>
+    <ControlButton title={'Search'}>
       <div className={styles.container} onClick={toggleMenuHandler}>
         <img
           src={searchIcon}

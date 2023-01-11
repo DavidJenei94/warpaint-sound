@@ -5,17 +5,14 @@ import styles from './ControlButton.module.scss';
 
 interface ControlButtonProps {
   children: React.ReactNode;
-  position: ControlPosition;
   title: string;
 }
 
-const ControlButton = ({ children, position, title }: ControlButtonProps) => {
+const ControlButton = ({ children, title }: ControlButtonProps) => {
   return (
-    <Control position={position}>
       <div className={styles['button-container']} title={title}>
         {children}
       </div>
-    </Control>
   );
 };
 
