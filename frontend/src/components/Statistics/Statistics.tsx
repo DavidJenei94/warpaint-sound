@@ -21,7 +21,7 @@ const Statistics = () => {
   useEffect(() => {
     const fetchCategoriesCountStats = async () => {
       try {
-        const response = await fetch(`${backendUrl}/api/statistics/category`);
+        const response = await fetch(`${backendUrl}/statistics/category`);
         const data = await response.json();
 
         if (!response.ok) {

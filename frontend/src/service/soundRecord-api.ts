@@ -4,14 +4,14 @@ import { backendUrl } from '../utils/general.utils';
 // GET ALL
 export const fetchSoundRecordsAndCategories = async () => {
   try {
-    const response = await fetch(`${backendUrl}/api/soundRecord`);
+    const response = await fetch(`${backendUrl}/soundRecord`);
     const data = await response.json();
 
     if (!response.ok) {
       throw new Error(data.message);
     }
 
-    const categoryResponse = await fetch(`${backendUrl}/api/category`);
+    const categoryResponse = await fetch(`${backendUrl}/category`);
     const categoryData = await categoryResponse.json();
 
     if (!response.ok) {
@@ -33,7 +33,7 @@ export const addSoundRecord = async (soundRecordFormData: FormData) => {
     };
 
     const response = await fetch(
-      `${backendUrl}/api/soundRecord`,
+      `${backendUrl}/soundRecord`,
       requestOptions
     );
     const data = await response.json();
@@ -55,7 +55,7 @@ export const editSoundRecord = async (
 ) => {
   try {
     const response = await fetch(
-      `${backendUrl}/api/soundRecord/${soundRecord.id}`,
+      `${backendUrl}/soundRecord/${soundRecord.id}`,
       {
         method: 'PUT',
         headers: {
@@ -80,7 +80,7 @@ export const editSoundRecord = async (
 // DELETE
 export const deleteSoundRecord = async (id: number, token: string) => {
   try {
-    const response = await fetch(`${backendUrl}/api/soundRecord/${id}`, {
+    const response = await fetch(`${backendUrl}/soundRecord/${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json', 'x-access-token': token },
     });

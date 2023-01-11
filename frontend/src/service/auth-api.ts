@@ -2,7 +2,7 @@ import { backendUrl } from '../utils/general.utils';
 
 export const refreshToken = async (token: string) => {
   try {
-    const response = await fetch(`${backendUrl}/api/auth/refresh`, {
+    const response = await fetch(`${backendUrl}/auth/refresh`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

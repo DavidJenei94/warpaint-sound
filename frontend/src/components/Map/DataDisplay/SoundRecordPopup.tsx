@@ -4,6 +4,7 @@ import { Popup, useMap } from 'react-leaflet';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { SoundRecord } from '../../../models/soundrecord.model';
 import { mapActions } from '../../../store/map-redux';
+import { backendUrl } from '../../../utils/general.utils';
 
 import Button from '../../UI/Button';
 import CloseButton from '../../UI/CloseButton';
@@ -95,7 +96,7 @@ const SoundRecordPopup = ({
         >
           <img
             className={styles.zoomin}
-            src={'http://localhost:8002/api/' + soundRecord!.imagePath}
+            src={`${backendUrl}/${soundRecord!.imagePath}`}
             onClick={() => setIsImageHovered(false)}
             alt="Poped up Image of instrument of the Sound Record"
           />
@@ -155,16 +156,13 @@ const SoundRecordPopup = ({
               </div>
               <div>
                 <img
-                  src={'http://localhost:8002/api/' + soundRecord.imagePath}
+                  src={`${backendUrl}/${soundRecord!.imagePath}`}
                   onClick={() => setIsImageHovered(true)}
                   alt="Image of instrument of the Sound Record"
                 />
               </div>
             </div>
-            <audio
-              src={'http://localhost:8002/api/' + soundRecord.soundPath}
-              controls
-            />
+            <audio src={`${backendUrl}/${soundRecord.soundPath}`} controls />
           </div>
         )}
       </Popup>
