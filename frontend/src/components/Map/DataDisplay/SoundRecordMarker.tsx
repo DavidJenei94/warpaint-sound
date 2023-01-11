@@ -15,10 +15,9 @@ import keyboardPinIcon from '../../../assets/map-assets/pin-keyboard-icon.png';
 
 interface SoundRecordMarkerProps {
   record: SoundRecord;
-  isActive: boolean;
 }
 
-const SoundRecordMarker = ({ record, isActive }: SoundRecordMarkerProps) => {
+const SoundRecordMarker = ({ record }: SoundRecordMarkerProps) => {
   const dispatch = useAppDispatch();
 
   const markerRef = useRef<any>(null);
@@ -68,12 +67,12 @@ const SoundRecordMarker = ({ record, isActive }: SoundRecordMarkerProps) => {
           dispatch(mapActions.setActivatedByList(false));
           dispatch(mapActions.setActiveSoundRecord(null));
 
-          markerRef.current.setZIndexOffset(500);
+          markerRef.current && markerRef.current.setZIndexOffset(500);
         },
         popupopen: (e) => {
           dispatch(mapActions.setActiveSoundRecord(record));
 
-          markerRef.current.setZIndexOffset(1000);
+          markerRef.current && markerRef.current.setZIndexOffset(1000);
           map.panTo(new LatLng(record.latitude, record.longitude));
         },
         click: (e) => {

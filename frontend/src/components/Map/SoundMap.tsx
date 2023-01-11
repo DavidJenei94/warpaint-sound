@@ -127,7 +127,6 @@ const SoundMap = () => {
                   <SoundRecordMarker
                     key={record.id}
                     record={record}
-                    isActive={false}
                   />
                 );
               })}
