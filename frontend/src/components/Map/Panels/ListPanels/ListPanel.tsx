@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Modal from '../../UI/Modal/Modal';
-import CloseButton from '../../UI/CloseButton';
+import Modal from '../../../UI/Modal/Modal';
+import CloseButton from '../../../UI/CloseButton';
 
 import styles from './ListPanel.module.scss';
 

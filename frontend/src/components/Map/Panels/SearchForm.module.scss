@@ -1,5 +1,5 @@
 @use '../../../utils/styles.variables' as styles;
-@use '../../UI/Map/ListPanel.module.scss' as listPanelStyles;
+@use './Listpanels/ListPanel.module.scss' as listPanelStyles;
 
 .search-fields {
   @include listPanelStyles.topListPanel;

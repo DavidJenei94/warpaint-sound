@@ -1,5 +1,5 @@
 @use '../../../../utils/styles.variables' as styles;
-@use '../../../UI/Map/ListPanel.module.scss' as listPanelStyles;
+@use './ListPanel.module.scss' as listPanelStyles;
 
 .list {
   @include listPanelStyles.bottomListPanel;

@@ -1,8 +1,8 @@
 import React from 'react';
-import CloseButton from '../CloseButton';
+import CloseButton from '../../UI/CloseButton';
 
 import styles from './MapForm.module.scss';
-import Modal from '../Modal/Modal';
+import Modal from '../../UI/Modal/Modal';
 
 interface MapFormProps {
   children: React.ReactNode;

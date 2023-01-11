@@ -22,7 +22,7 @@ import Button from '../../UI/Button';
 import CheckBox from '../../UI/CheckBox';
 import Input from '../../UI/Input';
 import CategorySelect from '../../UI/Map/CategorySelect';
-import MapForm from '../../UI/Map/MapForm';
+import MapForm from './MapForm';
 import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 
 import styles from './NewSoundForm.module.scss';

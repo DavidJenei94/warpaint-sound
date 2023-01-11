@@ -4,11 +4,11 @@ import {
   SoundRecord,
   SoundRecordFilter,
 } from '../../../models/soundrecord.model';
-import ListPanel from '../../UI/Map/ListPanel';
+import ListPanel from './ListPanels/ListPanel';
 
 import MapControls from '../Controls/MapControls';
 import Donation from './Donation';
-import NewSoundForm from './NewSoundForm';
+import NewSoundForm from '../NewSoundForm/NewSoundForm';
 import SearchForm from './SearchForm';
 import SoundRecordList from './SoundRecordOnScreen';
 
