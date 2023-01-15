@@ -92,9 +92,9 @@ const getCategoryStats = async () => {
   };
 };
 
-const getPlayNumbers = async () => {
+const getPlayCounts = async () => {
   const dbPlayLogs = await SoundRecordPlayLog.findAll({
-    order: [['playNo', 'DESC']],
+    order: [['playCount', 'DESC']],
     attributes: { exclude: ['createdAt', 'updatedAt'] },
   });
 
@@ -112,7 +112,7 @@ const getPlayNumbers = async () => {
   return dbPlayLogs;
 };
 
-const incrementPlayNumber = async (soundRecordId) => {
+const incrementPlayCount = async (soundRecordId) => {
   if (!soundRecordId) {
     throw new HttpError('Some data missing from request.', 400);
   }
@@ -124,14 +124,14 @@ const incrementPlayNumber = async (soundRecordId) => {
   if (!dbPlayLog) {
     const dbNewPlayLog = await SoundRecordPlayLog.create({
       id: soundRecordId,
-      playNo: 1,
+      playCount: 1,
     });
 
     if (!dbNewPlayLog) {
       throw new HttpError('Error in creating new SoundRecord Play Log.', 400);
     }
   } else {
-    const dbUpdatePlayLog = await SoundRecordPlayLog.increment('playNo', {
+    const dbUpdatePlayLog = await SoundRecordPlayLog.increment('playCount', {
       by: 1,
       where: { id: soundRecordId },
     });
@@ -149,6 +149,6 @@ const incrementPlayNumber = async (soundRecordId) => {
 
 export default {
   getCategoryStats,
-  getPlayNumbers,
-  incrementPlayNumber,
+  getPlayCounts,
+  incrementPlayCount,
 };

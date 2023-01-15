@@ -61,7 +61,7 @@ const SoundRecordPopup = ({
 
   const playSoundHandler = async () => {
     try {
-      const response = await fetch(`${backendUrl}/statistics/playNumber`, {
+      const response = await fetch(`${backendUrl}/statistics/playCount`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ soundRecordId: soundRecord.id }),

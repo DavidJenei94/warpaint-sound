@@ -9,9 +9,9 @@ const getCategoryStats = async (req, res, next) => {
   }
 };
 
-const getPlayNumbers = async (req, res, next) => {
+const getPlayCounts = async (req, res, next) => {
   try {
-    res.status(200).json(await statistics.getPlayNumbers());
+    res.status(200).json(await statistics.getPlayCounts());
   } catch (err) {
     console.error(
       `Error while getting all Sound Record Play Logs:`,
@@ -21,11 +21,11 @@ const getPlayNumbers = async (req, res, next) => {
   }
 };
 
-const incrementPlayNumber = async (req, res, next) => {
+const incrementPlayCount = async (req, res, next) => {
   try {
     res
       .status(200)
-      .json(await statistics.incrementPlayNumber(req.body.soundRecordId));
+      .json(await statistics.incrementPlayCount(req.body.soundRecordId));
   } catch (err) {
     console.error(
       `Error while incrementing Sound Record Play Logs:`,
@@ -37,6 +37,6 @@ const incrementPlayNumber = async (req, res, next) => {
 
 export default {
   getCategoryStats,
-  getPlayNumbers,
-  incrementPlayNumber,
+  getPlayCounts,
+  incrementPlayCount,
 };

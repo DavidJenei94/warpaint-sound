@@ -3,7 +3,7 @@ const router = Router();
 import statisticsController from '../controllers/statistics.controller.js';
 
 router.get('/category', statisticsController.getCategoryStats);
-router.get('/playNumber/', statisticsController.getPlayNumbers);
-router.post('/playNumber/', statisticsController.incrementPlayNumber);
+router.get('/playCount/', statisticsController.getPlayCounts);
+router.post('/playCount/', statisticsController.incrementPlayCount);
 
 export default router;

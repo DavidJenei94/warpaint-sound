@@ -2,7 +2,7 @@ const getSoundRecordPlayLogModel = (sequelize, { DataTypes }) => {
   const SoundRecordPlayLog = sequelize.define(
     'SoundRecordPlayLog',
     {
-      playNo: {
+      playCount: {
         type: DataTypes.BIGINT,
         defaultValue: 0,
         allowNull: false,
