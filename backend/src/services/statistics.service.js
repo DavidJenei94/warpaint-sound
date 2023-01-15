@@ -5,6 +5,7 @@ import db from '../models/index.js';
 const SoundRecord = db.models.SoundRecord;
 const Category = db.models.Category;
 const SubCategory = db.models.SubCategory;
+const SoundRecordPlayLog = db.models.SoundRecordPlayLog;
 
 const getCategoryStats = async () => {
   const dbSubCategoryCountStats = await SubCategory.findAll({
@@ -91,4 +92,63 @@ const getCategoryStats = async () => {
   };
 };
 
-export default { getCategoryStats };
+const getPlayNumbers = async () => {
+  const dbPlayLogs = await SoundRecordPlayLog.findAll({
+    order: [['playNo', 'DESC']],
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+  });
+
+  // empty
+  if (!dbPlayLogs) {
+    return [];
+  }
+
+  // one element
+  if (!Array.isArray(dbPlayLogs)) {
+    return [dbPlayLogs];
+  }
+
+  // otherwise
+  return dbPlayLogs;
+};
+
+const incrementPlayNumber = async (soundRecordId) => {
+  if (!soundRecordId) {
+    throw new HttpError('Some data missing from request.', 400);
+  }
+
+  const dbPlayLog = await SoundRecordPlayLog.findByPk(soundRecordId, {
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+  });
+
+  if (!dbPlayLog) {
+    const dbNewPlayLog = await SoundRecordPlayLog.create({
+      id: soundRecordId,
+      playNo: 1,
+    });
+
+    if (!dbNewPlayLog) {
+      throw new HttpError('Error in creating new SoundRecord Play Log.', 400);
+    }
+  } else {
+    const dbUpdatePlayLog = await SoundRecordPlayLog.increment('playNo', {
+      by: 1,
+      where: { id: soundRecordId },
+    });
+
+    if (!dbUpdatePlayLog) {
+      throw new HttpError('Error in updating SoundRecord Play Log.', 400);
+    }
+  }
+
+  return {
+    message: 'SoundRecord Play Log is updated!',
+    soundRecordId: soundRecordId,
+  };
+};
+
+export default {
+  getCategoryStats,
+  getPlayNumbers,
+  incrementPlayNumber,
+};

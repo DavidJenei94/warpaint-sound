@@ -59,6 +59,17 @@ const SoundRecordPopup = ({
     }
   }, [activeSoundRecord, activatedByList]);
 
+  const playSoundHandler = async () => {
+    try {
+      const response = await fetch(`${backendUrl}/statistics/playNumber`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ soundRecordId: soundRecord.id }),
+      });
+      await response.json();
+    } catch (error: any) {}
+  };
+
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReportText(event.target.value);
   };
@@ -162,7 +173,11 @@ const SoundRecordPopup = ({
                 />
               </div>
             </div>
-            <audio src={`${backendUrl}/${soundRecord.soundPath}`} controls />
+            <audio
+              src={`${backendUrl}/${soundRecord.soundPath}`}
+              controls
+              onPlay={playSoundHandler}
+            />
           </div>
         )}
       </Popup>
