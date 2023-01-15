@@ -41,7 +41,8 @@ const editSoundRecords = (soundRecords) => {
     delete record.Country;
     delete record.Category;
     delete record.SubCategory;
-
+    delete record.SoundRecordPlayLog;
+    
     return record;
   });
 };
