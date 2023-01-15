@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { FeedbackContextProvider } from './store/feedback-context';
 import store from './store/store';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import App from './App';
 import { AuthContextProvider } from './store/auth-context';
@@ -14,6 +15,16 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   // <React.StrictMode>
+  <GoogleReCaptchaProvider
+    reCaptchaKey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
+    container={{
+      element: 'reCaptcha-badge',
+      parameters: {
+        badge: 'bottomright',
+        theme: 'dark',
+      },
+    }}
+  >
     <FeedbackContextProvider>
       <AuthContextProvider>
         <Provider store={store}>
@@ -23,6 +34,7 @@ root.render(
         </Provider>
       </AuthContextProvider>
     </FeedbackContextProvider>
+  </GoogleReCaptchaProvider>
   // </React.StrictMode>
 );
 

@@ -41,10 +41,19 @@
       text-decoration: underline;
     }
   }
+
+  .new-sound-record-recaptcha-badge {
+    margin-top: 50px;
+    font-size: 11px;
+
+    & > a {
+      color: styles.$primaryColor;
+      text-decoration: underline;
+    }
+  }
 }
 
 @media only screen and (max-width: styles.$smallScreenSize) {
-  
   .container {
     padding: 16px 32px;
 

@@ -123,12 +123,7 @@ const SoundMap = () => {
           >
             {filteredSoundRecords[0] &&
               filteredSoundRecords.map((record) => {
-                return (
-                  <SoundRecordMarker
-                    key={record.id}
-                    record={record}
-                  />
-                );
+                return <SoundRecordMarker key={record.id} record={record} />;
               })}
           </MarkerClusterGroup>
         </FeatureGroup>

@@ -65,3 +65,13 @@
 .submit-button {
   margin: 16px 0;
 }
+
+.new-sound-record-recaptcha-badge {
+  margin-top: 12px;
+  font-size: 11px;
+
+  & > a {
+    color: styles.$primaryColor;
+    text-decoration: underline;
+  }
+}

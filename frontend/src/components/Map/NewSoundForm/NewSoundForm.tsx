@@ -1,6 +1,7 @@
 import React, {
   Dispatch,
   SetStateAction,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -17,6 +18,7 @@ import FeedbackContext from '../../../store/feedback-context';
 import { mapActions } from '../../../store/map-redux';
 import getBlobDuration from 'get-blob-duration';
 import { downgradeImage } from '../../../utils/media.utils';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 import Button from '../../UI/Button';
 import CheckBox from '../../UI/CheckBox';
@@ -35,6 +37,8 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
   const ctx = useContext(FeedbackContext);
   const dispatch = useAppDispatch();
 
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
   const [soundFile, setSoundFile] = useState<Blob | null>(null);
@@ -45,6 +49,17 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
     useRecorder();
 
   const [termAccepted, setTermsAccepted] = useState<boolean>(false);
+
+  // Create an event handler so you can call the verification on button click event or form submit
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      // Execute recaptcha not yet available
+      return;
+    }
+
+    const token = await executeRecaptcha('addsoundrecord');
+    return token;
+  }, [executeRecaptcha]);
 
   // Get position when form is opened
   useEffect(() => {
@@ -179,6 +194,9 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
     formData.append('longitude', soundRecord.longitude.toString());
     formData.append('soundFile', soundFile!);
     formData.append('imageFile', imageFile!);
+
+    const reCaptchaToken = await handleReCaptchaVerify();
+    formData.append('reCaptchaToken', reCaptchaToken ? reCaptchaToken : '');
 
     try {
       const newSoundRecord = await addSoundRecord(formData);
@@ -326,6 +344,12 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
         <Button type="submit">
           <p>Add Sound</p>
         </Button>
+        <div className={styles['new-sound-record-recaptcha-badge']}>
+          This site is protected by reCAPTCHA and the Google{' '}
+          <a href="https://policies.google.com/privacy">Privacy Policy</a> and{' '}
+          <a href="https://policies.google.com/terms">Terms of Service</a>{' '}
+          apply.
+        </div>
       </div>
     </MapForm>
   );

@@ -8,6 +8,7 @@ services:
     build: ./frontend
     container_name: wpsound_frontend
     restart: always
+    env_file: ./.env
     ports:
       - 3001:3000
     working_dir: /app/frontend
@@ -16,6 +17,7 @@ services:
     environment:
       - WATCHPACK_POLLING=true # replaced: - CHOKIDAR_USEPOLLING=true / to check changes in react
       - WDS_SOCKET_PORT=$WDS_SOCKET_PORT
+      - REACT_APP_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY # react env vars must start with REACT_APP_
       # https://github.com/facebook/create-react-app/issues/10253 
       # https://stackoverflow.com/questions/70488471/docker-with-create-react-app-is-not-updating-changes
   api:
@@ -51,6 +53,8 @@ services:
       - POSTGRES_PASSWORD=$DB_PASSWORD
       - POSTGRES_DB=$DB_NAME
   pgadmin:
+    depends_on:
+      - db
     container_name: wpsound_pgadmin4
     image: dpage/pgadmin4
     restart: always
