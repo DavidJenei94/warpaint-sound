@@ -55,14 +55,17 @@ const countriesData = readCountryData(__dirname);
 
 // { force: true }
 db.sequelize.sync().then(() => {
-// db.sequelize.sync({ force: true }).then(() => {
-//   Category.bulkCreate(categoryData.categories, { validate: true }).then(() => {
-//     SubCategory.bulkCreate(categoryData.subCategories, { validate: true }).then(() => {
-//     Country.bulkCreate(countriesData.countries, { validate: true }).then(() => {
-      app.listen(port, () =>
-        console.log(`Server is listening on port ${port}.`)
-      );
-  //   });
-  //   });
-  // });
+  Category.bulkCreate(categoryData.categories, { validate: true, ignoreDuplicates: true }).then(() => {
+    SubCategory.bulkCreate(categoryData.subCategories, { validate: true, ignoreDuplicates: true }).then(
+      () => {
+        Country.bulkCreate(countriesData.countries, { validate: true, ignoreDuplicates: true }).then(
+          () => {
+            app.listen(port, () =>
+              console.log(`Server is listening on port ${port}.`)
+            );
+          }
+        );
+      }
+    );
+  });
 });
