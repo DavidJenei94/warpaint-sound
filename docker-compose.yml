@@ -1,11 +1,14 @@
 version: "3.8"
 
+name: warpaint-sound-dev
 services:
   ui:
     depends_on:
       - db
       - api
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
     container_name: wpsound_frontend
     restart: always
     env_file: ./.env
@@ -18,12 +21,15 @@ services:
       - WATCHPACK_POLLING=true # replaced: - CHOKIDAR_USEPOLLING=true / to check changes in react
       - WDS_SOCKET_PORT=$WDS_SOCKET_PORT
       - REACT_APP_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY # react env vars must start with REACT_APP_
+      - REACT_APP_BACKEND_URL=$BACKEND_URL
       # https://github.com/facebook/create-react-app/issues/10253 
       # https://stackoverflow.com/questions/70488471/docker-with-create-react-app-is-not-updating-changes
   api:
     depends_on:
       - db
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
     container_name: wpsound_backend
     restart: always
     env_file: ./.env

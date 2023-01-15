@@ -21,4 +21,4 @@ export const round = (value: number, precision: number): number => {
   return Math.round(value * multiplier) / multiplier;
 };
 
-export const backendUrl: string = "http://localhost:8002/api";
+export const backendUrl: string = process.env.REACT_APP_BACKEND_URL!;
