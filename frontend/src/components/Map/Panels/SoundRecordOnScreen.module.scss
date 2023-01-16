@@ -1,5 +1,5 @@
 @use '../../../utils/styles.variables' as styles;
-@use './Listpanels/ListPanel.module.scss' as listPanelStyles;
+@use './ListPanels/ListPanel.module.scss' as listPanelStyles;
 
 .title {
   @include listPanelStyles.topListPanel;
