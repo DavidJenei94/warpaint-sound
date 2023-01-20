@@ -50,10 +50,27 @@ const remove = async (req, res, next) => {
   }
 };
 
+const report = async (req, res, next) => {
+  try {
+    res
+      .status(200)
+      .json(
+        await soundRecord.report(
+          req.params.soundRecordId,
+          req.body.reportMessage
+        )
+      );
+  } catch (err) {
+    console.error(`Error while reporting Sound Record:`, err.message);
+    next(err);
+  }
+};
+
 export default {
   getAll,
   create,
   get,
   update,
   remove,
+  report,
 };

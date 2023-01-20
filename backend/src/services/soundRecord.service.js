@@ -4,11 +4,9 @@ import db from '../models/index.js';
 
 import HttpError from '../utils/HttpError.js';
 import removeSoundRecordUploads from '../utils/removeUploads.js';
+import { transporter, reportingMailOptions } from '../configs/email.config.js';
 
 const SoundRecord = db.models.SoundRecord;
-const Category = db.models.Category;
-const SubCategory = db.models.SubCategory;
-const Country = db.models.Country;
 
 const getAll = async (searchText) => {
   const dbSoundRecords = await SoundRecord.findAll({
@@ -42,7 +40,7 @@ const editSoundRecords = (soundRecords) => {
     delete record.Category;
     delete record.SubCategory;
     delete record.SoundRecordPlayLog;
-    
+
     return record;
   });
 };
@@ -174,10 +172,26 @@ const remove = async (soundRecordId) => {
   return { message: 'SoundRecord deleted.' };
 };
 
+const report = async (soundRecordId, reportMessage) => {
+  const emailText = `Sound Record: ${soundRecordId}\nMessage: ${reportMessage}`;
+
+  try {
+    await transporter.sendMail(reportingMailOptions(emailText));
+  } catch (error) {
+    throw new HttpError(
+      'Error while Sending SoundRecord Report via email.',
+      500
+    );
+  }
+
+  return { message: 'Sound Record reported.' };
+};
+
 export default {
   getAll,
   create,
   get,
   update,
   remove,
+  report,
 };
