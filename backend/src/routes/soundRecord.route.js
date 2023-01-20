@@ -10,4 +10,6 @@ router.get('/:soundRecordId', soundRecordController.get);
 router.put('/:soundRecordId', verifyToken, soundRecordController.update);
 router.delete('/:soundRecordId', verifyToken, soundRecordController.remove);
 
+router.post('/:soundRecordId/report', verifyReCaptcha, soundRecordController.report);
+
 export default router;

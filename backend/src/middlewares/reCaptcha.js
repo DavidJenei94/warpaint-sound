@@ -15,7 +15,8 @@ const verifyReCaptcha = async (req, res, next) => {
     const data = await response.json();
 
     if (
-      data.action === 'addsoundrecord' &&
+      (data.action === 'addsoundrecord' ||
+        data.action === 'reportsoundrecord') &&
       data.score <= config.reCaptchaThresholdScore
     ) {
       throw new Error('User score for reCaptcha is too low.');

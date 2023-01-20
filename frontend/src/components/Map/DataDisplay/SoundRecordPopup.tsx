@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { Popup, useMap } from 'react-leaflet';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import useRecaptchaVerify from '../../../hooks/useRecaptchaVerify';
 import { SoundRecord } from '../../../models/soundrecord.model';
+import { reportSoundRecord } from '../../../service/soundRecord-api';
+import FeedbackContext from '../../../store/feedback-context';
 import { mapActions } from '../../../store/map-redux';
 import { backendUrl } from '../../../utils/general.utils';
 
@@ -35,7 +39,12 @@ const SoundRecordPopup = ({
     (state) => state.activeSoundRecord
   );
 
+  const feedbackCtx = useContext(FeedbackContext);
+
   const map = useMap();
+
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const handleReCaptchaVerify = useRecaptchaVerify(executeRecaptcha);
 
   // Trigger panTo and openpopup when selected from list (like search)
   useEffect(() => {
@@ -78,8 +87,21 @@ const SoundRecordPopup = ({
     setIsReportShown(false);
   };
 
-  const reportContent = () => {
-    alert('Content reported!\n' + reportText);
+  const reportContent = async () => {
+    try {
+      const formData = new FormData(); // preparing to send to the server
+      formData.append('reportMessage', reportText);
+
+      const reCaptchaToken = await handleReCaptchaVerify();
+      formData.append('reCaptchaToken', reCaptchaToken ? reCaptchaToken : '');
+
+      const data = await reportSoundRecord(soundRecord.id, formData);
+
+      feedbackCtx.showMessage(data.message, 2000);
+    } catch (error: any) {
+      feedbackCtx.showMessage(error.message, 3000);
+    }
+
     setIsReportShown(false);
   };
 

@@ -28,6 +28,7 @@ import MapForm from './MapForm';
 import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 
 import styles from './NewSoundForm.module.scss';
+import useRecaptchaVerify from '../../../hooks/useRecaptchaVerify';
 
 interface NewSoundFormProps {
   showNewSoundForm: Dispatch<SetStateAction<boolean>>;
@@ -38,6 +39,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
   const dispatch = useAppDispatch();
 
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const handleReCaptchaVerify = useRecaptchaVerify(executeRecaptcha);
 
   const [soundRecord, setSoundRecord] =
     useState<SoundRecord>(defaultSoundRecord);
@@ -50,16 +52,6 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
 
   const [termAccepted, setTermsAccepted] = useState<boolean>(false);
 
-  // Create an event handler so you can call the verification on button click event or form submit
-  const handleReCaptchaVerify = useCallback(async () => {
-    if (!executeRecaptcha) {
-      // Execute recaptcha not yet available
-      return;
-    }
-
-    const token = await executeRecaptcha('addsoundrecord');
-    return token;
-  }, [executeRecaptcha]);
 
   // Get position when form is opened
   useEffect(() => {
