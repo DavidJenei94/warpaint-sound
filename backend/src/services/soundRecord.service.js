@@ -176,7 +176,7 @@ const report = async (soundRecordId, reportMessage) => {
   const emailText = `Sound Record: ${soundRecordId}\nMessage: ${reportMessage}`;
 
   try {
-    // When sendMail has no callback as parameter, it returns a promise
+    // When sendMail has no callback as parameter, it returns a promise.
     await transporter.sendMail(reportingMailOptions(emailText));
   } catch (error) {
     throw new HttpError(
