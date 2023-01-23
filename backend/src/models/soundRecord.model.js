@@ -57,7 +57,7 @@ const getSoundRecordModel = (sequelize, { DataTypes }) => {
   SoundRecord.associate = (models) => {
     SoundRecord.belongsTo(models.SubCategory, { foreignKey: 'subCategoryId' });
     SoundRecord.belongsTo(models.Country, { foreignKey: 'countryId' });
-    SoundRecord.hasOne(models.SoundRecordPlayLog, {
+    SoundRecord.hasMany(models.SoundRecordPlayLog, {
       foreignKey: 'id',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',

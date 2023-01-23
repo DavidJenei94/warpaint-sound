@@ -117,13 +117,20 @@ const incrementPlayCount = async (soundRecordId) => {
     throw new HttpError('Some data missing from request.', 400);
   }
 
-  const dbPlayLog = await SoundRecordPlayLog.findByPk(soundRecordId, {
+  const actualDate = new Date();
+  const year = actualDate.getFullYear().toString();
+  const month = (actualDate.getMonth() + 1).toString();
+
+  const dbPlayLog = await SoundRecordPlayLog.findOne({
+    where: { id: soundRecordId, year: year, month: month },
     attributes: { exclude: ['createdAt', 'updatedAt'] },
   });
 
   if (!dbPlayLog) {
     const dbNewPlayLog = await SoundRecordPlayLog.create({
       id: soundRecordId,
+      year: year,
+      month: month,
       playCount: 1,
     });
 
@@ -133,7 +140,7 @@ const incrementPlayCount = async (soundRecordId) => {
   } else {
     const dbUpdatePlayLog = await SoundRecordPlayLog.increment('playCount', {
       by: 1,
-      where: { id: soundRecordId },
+      where: { id: soundRecordId, year: year, month: month },
     });
 
     if (!dbUpdatePlayLog) {
