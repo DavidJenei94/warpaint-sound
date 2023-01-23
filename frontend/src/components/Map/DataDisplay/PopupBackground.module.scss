@@ -1,0 +1,53 @@
+@use '../../../utils/styles.variables' as styles;
+
+@mixin basic {
+  // outer box
+  & > div:nth-child(1) {
+    background-color: styles.$secondaryLightColor;
+  }
+
+  // triangle
+  & > div:nth-child(2) > div {
+    background-color: styles.$secondaryLightColor;
+  }
+}
+
+@mixin chromium {
+  // outer box
+  & > div:nth-child(1) {
+    background-image: url('../assets/premium-assets/chromium-dark-small.jpg');
+    background-size: cover;
+  }
+
+  // triangle
+  & > div:nth-child(2) > div {
+    background-image: url('../assets/premium-assets/chromium-dark-small-triangle.jpg');
+    background-size: cover;
+  }
+}
+
+@mixin universe {
+  // outer box
+  & > div:nth-child(1) {
+    background-image: url('../assets/premium-assets/universe-dark-small.jpg');
+    background-size: cover;
+  }
+
+  // triangle
+  & > div:nth-child(2) > div {
+    background-image: url('../assets/premium-assets/universe-dark-small-triangle.jpg');
+    background-size: cover;
+  }
+}
+
+.popup-basic {
+  @include basic;
+}
+
+.popup-chromium {
+  @include chromium;
+}
+
+.popup-universe {
+  @include universe;
+}

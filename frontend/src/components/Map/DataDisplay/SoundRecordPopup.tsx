@@ -9,6 +9,7 @@ import { reportSoundRecord } from '../../../service/soundRecord-api';
 import FeedbackContext from '../../../store/feedback-context';
 import { mapActions } from '../../../store/map-redux';
 import { backendUrl } from '../../../utils/general.utils';
+import { getLevelBackgroundClass } from '../../../utils/level.style.utils';
 
 import Button from '../../UI/Button';
 import CloseButton from '../../UI/CloseButton';
@@ -16,6 +17,7 @@ import Input from '../../UI/Input';
 import Modal from '../../UI/Modal/Modal';
 
 import styles from './SoundRecordPopup.module.scss';
+import popupBackgroundStyles from './PopupBackground.module.scss';
 
 interface SoundRecordPopupProps {
   soundRecord: SoundRecord;
@@ -105,18 +107,7 @@ const SoundRecordPopup = ({
     setIsReportShown(false);
   };
 
-  let levelClass: string = '';
-  switch (soundRecord.level) {
-    case 'universe':
-      levelClass = 'popup-universe';
-      break;
-    case 'chromium':
-      levelClass = 'popup-chromium';
-      break;
-    default:
-      levelClass = 'popup-basic';
-      break;
-  }
+  const levelClass = getLevelBackgroundClass(soundRecord.level);
 
   return (
     <div>
@@ -160,7 +151,7 @@ const SoundRecordPopup = ({
         </Modal>
       )}
       <Popup
-        className={`${styles.popup} ${styles[levelClass]}`}
+        className={`${styles.popup} ${popupBackgroundStyles[levelClass]}`}
         minWidth={30}
         maxWidth={500}
         autoPan={false}

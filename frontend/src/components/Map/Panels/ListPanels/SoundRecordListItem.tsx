@@ -3,22 +3,10 @@ import { mapActions } from '../../../../store/map-redux';
 import { SoundRecord } from '../../../../models/soundrecord.model';
 
 import styles from './SoundRecordListItem.module.scss';
-import universeIcon from '../../../../assets/premium-assets/universe-icon.png';
-import chromiumIcon from '../../../../assets/premium-assets/chromium-icon.png';
 import { MapQueryParams } from '../../../../models/map.model';
 import { getQueryParams } from '../../../../utils/general.utils';
 import { useSearchParams } from 'react-router-dom';
-
-const getLevelIcon = (level: string) => {
-  switch (level) {
-    case 'universe':
-      return universeIcon;
-    case 'chromium':
-      return chromiumIcon;
-    default:
-      return '';
-  }
-};
+import { getLevelIcon } from '../../../../utils/level.style.utils';
 
 interface SoundRecordsListItemProps {
   record: SoundRecord;
