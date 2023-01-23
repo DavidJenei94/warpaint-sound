@@ -22,13 +22,28 @@
     z-index: 100;
   }
 
+  
+  .with-icon-line {
+    margin: 16px 0;
+    
+    .icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
+    
+    & > span {
+      font-size: 18px;
+    }
+  }
+  
   & > h1,
   p,
   .checkcontent {
     z-index: 500;
     position: relative;
   }
-
+  
   & > p {
     font-size: 18px;
   }
