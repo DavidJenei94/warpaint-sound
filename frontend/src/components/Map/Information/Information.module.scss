@@ -58,6 +58,8 @@
   }
 
   .new-sound-record-recaptcha-badge {
+    position: relative;
+    z-index: 500;
     margin-top: 50px;
     font-size: 11px;
 
