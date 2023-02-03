@@ -11,6 +11,8 @@ frontend/coverage
 
 # production
 frontend/build
+deploy.sh
+backend/*.zip
 
 # misc
 frontend/.DS_Store
@@ -23,6 +25,7 @@ frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
-.env
+.env*
 
-backend/uploads
+backend/uploads/*
+!/backend/uploads/note.txt

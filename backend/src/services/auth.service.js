@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import config from '../configs/general.config.js';
 import HttpError from '../utils/HttpError.js';
+import { adminPassword } from "../configs/db.config.js"
 
 const login = async (password) => {
   // Check i password sent
@@ -9,7 +10,7 @@ const login = async (password) => {
   }
 
   // Validate if password is correct
-  if (password !== process.env.DB_PASSWORD) {
+  if (password !== adminPassword) {
     throw new HttpError('Wrong Password.', 401);
   }
 
