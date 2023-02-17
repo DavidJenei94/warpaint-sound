@@ -50,7 +50,7 @@ const EditForm = ({ soundRecord, onChangeSoundRecord }: EditFormProps) => {
 
       onChangeSoundRecord(true);
     } catch (error: any) {
-      feedbackCtx.showMessage(error, 3000);
+      feedbackCtx.showMessage(error.message, 3000);
     }
   };
 
@@ -61,7 +61,7 @@ const EditForm = ({ soundRecord, onChangeSoundRecord }: EditFormProps) => {
 
       onChangeSoundRecord(true);
     } catch (error: any) {
-      feedbackCtx.showMessage(error, 3000);
+      feedbackCtx.showMessage(error.message, 3000);
     }
   };
 
