@@ -35,7 +35,11 @@ const useRecorder = () => {
   };
 
   const stopRecording = () => {
-    setIsRecording(false);
+    // only change recording to false (and make the stop function run on click)
+    // when recorder is not inactive (not initialized properly for a short time)
+    if (recorder && recorder.state !== 'inactive') {
+      setIsRecording(false);
+    }
   };
 
   return { audioURL, isRecording, startRecording, stopRecording };
