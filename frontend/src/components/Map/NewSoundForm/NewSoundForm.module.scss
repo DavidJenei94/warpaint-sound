@@ -5,6 +5,14 @@
 //   background-color: styles.$primaryColor;
 // }
 
+.loading-icon-container {
+  width: 25vw;
+
+  & > div {
+    padding: 10vh;
+  }
+}
+
 .header {
   margin: 0 0 8px;
 }

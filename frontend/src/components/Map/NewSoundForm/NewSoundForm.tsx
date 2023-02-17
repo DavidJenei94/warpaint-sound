@@ -29,6 +29,9 @@ import SubCategorySelect from '../../UI/Map/SubCategorySelect';
 
 import styles from './NewSoundForm.module.scss';
 import useRecaptchaVerify from '../../../hooks/useRecaptchaVerify';
+import RequiredAsterisk from '../../UI/RequiredAsterisk';
+import LoadingIcon from '../../UI/LoadingIcon';
+import Modal from '../../UI/Modal/Modal';
 
 interface NewSoundFormProps {
   showNewSoundForm: Dispatch<SetStateAction<boolean>>;
@@ -45,6 +48,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
     useState<SoundRecord>(defaultSoundRecord);
   const [soundFile, setSoundFile] = useState<Blob | null>(null);
   const [imageFile, setImageFile] = useState<Blob | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const [instrumentImageSrc, setInstrumentImageSrc] = useState(''); // For the preview image
   const { audioURL, isRecording, startRecording, stopRecording } =
@@ -52,6 +56,9 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
 
   const [termAccepted, setTermsAccepted] = useState<boolean>(false);
 
+  // useEffect(() => {
+  //   setIsUploading(false)
+  // }, [isUploaded])
 
   // Get position when form is opened
   useEffect(() => {
@@ -178,6 +185,8 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
       return;
     }
 
+    setIsUploading(true);
+
     const formData = new FormData(); // preparing to send to the server
     formData.append('instrument', soundRecord.instrument);
     formData.append('subCategoryId', soundRecord.subCategoryId.toString());
@@ -202,148 +211,173 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
     } catch (error: any) {
       ctx.showMessage(error.message, 3000);
     }
+
+    setIsUploading(false);
   };
 
   return (
-    <MapForm
-      onOutsideClick={handlOutsideClick}
-      onSubmit={submitNewSoundHandler}
-    >
-      <h1 className={styles.header}>Add a new Sound Record</h1>
-      <div className={styles['form-container']}>
-        <div>
-          <div>
-            <label htmlFor="instrument">Instrument name:</label>
-            <br />
-            <Input
-              id="instrument"
-              name="instrument"
-              value={soundRecord.instrument}
-              type="text"
-              placeholder="eg. Yamaha P-45, Gibson 1952 J-185..."
-              onChange={handleTextChange}
-              required
-              maxLength={127}
-            />
+    <>
+      {isUploading && (
+        <Modal backdrop={true} onClose={() => {}} overlay={true}>
+          <div className={styles['loading-icon-container']}>
+            <LoadingIcon />
           </div>
+        </Modal>
+      )}
+
+      <MapForm
+        onOutsideClick={handlOutsideClick}
+        onSubmit={submitNewSoundHandler}
+      >
+        <h1 className={styles.header}>Add a new Sound Record</h1>
+        <div className={styles['form-container']}>
           <div>
-            <label htmlFor="categoryId">Category:</label>
-            <br />
-            <CategorySelect
-              categoryId={soundRecord.categoryId}
-              onChange={handleTextChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="subCategoryId">Sub Category:</label>
-            <br />
-            <SubCategorySelect
-              subCategoryId={soundRecord.subCategoryId}
-              onChange={handleTextChange}
-              categoryId={soundRecord.categoryId}
-            />
-          </div>
-          <div>
-            <label htmlFor="description">Description:</label>
-            <br />
-            <Input
-              id="description"
-              name="description"
-              value={soundRecord.description}
-              title="(Max 255 characters)"
-              type="text"
-              placeholder="Any useful information worth sharing."
-              onChange={handleTextChange}
-              maxLength={255}
-            />
-          </div>
-          <div className={styles.coordinates}>
-            <label>Coordinates:</label>
-            {soundRecord.latitude ? (
-              <div>
-                <p>{`${soundRecord.latitude}, ${soundRecord.longitude}`}</p>
-              </div>
-            ) : (
-              <div>
-                <p>Missing! Enable Location data in order to upload sound.</p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div>
-          <div>
-            <label htmlFor="instrument-image">Image (Max 10 MB):</label>
-            <br />
-            <Input
-              type="file"
-              id="instrument-image"
-              accept="image/*"
-              onChange={uploadImageHandler}
-              required
-            />
-            <br />
-            {instrumentImageSrc && (
-              <img
-                id="instrument-image-preview"
-                src={instrumentImageSrc}
-                width={100}
-                alt="Preview of Image of instrument of the Sound Record"
+            <div>
+              <label htmlFor="instrument">
+                Instrument name:
+                <RequiredAsterisk />
+              </label>
+              <br />
+              <Input
+                id="instrument"
+                name="instrument"
+                value={soundRecord.instrument}
+                type="text"
+                placeholder="eg. Yamaha P-45, Gibson 1952 J-185..."
+                onChange={handleTextChange}
+                required
+                maxLength={127}
               />
-            )}
-          </div>
-          <div>
-            <label htmlFor="instrument-sound">
-              Record Sound (Max 10 MB or 60 sec):
-            </label>
-            <br />
-            <audio src={audioURL} id="instrument-sound" controls />
-            <br />
-            <div className={styles['recorder-buttons']}>
-              {!isRecording ? (
-                <Button
-                  onClick={startRecording}
-                  disabled={isRecording}
-                  type="button"
-                >
-                  <p>Start</p>
-                </Button>
+            </div>
+            <div>
+              <label htmlFor="categoryId">
+                Category:
+                <RequiredAsterisk />
+              </label>
+              <br />
+              <CategorySelect
+                categoryId={soundRecord.categoryId}
+                onChange={handleTextChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="subCategoryId">
+                Sub Category:
+                <RequiredAsterisk />
+              </label>
+              <br />
+              <SubCategorySelect
+                subCategoryId={soundRecord.subCategoryId}
+                onChange={handleTextChange}
+                categoryId={soundRecord.categoryId}
+              />
+            </div>
+            <div>
+              <label htmlFor="description">Description:</label>
+              <br />
+              <Input
+                id="description"
+                name="description"
+                value={soundRecord.description}
+                title="(Max 255 characters)"
+                type="text"
+                placeholder="Any useful information worth sharing."
+                onChange={handleTextChange}
+                maxLength={255}
+              />
+            </div>
+            <div className={styles.coordinates}>
+              <label>Coordinates:</label>
+              {soundRecord.latitude ? (
+                <div>
+                  <p>{`${soundRecord.latitude}, ${soundRecord.longitude}`}</p>
+                </div>
               ) : (
-                <Button
-                  onClick={stopRecording}
-                  disabled={!isRecording}
-                  type="button"
-                >
-                  <p>Stop</p>
-                </Button>
+                <div>
+                  <p>Missing! Enable Location data in order to upload sound.</p>
+                </div>
               )}
             </div>
           </div>
-        </div>
-      </div>
-      <div className={styles.terms}>
-        <CheckBox
-          id="terms"
-          checked={termAccepted}
-          onChange={termsCheckHandler}
-        >
-          <div className={styles.checkcontent}>
-            I read and accept the{' '}
-            <Link to="/map/terms">terms and conditions</Link>.
+          <div>
+            <div>
+              <label htmlFor="instrument-image">
+                Image (Max 10 MB):
+                <RequiredAsterisk />
+              </label>
+              <br />
+              <Input
+                type="file"
+                id="instrument-image"
+                accept="image/*"
+                onChange={uploadImageHandler}
+                required
+              />
+              <br />
+              {instrumentImageSrc && (
+                <img
+                  id="instrument-image-preview"
+                  src={instrumentImageSrc}
+                  width={100}
+                  alt="Preview of Image of instrument of the Sound Record"
+                />
+              )}
+            </div>
+            <div>
+              <label htmlFor="instrument-sound">
+                Record Sound (Max 10 MB or 60 sec):
+                <RequiredAsterisk />
+              </label>
+              <br />
+              <audio src={audioURL} id="instrument-sound" controls />
+              <br />
+              <div className={styles['recorder-buttons']}>
+                {!isRecording ? (
+                  <Button
+                    onClick={startRecording}
+                    disabled={isRecording}
+                    type="button"
+                  >
+                    <p>Start</p>
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={stopRecording}
+                    disabled={!isRecording}
+                    type="button"
+                  >
+                    <p>Stop</p>
+                  </Button>
+                )}
+              </div>
+            </div>
           </div>
-        </CheckBox>
-      </div>
-      <div className={styles['submit-button']}>
-        <Button type="submit">
-          <p>Add Sound</p>
-        </Button>
-        <div className={styles['new-sound-record-recaptcha-badge']}>
-          This site is protected by reCAPTCHA and the Google{' '}
-          <a href="https://policies.google.com/privacy">Privacy Policy</a> and{' '}
-          <a href="https://policies.google.com/terms">Terms of Service</a>{' '}
-          apply.
         </div>
-      </div>
-    </MapForm>
+        <div className={styles.terms}>
+          <CheckBox
+            id="terms"
+            checked={termAccepted}
+            onChange={termsCheckHandler}
+          >
+            <div className={styles.checkcontent}>
+              I read and accept the{' '}
+              <Link to="/map/terms">terms and conditions</Link>.
+            </div>
+          </CheckBox>
+        </div>
+        <div className={styles['submit-button']}>
+          <Button type="submit">
+            <p>Add Sound</p>
+          </Button>
+          <div className={styles['new-sound-record-recaptcha-badge']}>
+            This site is protected by reCAPTCHA and the Google{' '}
+            <a href="https://policies.google.com/privacy">Privacy Policy</a> and{' '}
+            <a href="https://policies.google.com/terms">Terms of Service</a>{' '}
+            apply.
+          </div>
+        </div>
+      </MapForm>
+    </>
   );
 };
 
