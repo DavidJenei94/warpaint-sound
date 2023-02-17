@@ -120,7 +120,7 @@ const SoundRecordPopup = ({
         >
           <img
             className={styles.zoomin}
-            src={`${backendUrl}/${soundRecord!.imagePath}`}
+            src={`${backendUrl}/uploads/${soundRecord!.imagePath}`}
             onClick={() => setIsImageHovered(false)}
             alt="Poped up Image of instrument of the Sound Record"
           />
@@ -180,14 +180,14 @@ const SoundRecordPopup = ({
               </div>
               <div>
                 <img
-                  src={`${backendUrl}/${soundRecord!.imagePath}`}
+                  src={`${backendUrl}/uploads/${soundRecord!.imagePath}`}
                   onClick={() => setIsImageHovered(true)}
                   alt="Image of instrument of the Sound Record"
                 />
               </div>
             </div>
             <audio
-              src={`${backendUrl}/${soundRecord.soundPath}`}
+              src={`${backendUrl}/uploads/${soundRecord.soundPath}`}
               controls
               onPlay={playSoundHandler}
             />

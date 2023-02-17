@@ -28,4 +28,4 @@ frontend/yarn-error.log*
 .env*
 
 backend/uploads/*
-!/backend/uploads/note.txt
+!/backend/uploads/_note.txt

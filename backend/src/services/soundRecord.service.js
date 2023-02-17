@@ -5,6 +5,7 @@ import db from '../models/index.js';
 import HttpError from '../utils/HttpError.js';
 import removeSoundRecordUploads from '../utils/removeUploads.js';
 import { transporter, reportingMailOptions } from '../configs/email.config.js';
+import { uploadFile, deleteFile } from '../configs/s3.config.js';
 
 const SoundRecord = db.models.SoundRecord;
 
@@ -68,6 +69,10 @@ const create = async (soundRecord, files) => {
     countryCode = '00';
   }
 
+  // remove upload/ from path
+  const imagePath = files.imageFile[0].path.substring(8);
+  const soundPath = files.soundFile[0].path.substring(8);
+
   const dbSoundRecord = await SoundRecord.create({
     instrument: soundRecord.instrument,
     subCategoryId: soundRecord.subCategoryId,
@@ -75,12 +80,18 @@ const create = async (soundRecord, files) => {
     description: soundRecord.description,
     latitude: soundRecord.latitude,
     longitude: soundRecord.longitude,
-    imagePath: files.imageFile[0].path,
-    soundPath: files.soundFile[0].path,
+    imagePath: imagePath,
+    soundPath: soundPath,
   });
 
   if (!dbSoundRecord) {
     throw new HttpError('Error in creating new SoundRecord.', 400);
+  }
+
+  // In production upload file to S3 bucket (it also deletes the file from /uploads)
+  if (process.env.ENVIRONMENT === 'production') {
+    await uploadFile(files.imageFile[0]);
+    await uploadFile(files.soundFile[0]);
   }
 
   const newDbSoundRecord = await SoundRecord.findByPk(dbSoundRecord.id, {
@@ -156,8 +167,17 @@ const remove = async (soundRecordId) => {
     throw new HttpError('SoundRecord does not exist in the database.', 400);
   }
 
-  // delete files
-  removeSoundRecordUploads(dbSoundRecord.imagePath, dbSoundRecord.soundPath);
+  // In production delete file to S3 bucket
+  if (process.env.ENVIRONMENT === 'production') {
+    await deleteFile(dbSoundRecord.imagePath);
+    await deleteFile(dbSoundRecord.soundPath);
+  } else {
+    // in dev delete files from /uploads
+    removeSoundRecordUploads(
+      `uploads/${dbSoundRecord.imagePath}`,
+      `uploads/${dbSoundRecord.soundPath}`
+    );
+  }
 
   //remove from DB
   const dbDeletedSoundRecord = await SoundRecord.destroy({

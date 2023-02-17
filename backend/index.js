@@ -8,6 +8,7 @@ import soundRecordRouter from './src/routes/soundRecord.route.js';
 import categoryRouter from './src/routes/category.route.js';
 import statisticsRouter from './src/routes/statistics.route.js';
 import authRouter from './src/routes/auth.route.js';
+import mediaRouter from './src/routes/media.route.js';
 
 import upload, { acceptedFiles } from './src/middlewares/fileUpload.js';
 import readCategoryData from './src/utils/readCategoryData.js';
@@ -31,11 +32,7 @@ app.use('/api/soundRecord', upload.fields(acceptedFiles), soundRecordRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/statistics', statisticsRouter);
 app.use('/api/auth', authRouter);
-
-// For sending image and audio files
-app.get('/api/uploads/:filePath', (req, res) => {
-  res.sendFile(__dirname + '/uploads/' + req.params.filePath);
-});
+app.use('/api/uploads', mediaRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
@@ -55,17 +52,22 @@ const countriesData = readCountryData(__dirname);
 
 // { force: true }
 db.sequelize.sync().then(() => {
-  Category.bulkCreate(categoryData.categories, { validate: true, ignoreDuplicates: true }).then(() => {
-    SubCategory.bulkCreate(categoryData.subCategories, { validate: true, ignoreDuplicates: true }).then(
-      () => {
-        Country.bulkCreate(countriesData.countries, { validate: true, ignoreDuplicates: true }).then(
-          () => {
-            app.listen(port, () =>
-              console.log(`Server is listening on port ${port}.`)
-            );
-          }
+  Category.bulkCreate(categoryData.categories, {
+    validate: true,
+    ignoreDuplicates: true,
+  }).then(() => {
+    SubCategory.bulkCreate(categoryData.subCategories, {
+      validate: true,
+      ignoreDuplicates: true,
+    }).then(() => {
+      Country.bulkCreate(countriesData.countries, {
+        validate: true,
+        ignoreDuplicates: true,
+      }).then(() => {
+        app.listen(port, () =>
+          console.log(`Server is listening on port ${port}.`)
         );
-      }
-    );
+      });
+    });
   });
 });
