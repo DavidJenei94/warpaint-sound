@@ -10,6 +10,8 @@ import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import App from './App';
 import { AuthContextProvider } from './store/auth-context';
 
+import './index.scss';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
