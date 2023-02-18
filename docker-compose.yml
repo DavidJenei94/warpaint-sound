@@ -17,8 +17,8 @@ services:
     volumes:
       - ./frontend:/app/frontend
     environment:
-      - WATCHPACK_POLLING=true # replaced: - CHOKIDAR_USEPOLLING=true / to check changes in react
-      - WDS_SOCKET_PORT=$WDS_SOCKET_PORT
+      - WATCHPACK_POLLING=$WATCHPACK_POLLING # replaced: - CHOKIDAR_USEPOLLING=true / to check changes in react
+      - WDS_SOCKET_PORT=$WDS_SOCKET_PORT # https://stackoverflow.com/questions/70585472/websocketclient-js16-websocket-connection-to-ws-localhost3000-ws-failed-r
       - REACT_APP_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY # react env vars must start with REACT_APP_
       - REACT_APP_BACKEND_URL=$BACKEND_URL
       # https://github.com/facebook/create-react-app/issues/10253 
