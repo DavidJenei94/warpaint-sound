@@ -56,10 +56,6 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
 
   const [termAccepted, setTermsAccepted] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   setIsUploading(false)
-  // }, [isUploaded])
-
   // Get position when form is opened
   useEffect(() => {
     if (navigator.geolocation) {
@@ -218,10 +214,13 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
   return (
     <>
       {isUploading && (
-        <Modal backdrop={true} onClose={() => {}} overlay={true}>
-          <div className={styles['loading-icon-container']}>
-            <LoadingIcon />
-          </div>
+        <Modal
+          backdrop={true}
+          onClose={() => {}}
+          overlay={true}
+          className={styles['loading-icon-modal']}
+        >
+          <LoadingIcon />
         </Modal>
       )}
 
