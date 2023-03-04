@@ -1,21 +1,9 @@
 @use '../../../utils/styles.variables' as styles;
-@use '../../UI/Modal/Modal.module.scss' as modalStyles;
 
 // audio::-webkit-media-controls-play-button,
 // audio::-webkit-media-controls-panel {
 //   background-color: styles.$primaryColor;
 // }
-
-.loading-icon-modal {
-  @include modalStyles.modalStyle;
-
-  width: 50%;
-  height: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .header {
   margin: 0 0 8px;

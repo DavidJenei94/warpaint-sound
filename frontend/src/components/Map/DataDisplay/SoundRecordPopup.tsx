@@ -15,6 +15,7 @@ import Button from '../../UI/Button';
 import CloseButton from '../../UI/CloseButton';
 import Input from '../../UI/Input';
 import Modal from '../../UI/Modal/Modal';
+import LoadingModal from '../../UI/Loading/LoadingModal';
 
 import styles from './SoundRecordPopup.module.scss';
 import popupBackgroundStyles from './PopupBackground.module.scss';
@@ -31,6 +32,8 @@ const SoundRecordPopup = ({
   const [isReportShown, setIsReportShown] = useState<boolean>(false);
   const [reportText, setReportText] = useState<string>('');
   const [isImageHovered, setIsImageHovered] = useState<boolean>(false);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const activatedByList: boolean = useAppSelector(
@@ -91,6 +94,8 @@ const SoundRecordPopup = ({
   };
 
   const reportContent = async () => {
+    setIsLoading(true);
+
     try {
       const formData = new FormData(); // preparing to send to the server
       formData.append('reportMessage', reportText);
@@ -105,6 +110,7 @@ const SoundRecordPopup = ({
       feedbackCtx.showMessage(error.message, 3000);
     }
 
+    setIsLoading(false);
     setIsReportShown(false);
   };
 
@@ -118,6 +124,8 @@ const SoundRecordPopup = ({
 
   return (
     <div>
+      {isLoading && <LoadingModal />}
+
       {isImageHovered && (
         <Modal
           className={styles['image-modal']}

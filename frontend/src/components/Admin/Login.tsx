@@ -6,7 +6,7 @@ import { backendUrl } from '../../utils/general.utils';
 
 import Button from '../UI/Button';
 import Input from '../UI/Input';
-import LoadingIcon from '../UI/LoadingIcon';
+import LoadingIcon from '../UI/Loading/LoadingIcon';
 
 import styles from './Login.module.scss';
 

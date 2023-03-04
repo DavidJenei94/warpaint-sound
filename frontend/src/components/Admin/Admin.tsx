@@ -9,7 +9,7 @@ import { mapActions } from '../../store/map-redux';
 
 import AdminList from './AdminList';
 import Input from '../UI/Input';
-import LoadingIcon from '../UI/LoadingIcon';
+import LoadingIcon from '../UI/Loading/LoadingIcon';
 
 import styles from './Admin.module.scss';
 

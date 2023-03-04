@@ -1,7 +1,6 @@
 import React, {
   Dispatch,
   SetStateAction,
-  useCallback,
   useContext,
   useEffect,
   useState,
@@ -27,9 +26,8 @@ import Input from '../../UI/Input';
 import CategorySelect from '../../UI/Map/CategorySelect';
 import MapForm from './MapForm';
 import SubCategorySelect from '../../UI/Map/SubCategorySelect';
-import Modal from '../../UI/Modal/Modal';
-import LoadingIcon from '../../UI/LoadingIcon';
 import RequiredAsterisk from '../../UI/RequiredAsterisk';
+import LoadingModal from '../../UI/Loading/LoadingModal';
 
 import styles from './NewSoundForm.module.scss';
 
@@ -227,16 +225,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
 
   return (
     <>
-      {isUploading && (
-        <Modal
-          backdrop={true}
-          onClose={() => {}}
-          overlay={true}
-          className={styles['loading-icon-modal']}
-        >
-          <LoadingIcon />
-        </Modal>
-      )}
+      {isUploading && <LoadingModal />}
 
       <MapForm
         onOutsideClick={handlOutsideClick}

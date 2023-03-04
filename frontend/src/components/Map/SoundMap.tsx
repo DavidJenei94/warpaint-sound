@@ -14,7 +14,7 @@ import { mapActions } from '../../store/map-redux';
 import { fetchSoundRecordsAndCategories } from '../../service/soundRecord-api';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 
-import LoadingIcon from '../UI/LoadingIcon';
+import LoadingIcon from '../UI/Loading/LoadingIcon';
 import SoundRecordMarker from './DataDisplay/SoundRecordMarker';
 import QueryParamsRecenter from './Utils/QueryParamsRecenter';
 import MoveAndClick from './Utils/MoveAndClick';

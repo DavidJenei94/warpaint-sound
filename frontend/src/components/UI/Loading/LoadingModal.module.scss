@@ -1,0 +1,12 @@
+@use '../Modal/Modal.module.scss' as modalStyles;
+
+.loading-icon-modal {
+  @include modalStyles.modalStyle;
+
+  width: 50%;
+  height: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

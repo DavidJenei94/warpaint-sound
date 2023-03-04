@@ -7,7 +7,7 @@ import FeedbackContext from './store/feedback-context';
 import Information from './components/Map/Information/Information';
 import Terms from './components/Map/Information/Terms';
 import FeedbackBar from './components/UI/FeedbackBar';
-import LoadingIcon from './components/UI/LoadingIcon';
+import LoadingIcon from './components/UI/Loading/LoadingIcon';
 
 import './App.module.scss';
 import NotFound from './components/UI/NotFound/NotFound';
