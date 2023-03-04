@@ -44,6 +44,7 @@ const Donation = () => {
             onClick={() => {
               showPremiumLook('chromium');
             }}
+            title={'Show chromium sample background.'}
           >
             {`One-time (> 5€): chromium look`}
           </li>
@@ -51,6 +52,7 @@ const Donation = () => {
             onClick={() => {
               showPremiumLook('universe');
             }}
+            title={'Show universe sample background.'}
           >
             Subscription: universe look
           </li>
