@@ -82,6 +82,14 @@
       max-height: 200px;
       cursor: pointer;
     }
+
+    .audio-container {
+      width: 300px;
+
+      audio {
+        width: 100%;
+      }
+    }
   }
 }
 

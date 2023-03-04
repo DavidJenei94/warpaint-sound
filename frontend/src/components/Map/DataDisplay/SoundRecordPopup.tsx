@@ -70,6 +70,7 @@ const SoundRecordPopup = ({
     }
   }, [activeSoundRecord, activatedByList]);
 
+  // To record play count statistics
   const playSoundHandler = async () => {
     try {
       const response = await fetch(`${backendUrl}/statistics/playCount`, {
@@ -186,11 +187,13 @@ const SoundRecordPopup = ({
                 />
               </div>
             </div>
-            <audio
-              src={`${backendUrl}/uploads/${soundRecord.soundPath}`}
-              controls
-              onPlay={playSoundHandler}
-            />
+            <div className={styles['audio-container']}>
+              <audio
+                src={`${backendUrl}/uploads/${soundRecord.soundPath}`}
+                controls
+                onPlay={playSoundHandler}
+              />
+            </div>
           </div>
         )}
       </Popup>

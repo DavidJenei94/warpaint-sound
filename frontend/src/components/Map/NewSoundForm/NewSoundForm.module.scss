@@ -51,6 +51,24 @@
       margin: 4px 0;
     }
   }
+
+  .media-uploader {
+    .image-uploader {
+      input {
+        max-width: 90%;
+      }
+    }
+
+    .audio-uploader {
+      .audio-container {
+        width: 300px;
+
+        audio {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 
 .terms {

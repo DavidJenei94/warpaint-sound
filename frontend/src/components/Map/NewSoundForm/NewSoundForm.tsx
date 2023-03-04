@@ -19,6 +19,7 @@ import { mapActions } from '../../../store/map-redux';
 import getBlobDuration from 'get-blob-duration';
 import { downgradeImage } from '../../../utils/media.utils';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import useRecaptchaVerify from '../../../hooks/useRecaptchaVerify';
 
 import Button from '../../UI/Button';
 import CheckBox from '../../UI/CheckBox';
@@ -26,12 +27,11 @@ import Input from '../../UI/Input';
 import CategorySelect from '../../UI/Map/CategorySelect';
 import MapForm from './MapForm';
 import SubCategorySelect from '../../UI/Map/SubCategorySelect';
+import Modal from '../../UI/Modal/Modal';
+import LoadingIcon from '../../UI/LoadingIcon';
+import RequiredAsterisk from '../../UI/RequiredAsterisk';
 
 import styles from './NewSoundForm.module.scss';
-import useRecaptchaVerify from '../../../hooks/useRecaptchaVerify';
-import RequiredAsterisk from '../../UI/RequiredAsterisk';
-import LoadingIcon from '../../UI/LoadingIcon';
-import Modal from '../../UI/Modal/Modal';
 
 interface NewSoundFormProps {
   showNewSoundForm: Dispatch<SetStateAction<boolean>>;
@@ -79,8 +79,8 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
       const audioBlob = await fetch(audioURL).then((response) =>
         response.blob()
       );
-      const audioFile = new File([audioBlob], 'sound.wav', {
-        type: 'audio/wav',
+      const audioFile = new File([audioBlob], 'sound.mp3', {
+        type: 'audio/mpeg',
       });
 
       if (audioFile.size / 1000 > 10000) {
@@ -298,8 +298,8 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
               )}
             </div>
           </div>
-          <div>
-            <div>
+          <div className={styles['media-uploader']}>
+            <div className={styles['image-uploader']}>
               <label htmlFor="instrument-image">
                 Image (Max 10 MB):
                 <RequiredAsterisk />
@@ -322,13 +322,15 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
                 />
               )}
             </div>
-            <div>
+            <div className={styles['audio-uploader']}>
               <label htmlFor="instrument-sound">
                 Record Sound (Max 10 MB or 60 sec):
                 <RequiredAsterisk />
               </label>
               <br />
-              <audio src={audioURL} id="instrument-sound" controls />
+              <div className={styles['audio-container']}>
+                <audio src={audioURL} controls />
+              </div>
               <br />
               <div className={styles['recorder-buttons']}>
                 {!isRecording ? (
