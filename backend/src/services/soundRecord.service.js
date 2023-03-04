@@ -1,15 +1,16 @@
 import fetch from 'node-fetch';
 
 import db from '../models/index.js';
-
+import config from '../configs/general.config.js';
 import HttpError from '../utils/HttpError.js';
 import removeSoundRecordUploads from '../utils/removeUploads.js';
 import { transporter, reportingMailOptions } from '../configs/email.config.js';
-import { uploadFile, deleteFile } from '../configs/s3.config.js';
+import { uploadFile, deleteFile } from './aws.service.js';
+import { convertAudio } from '../utils/convertAudio.js';
 
 const SoundRecord = db.models.SoundRecord;
 
-const getAll = async (searchText) => {
+const getAll = async () => {
   const dbSoundRecords = await SoundRecord.findAll({
     include: { all: true, nested: true },
     attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -69,6 +70,12 @@ const create = async (soundRecord, files) => {
     countryCode = '00';
   }
 
+  try {
+    await convertAudio(files.soundFile[0].path);
+  } catch (error) {
+    throw new HttpError(error, 400);
+  }
+
   // remove upload/ from path
   const imagePath = files.imageFile[0].path.substring(8);
   const soundPath = files.soundFile[0].path.substring(8);
@@ -89,7 +96,7 @@ const create = async (soundRecord, files) => {
   }
 
   // In production upload file to S3 bucket (it also deletes the file from /uploads)
-  if (process.env.ENVIRONMENT === 'production') {
+  if (config.environment === 'production') {
     await uploadFile(files.imageFile[0]);
     await uploadFile(files.soundFile[0]);
   }
@@ -168,10 +175,10 @@ const remove = async (soundRecordId) => {
   }
 
   // In production delete file to S3 bucket
-  if (process.env.ENVIRONMENT === 'production') {
+  if (config.environment === 'production') {
     await deleteFile(dbSoundRecord.imagePath);
     await deleteFile(dbSoundRecord.soundPath);
-  } else {
+  } else if (config.environment === 'development') {
     // in dev delete files from /uploads
     removeSoundRecordUploads(
       `uploads/${dbSoundRecord.imagePath}`,

@@ -3,6 +3,8 @@ const general = {
   tokenKey: process.env.TOKEN_KEY,
 
   reCaptchaThresholdScore: 0.3,
+
+  environment: process.env.ENVIRONMENT,
 };
 
 export default general;

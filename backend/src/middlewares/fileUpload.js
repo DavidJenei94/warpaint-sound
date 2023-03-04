@@ -20,7 +20,8 @@ const upload = multer({
       file.mimetype == 'image/png' ||
       file.mimetype == 'image/jpg' ||
       file.mimetype == 'image/jpeg' ||
-      file.mimetype == 'audio/wav'
+      file.mimetype == 'audio/mpeg' ||
+      file.mimetype == 'audio/mp3'
     ) {
       cb(null, true);
     } else {

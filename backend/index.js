@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import db from './src/models/index.js';
+import config from './src/configs/general.config.js';
 import soundRecordRouter from './src/routes/soundRecord.route.js';
 import categoryRouter from './src/routes/category.route.js';
 import statisticsRouter from './src/routes/statistics.route.js';
@@ -26,7 +27,16 @@ const port = process.env.PORT || 8002;
 const app = express();
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '5mb', extended: true }));
-app.use(cors());
+
+if (config.environment === 'production') {
+  app.use(
+    cors({
+      origin: ['https://warpaintsound.com'],
+    })
+  );
+} else if (config.environment === 'development') {
+  app.use(cors());
+}
 
 app.use('/api/soundRecord', upload.fields(acceptedFiles), soundRecordRouter);
 app.use('/api/category', categoryRouter);
