@@ -129,7 +129,7 @@ const SearchForm = ({
   return (
     <>
       <div className={styles['search-fields']}>
-        <p>Search Instrument</p>
+        <p>Search instrument</p>
         <br />
         <Input
           type="text"
@@ -148,7 +148,7 @@ const SearchForm = ({
           />
         </div>
         <div>
-          <label htmlFor="subCategoryId">Sub Category:</label>
+          <label htmlFor="subCategoryId">Subcategory:</label>
           <br />
           <SubCategorySelect
             subCategoryId={searchSubCategoryId}
@@ -157,7 +157,7 @@ const SearchForm = ({
           />
         </div>
         <div>
-          <Button onClick={clearSearchFieldsHandler}>Clear Filters</Button>
+          <Button onClick={clearSearchFieldsHandler}>Clear filters</Button>
         </div>
       </div>
       <SoundRecordList records={filteredSoundRecords} />

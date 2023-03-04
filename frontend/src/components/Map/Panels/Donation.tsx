@@ -31,12 +31,13 @@ const Donation = () => {
       </div>
       <div className={styles.list}>
         <p>
-          All features on Warpaint Sound are free however you can support me so
-          I can provide the best service and create new projects.
+          All features on Warpaint Sound are free. However, you can support me
+          so I can provide the best service and create new projects.
         </p>
         <p>
-          By donating you can choose a Sound Record (write me the "soundId" from
-          the url in the donation comment), which will get a premium appearance:
+          By donating, you can choose a sound record (write me the "soundId"
+          from the url in the donation comment), which will get a premium
+          appearance:
         </p>
         <ul>
           <li

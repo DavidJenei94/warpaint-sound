@@ -42,7 +42,7 @@ const Information = () => {
           <div className={styles['with-icon-line']}>
             <img className={styles.icon} src={NewSoundRecordIcon} />
             <span>
-              You can upload Sound Records of your instruments at your current
+              You can upload sound records of your instruments at your current
               location (most accurate by phone's GPS) and browse the sounds of
               the ones uploaded by others.
             </span>
@@ -53,11 +53,11 @@ const Information = () => {
           </div>
           <div className={styles['with-icon-line']}>
             <img className={styles.icon} src={ListIcon} />
-            <span>List the sound records on current view.</span>
+            <span>List the sound records on the visible map area.</span>
           </div>
           <div className={styles['with-icon-line']}>
             <img className={styles.icon} src={DataboundIcon} />
-            <span>Set the view to see all visible Sound Record.</span>
+            <span>Set the view to see all visible sound record.</span>
           </div>
           <div className={styles['with-icon-line']}>
             <img className={styles.icon} src={DonationIcon} />
@@ -68,12 +68,13 @@ const Information = () => {
           <div className={styles['with-icon-line']}>
             <img className={styles.icon} src={ScrollIcon} />
             <span>
-              On mobile or smaller screen devices, you can scroll to map to have fullscreen view and then scroll back to menu.
+              On mobile or smaller screen devices, you can scroll to map to have
+              fullscreen view and then scroll back to menu.
             </span>
           </div>
           <p>
-            No personal information is stored, however by uploading a Sound
-            Record You must accept the{' '}
+            No personal information is stored, however by uploading a sound
+            record you must accept the{' '}
             <span className={styles.checkcontent}>
               <Link to="/map/terms">Terms and Conditions</Link>
             </span>

@@ -45,12 +45,11 @@ const About = () => {
             <p>
               My name is David Jenei. I'm a developer who creates some fun
               projects in my free time under the name of Warpaint Vision.
-              Besides programming I really like playing musical instruments,
-              doing any kind of sports, wild camping in the forests and playing
-              board games.
+              Besides programming, I really like playing musical instruments,
+              doing sports, wild camping in the forests and playing board games.
             </p>
             <p>
-              Before Warpaint Sound I developed some{' '}
+              Before Warpaint Sound, I developed some{' '}
               <a
                 className={styles['garmin-link']}
                 href="https://apps.garmin.com/en-US/developer/2771e077-a0d7-4cd4-8e3e-b6057c853dc9/apps"
@@ -58,14 +57,14 @@ const About = () => {
               >
                 watch faces and applications
               </a>{' '}
-              for Garmin watches, but This is my first published web
+              for Garmin watches, but this is my first published web
               application. As created only as a hobby project, you can use all
               of its features absolutely free, but any amount of donation is
               welcomed so I can provide the best service and create new
               projects.
             </p>
             <p>
-              By donating you can choose a Sound Record (write me the "soundId"
+              By donating, you can choose a sound record (write me the "soundId"
               from the url in the donation comment), which will get a premium
               appearance:
             </p>

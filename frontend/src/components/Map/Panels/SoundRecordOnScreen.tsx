@@ -40,7 +40,7 @@ const SoundRecordOnScreen = ({
   return (
     <>
       <div className={styles.title}>
-        <p>Sound Records</p>
+        <p>Sound records</p>
         <br />
         <p> on current screen</p>
       </div>
