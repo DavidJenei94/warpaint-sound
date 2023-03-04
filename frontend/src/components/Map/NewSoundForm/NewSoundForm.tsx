@@ -50,11 +50,25 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
   const [imageFile, setImageFile] = useState<Blob | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
+  const [soundRecordAdded, setSoundRecordAdded] = useState<boolean>(false);
+
   const [instrumentImageSrc, setInstrumentImageSrc] = useState(''); // For the preview image
   const { audioURL, isRecording, startRecording, stopRecording } =
     useRecorder();
 
   const [termAccepted, setTermsAccepted] = useState<boolean>(false);
+
+  // change map position when new SOund record is added
+  useEffect(() => {
+    if (soundRecordAdded) {
+      // To set the zoom level to 0 first and make sure it zooms to the marker
+      // Otherwise it wouldn't show if it is part of a cluster
+      dispatch(mapActions.setActivatedByList(true));
+      dispatch(mapActions.setActiveSoundRecord(soundRecord));
+
+      showNewSoundForm(false);
+    }
+  }, [soundRecordAdded, soundRecord]);
 
   // Get position when form is opened
   useEffect(() => {
@@ -200,8 +214,8 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
 
       dispatch(mapActions.addSoundRecord(newSoundRecord));
 
-      showNewSoundForm(false);
-      dispatch(mapActions.setActiveSoundRecord(newSoundRecord));
+      setSoundRecord(newSoundRecord);
+      setSoundRecordAdded(true);
 
       ctx.showMessage('New Sound Record added.', 2000);
     } catch (error: any) {
