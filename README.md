@@ -13,8 +13,8 @@ env variables needed:
 for dev:
 
 - RECAPTCHA_SITE_KEY
-- BACKEND_URL
-- FRONTEND_URL
+- BACKEND_URL (eg. http:\\localhost:8002\api or domain like https:\\api.warpaintsound.com)
+- FRONTEND_URL (eg. http:\\localhost:3001 or domain like https:\\warpaintsound.com)
 - WDS_SOCKET_PORT (0 in dev cases)
 - WATCHPACK_POLLING=true # replaced: - CHOKIDAR_USEPOLLING=true / to check changes in react
 
@@ -47,6 +47,7 @@ ENVIRONMENT=development
 - WARPAINTVISION_GMAIL_PASSWORD
 - PGADMIN_EMAIL (choose something for dev like admin@admin.com)
 - PGADMIN_PASSWORD (choose anything)
+- FRONTEND_URL (eg. http:\\localhost:3001 or domain like https:\\warpaintsound.com)
 
 These should be added to the main .env file
 
@@ -62,6 +63,7 @@ for prod with aws:
 - AWS_BUCKET_REGION (region of mentioned bucket)
 - AWS_ACCESS_KEY (generated access key for IAM user created with policies attached to the bucket to put, get, delete these files)
 - AWS_SECRET_KEY (generated secret key for...)
+- FRONTEND_URL (eg. http:\\localhost:3001 or domain like https:\\warpaintsound.com)
 
 These should be added to the beanstalk instance / configuration / software
 

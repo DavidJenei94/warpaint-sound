@@ -5,6 +5,8 @@ const general = {
   reCaptchaThresholdScore: 0.3,
 
   environment: process.env.ENVIRONMENT,
+
+  frontendUrl: process.env.FRONTEND_URL
 };
 
 export default general;

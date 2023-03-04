@@ -31,7 +31,7 @@ app.use(express.urlencoded({ limit: '5mb', extended: true }));
 if (config.environment === 'production') {
   app.use(
     cors({
-      origin: ['https://warpaintsound.com'],
+      origin: [config.frontendUrl],
     })
   );
 } else if (config.environment === 'development') {

@@ -200,7 +200,7 @@ const remove = async (soundRecordId) => {
 };
 
 const report = async (soundRecordId, reportMessage) => {
-  const emailText = `Sound Record: ${soundRecordId}\nMessage: ${reportMessage}`;
+  const emailText = `Sound Record: ${soundRecordId}\n${config.frontendUrl}/map?soundId=${soundRecordId}\nMessage: ${reportMessage}`;
 
   try {
     // When sendMail has no callback as parameter, it returns a promise.
