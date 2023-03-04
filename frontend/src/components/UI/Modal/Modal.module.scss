@@ -21,6 +21,12 @@
 
   text-align: center;
 
+  animation: slide-up-normal 0.7s ease-out;
+
+  @media only screen and (max-width: styles.$mediumScreenSize) {
+    animation: slide-up-small 0.7s ease-out;
+  }
+
   .close {
     display: flex;
     justify-content: flex-end;
@@ -35,4 +41,22 @@
 
 .modal {
   @include modalStyle;
+}
+
+@keyframes slide-up-normal {
+  from {
+    margin-top: 100%;
+  }
+  to {
+    margin-top: 0%;
+  }
+}
+
+@keyframes slide-up-small {
+  from {
+    margin-top: 200%;
+  }
+  to {
+    margin-top: 0%;
+  }
 }
