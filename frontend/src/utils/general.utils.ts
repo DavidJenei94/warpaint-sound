@@ -22,3 +22,4 @@ export const round = (value: number, precision: number): number => {
 };
 
 export const backendUrl: string = process.env.REACT_APP_BACKEND_URL!;
+export const frontendUrl: string = process.env.REACT_APP_FRONTEND_URL!;

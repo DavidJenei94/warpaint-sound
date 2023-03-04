@@ -14,6 +14,7 @@ for dev:
 
 - RECAPTCHA_SITE_KEY
 - BACKEND_URL
+- FRONTEND_URL
 - WDS_SOCKET_PORT (0 in dev cases)
 - WATCHPACK_POLLING=true # replaced: - CHOKIDAR_USEPOLLING=true / to check changes in react
 
@@ -23,6 +24,7 @@ for prod:
 
 - REACT_APP_RECAPTCHA_SITE_KEY
 - REACT_APP_BACKEND_URL
+- REACT_APP_FRONTEND_URL
 
 for prod aws static hosting, create a .env.prod file in the main project folder and then build with "build": "env-cmd -f .env.prod react-scripts build" (env-cmd should be installed globally or locally to be able to run it)
 

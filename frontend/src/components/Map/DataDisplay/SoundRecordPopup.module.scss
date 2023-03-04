@@ -57,8 +57,17 @@
 
     .instrument {
       margin: 8px;
+      width: fit-content;
+      margin: 8px auto;
+      padding: 0 12px;
+
+      box-shadow: styles.$bottomStrongBoxShadow;
       color: styles.$primaryColor;
       font-size: 20px;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .main-content {

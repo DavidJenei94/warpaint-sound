@@ -8,7 +8,7 @@ import { SoundRecord } from '../../../models/soundrecord.model';
 import { reportSoundRecord } from '../../../service/soundRecord-api';
 import FeedbackContext from '../../../store/feedback-context';
 import { mapActions } from '../../../store/map-redux';
-import { backendUrl } from '../../../utils/general.utils';
+import { backendUrl, frontendUrl } from '../../../utils/general.utils';
 import { getLevelBackgroundClass } from '../../../utils/level.style.utils';
 
 import Button from '../../UI/Button';
@@ -108,6 +108,12 @@ const SoundRecordPopup = ({
     setIsReportShown(false);
   };
 
+  const copyToClipBoard = () => {
+    navigator.clipboard.writeText(
+      `${frontendUrl}/map?soundId=${soundRecord.id}`
+    );
+  };
+
   const levelClass = getLevelBackgroundClass(soundRecord.level);
 
   return (
@@ -170,7 +176,11 @@ const SoundRecordPopup = ({
                 <p>!</p>
               </Button>
             </div>
-            <h3 className={styles.instrument} title={`id: ${soundRecord.id}`}>
+            <h3
+              className={styles.instrument}
+              title={`Copy link to clipboard for this SoundRecord`}
+              onClick={copyToClipBoard}
+            >
               {soundRecord.instrument}
             </h3>
             <div className={styles['main-content']}>
