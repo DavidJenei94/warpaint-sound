@@ -1,7 +1,8 @@
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import useTokenCheck from '../../hooks/useTokenCheck';
 import AuthContext from '../../store/auth-context';
+import FeedbackContext from '../../store/feedback-context';
 import { backendUrl } from '../../utils/general.utils';
 
 import Button from '../UI/Button';
@@ -14,6 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const authCtx = useContext(AuthContext);
+  const feedbackCtx = useContext(FeedbackContext);
 
   const [password, setPassword] = useState<string>('');
   const isTokenChecked = useTokenCheck();
@@ -35,24 +37,28 @@ const Login = () => {
       return;
     }
 
-    const response = await fetch(`${backendUrl}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        password: password,
-      }),
-    });
+    try {
+      const response = await fetch(`${backendUrl}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password: password,
+        }),
+      });
 
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Could not login User!');
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Could not login User!');
+      }
+
+      authCtx.login(data.token);
+
+      navigate('/admin', { replace: true });
+    } catch (error: any) {
+      feedbackCtx.showMessage(error.message, 4000);
     }
-
-    authCtx.login(data.token);
-
-    navigate('/admin', { replace: true });
   };
 
   if (!isTokenChecked) {

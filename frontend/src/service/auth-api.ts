@@ -17,6 +17,7 @@ export const refreshToken = async (token: string) => {
 
     return data.token;
   } catch (error: any) {
+    console.log(error.message);
     return null;
   }
 };

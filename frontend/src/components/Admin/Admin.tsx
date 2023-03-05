@@ -38,10 +38,10 @@ const Admin = () => {
       }
     };
 
-    if (isLoading) {
+    if (isLoading && isTokenChecked && authCtx.isAuthenticated) {
       fetchData();
     }
-  }, [isLoading]);
+  }, [isLoading, isTokenChecked, authCtx.isAuthenticated]);
 
   if (!isTokenChecked) {
     return <LoadingIcon />;
@@ -73,7 +73,7 @@ const Admin = () => {
       {!isLoading && (
         <AdminList
           filters={{ id: Number(idFilter), name: nameFilter }}
-          onChangeSoundRecord={setIsloading}
+          onChangeSoundRecord={() => setIsloading(true)}
         />
       )}
     </div>
