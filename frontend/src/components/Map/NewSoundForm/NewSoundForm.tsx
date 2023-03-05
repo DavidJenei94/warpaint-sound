@@ -311,7 +311,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
               <Input
                 type="file"
                 id="instrument-image"
-                accept="image/*"
+                accept="image/png, image/jpg, image/jpeg"
                 onChange={uploadImageHandler}
                 required
               />
