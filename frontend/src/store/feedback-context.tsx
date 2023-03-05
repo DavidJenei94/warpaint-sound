@@ -6,6 +6,7 @@ const FeedbackContext = createContext({
   message: '',
   isMessageShown: false,
   showMessage: (message: string, ms: number) => {},
+  clearMessage: () => {},
 });
 
 export const FeedbackContextProvider = ({
@@ -36,12 +37,17 @@ export const FeedbackContextProvider = ({
     setIsMessageShown(true);
   };
 
+  const clearMessageHandler = () => {
+    setIsMessageShown(false);
+  };
+
   return (
     <FeedbackContext.Provider
       value={{
         message: message,
         isMessageShown: isMessageShown,
         showMessage: showMessageHandler,
+        clearMessage: clearMessageHandler,
       }}
     >
       {children}

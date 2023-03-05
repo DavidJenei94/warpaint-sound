@@ -4,6 +4,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CategoriesCountStats } from '../../models/category.model';
 import { backendUrl } from '../../utils/general.utils';
 import FeedbackContext from '../../store/feedback-context';
+import useFeedbackHider from '../../hooks/useFeedbackHider';
 
 import SubCategoryChart from './SubCategoryChart';
 import CategoryChart from './CategoryChart';
@@ -13,6 +14,8 @@ import styles from './Statistics.module.scss';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const Statistics = () => {
+  useFeedbackHider();
+
   const ctx = useContext(FeedbackContext);
 
   const [categoriesCountStats, setCategoriesCountStats] =
