@@ -19,7 +19,7 @@ const verifyReCaptcha = async (req, res, next) => {
         data.action === 'reportsoundrecord') &&
       data.score <= config.reCaptchaThresholdScore
     ) {
-      throw new Error('User score for reCaptcha is too low.');
+      return next(new Error('User score for reCaptcha is too low.'));
     }
 
     // reCaptcha token verified
