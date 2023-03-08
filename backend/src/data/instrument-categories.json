@@ -17,78 +17,81 @@
         {"id": 11, "name": "Accordion"},
         {"id": 12, "name": "Bagpipe"},
         {"id": 13, "name": "Piccolo"},
-        {"id": 14, "name": "Sarrusophone"}
+        {"id": 14, "name": "Sarrusophone"},
+        {"id": 15, "name": "Melodica"}
       ]
     },
     {
       "id": 2,
       "name": "Brass",
       "subCategories": [
-        {"id": 15, "name": "Other"},
-        {"id": 16, "name": "Trumpet"},
-        {"id": 17, "name": "French Horn"},
-        {"id": 18, "name": "Tenor horn"},
-        {"id": 19, "name": "Tuba"},
-        {"id": 20, "name": "Trombone"},
-        {"id": 21, "name": "Cornet"},
-        {"id": 22, "name": "Flugel horn"},
-        {"id": 23, "name": "Euphonium"},
-        {"id": 24, "name": "Sousaphone"},
-        {"id": 25, "name": "Baritone horn"}
+        {"id": 16, "name": "Other"},
+        {"id": 17, "name": "Trumpet"},
+        {"id": 18, "name": "French horn"},
+        {"id": 19, "name": "Tenor horn"},
+        {"id": 20, "name": "Tuba"},
+        {"id": 21, "name": "Trombone"},
+        {"id": 22, "name": "Cornet"},
+        {"id": 23, "name": "Flugel horn"},
+        {"id": 24, "name": "Euphonium"},
+        {"id": 25, "name": "Sousaphone"},
+        {"id": 26, "name": "Baritone horn"}
       ]
     },
     {
       "id": 3,
       "name": "Percussion",
       "subCategories": [
-        {"id": 26, "name": "Other"},
-        {"id": 27, "name": "Drum kit"},
-        {"id": 28, "name": "Xylophone"},
-        {"id": 29, "name": "Handpan"},
-        {"id": 30, "name": "Tongue drum"},
-        {"id": 31, "name": "Bongo"},
-        {"id": 32, "name": "Tambourine"},
-        {"id": 33, "name": "Snare drum"},
-        {"id": 34, "name": "Bass drum"},
-        {"id": 35, "name": "Cymbals"}
+        {"id": 27, "name": "Other"},
+        {"id": 28, "name": "Drum kit"},
+        {"id": 29, "name": "Xylophone"},
+        {"id": 30, "name": "Handpan"},
+        {"id": 31, "name": "Tongue drum"},
+        {"id": 32, "name": "Bongo"},
+        {"id": 33, "name": "Tambourine"},
+        {"id": 34, "name": "Snare drum"},
+        {"id": 35, "name": "Bass drum"},
+        {"id": 36, "name": "Cymbals"},
+        {"id": 37, "name": "Shaker"}
       ]
     },
     {
       "id": 4,
       "name": "String",
       "subCategories": [
-        {"id": 36, "name": "Other"},
-        {"id": 37, "name": "Acoustic guitar"},
-        {"id": 38, "name": "Classical guitar"},
-        {"id": 39, "name": "Electric guitar"},
-        {"id": 40, "name": "Bass guitar"},
-        {"id": 41, "name": "Violin"},
-        {"id": 42, "name": "Viola"},
-        {"id": 43, "name": "Cello"},
-        {"id": 44, "name": "Double bass"},
-        {"id": 45, "name": "Harp"},
-        {"id": 46, "name": "Lyre"},
-        {"id": 47, "name": "Lute"},
-        {"id": 48, "name": "Banjo"},
-        {"id": 49, "name": "Ukulele"},
-        {"id": 50, "name": "Mandolin"},
-        {"id": 51, "name": "Zither"},
-        {"id": 52, "name": "Balalaika"},
-        {"id": 53, "name": "Bandura"},
-        {"id": 54, "name": "Bouzouki"},
-        {"id": 55, "name": "Cimbalom"},
-        {"id": 56, "name": "Cittern"}
+        {"id": 38, "name": "Other"},
+        {"id": 39, "name": "Acoustic guitar"},
+        {"id": 40, "name": "Classical guitar"},
+        {"id": 41, "name": "Electric guitar"},
+        {"id": 42, "name": "Bass guitar"},
+        {"id": 43, "name": "Violin"},
+        {"id": 44, "name": "Viola"},
+        {"id": 45, "name": "Cello"},
+        {"id": 46, "name": "Double bass"},
+        {"id": 47, "name": "Harp"},
+        {"id": 48, "name": "Lyre"},
+        {"id": 49, "name": "Lute"},
+        {"id": 50, "name": "Banjo"},
+        {"id": 51, "name": "Ukulele"},
+        {"id": 52, "name": "Mandolin"},
+        {"id": 53, "name": "Zither"},
+        {"id": 54, "name": "Balalaika"},
+        {"id": 55, "name": "Bandura"},
+        {"id": 56, "name": "Bouzouki"},
+        {"id": 57, "name": "Cimbalom"},
+        {"id": 58, "name": "Cittern"}
       ]
     },
     {
       "id": 5,
       "name": "Keyboard",
       "subCategories": [
-        {"id": 57, "name": "Other"},
-        {"id": 58, "name": "Piano"},
-        {"id": 59, "name": "Harpsichord"},
-        {"id": 60, "name": "Organ"},
-        {"id": 61, "name": "Kalimba"}
+        {"id": 59, "name": "Other"},
+        {"id": 60, "name": "Piano"},
+        {"id": 61, "name": "Harpsichord"},
+        {"id": 62, "name": "Organ"},
+        {"id": 63, "name": "Kalimba"},
+        {"id": 64, "name": "Synthesizer"}
       ]
     }
   ]
