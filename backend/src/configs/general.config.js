@@ -4,6 +4,9 @@ import { fileURLToPath } from 'url';
 // To Replicate __ dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+// Path of the project
+const relativeMainIndex = __dirname.indexOf('/src/');
+const mainPath = __dirname.substring(0, relativeMainIndex);
 
 const general = {
   expiryTime: '1h', // 1 * 24 * 60 * 60 = one day or "1h" for one hour, for admin token
@@ -15,7 +18,7 @@ const general = {
 
   frontendUrl: process.env.FRONTEND_URL,
 
-  dirname: __dirname,
+  mainPath: mainPath,
 };
 
 export default general;

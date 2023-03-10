@@ -1,8 +1,9 @@
 import fs from 'fs';
+import config from '../configs/general.config.js';
 
-const readCountryData = (directory) => {
+const readCountryData = () => {
   const countriesJSON = fs.readFileSync(
-    directory + '/src/data/countries.json'
+    config.mainPath + '/src/data/countries.json'
   );
   const countriesObject = JSON.parse(countriesJSON);
 

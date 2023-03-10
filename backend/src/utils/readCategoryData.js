@@ -1,11 +1,12 @@
 import fs from 'fs';
+import config from '../configs/general.config.js';
 
-const readCategoryData = (directory) => {
+const readCategoryData = () => {
   const categories = [];
   const subCategories = [];
 
   const categoriesJSON = fs.readFileSync(
-    directory + '/src/data/instrument-categories.json'
+    config.mainPath + '/src/data/instrument-categories.json'
   );
   const categoriesObject = JSON.parse(categoriesJSON);
 

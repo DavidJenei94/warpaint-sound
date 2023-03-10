@@ -52,8 +52,8 @@ app.get('/', (req, res) => {
 });
 
 const createDataTables = async () => {
-  const categoryData = readCategoryData(config.dirname);
-  const countriesData = readCountryData(config.dirname);
+  const categoryData = readCategoryData();
+  const countriesData = readCountryData();
 
   await Category.sync({ force: true });
   await SubCategory.sync({ force: true });

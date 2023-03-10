@@ -4,13 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 import config from '../configs/general.config.js';
 import { getFileStream } from './aws.service.js';
 
-// Path of the project
-const relativeMainIndex = config.dirname.indexOf('/src/');
-const mainPath = config.dirname.substring(0, relativeMainIndex);
-
 // used for development
 const getFromLocal = async (res, filePath) => {
-  res.sendFile(`${mainPath}/uploads/${filePath}`);
+  res.sendFile(`${config.mainPath}/uploads/${filePath}`);
 };
 
 // used for production
@@ -20,7 +16,7 @@ const getFromAWS = async (res, filePath) => {
   const mediaExtension = filePath.slice(-3);
   if (mediaExtension === 'mp3') {
     // temp file to store until it is sent with res.sendFile
-    const tempFile = `${mainPath}/uploads/temp-${uuidv4()}`;
+    const tempFile = `${config.mainPath}/uploads/temp-${uuidv4()}`;
     const tempFileStream = fs.createWriteStream(tempFile);
 
     // delete temp file after it is sent
