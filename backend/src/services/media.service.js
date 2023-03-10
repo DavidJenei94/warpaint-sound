@@ -1,16 +1,12 @@
 import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
 
+import config from '../configs/general.config.js';
 import { getFileStream } from './aws.service.js';
 
-// To Replicate __ dirname in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 // Path of the project
-const relativeMainIndex = __dirname.indexOf('/src/');
-const mainPath = __dirname.substring(0, relativeMainIndex);
+const relativeMainIndex = config.dirname.indexOf('/src/');
+const mainPath = config.dirname.substring(0, relativeMainIndex);
 
 // used for development
 const getFromLocal = async (res, filePath) => {

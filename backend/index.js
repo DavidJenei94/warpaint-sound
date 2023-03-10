@@ -1,7 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 import db from './src/models/index.js';
 import config from './src/configs/general.config.js';
@@ -18,10 +16,6 @@ import readCountryData from './src/utils/readCountryData.js';
 const Category = db.models.Category;
 const SubCategory = db.models.SubCategory;
 const Country = db.models.Country;
-
-// To Replicate __ dirname in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const port = process.env.PORT || 8002;
 const app = express();
@@ -57,27 +51,34 @@ app.get('/', (req, res) => {
   res.send('<h1>Server is running</h1>');
 });
 
-const categoryData = readCategoryData(__dirname);
-const countriesData = readCountryData(__dirname);
+const createDataTables = async () => {
+  const categoryData = readCategoryData(config.dirname);
+  const countriesData = readCountryData(config.dirname);
 
-// { force: true }
-db.sequelize.sync().then(() => {
-  Category.bulkCreate(categoryData.categories, {
+  await Category.sync({ force: true });
+  await SubCategory.sync({ force: true });
+  await Country.sync({ force: true });
+
+  await Category.bulkCreate(categoryData.categories, {
     validate: true,
     ignoreDuplicates: true,
-  }).then(() => {
-    SubCategory.bulkCreate(categoryData.subCategories, {
-      validate: true,
-      ignoreDuplicates: true,
-    }).then(() => {
-      Country.bulkCreate(countriesData.countries, {
-        validate: true,
-        ignoreDuplicates: true,
-      }).then(() => {
-        app.listen(port, () =>
-          console.log(`Server is listening on port ${port}.`)
-        );
-      });
-    });
   });
-});
+  await SubCategory.bulkCreate(categoryData.subCategories, {
+    validate: true,
+    ignoreDuplicates: true,
+  });
+  await Country.bulkCreate(countriesData.countries, {
+    validate: true,
+    ignoreDuplicates: true,
+  });
+};
+
+// { force: true }
+db.sequelize
+  .sync()
+  .then(() => {
+    createDataTables();
+  })
+  .then(() => {
+    app.listen(port, () => console.log(`Server is listening on port ${port}.`));
+  });
