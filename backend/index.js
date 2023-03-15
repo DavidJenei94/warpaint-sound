@@ -8,6 +8,8 @@ import categoryRouter from './src/routes/category.route.js';
 import statisticsRouter from './src/routes/statistics.route.js';
 import authRouter from './src/routes/auth.route.js';
 import mediaRouter from './src/routes/media.route.js';
+import exportRouter from './src/routes/export.route.js';
+import importRouter from './src/routes/import.route.js';
 
 import upload, { acceptedFiles } from './src/middlewares/fileUpload.js';
 import readCategoryData from './src/utils/readCategoryData.js';
@@ -37,6 +39,8 @@ app.use('/api/category', categoryRouter);
 app.use('/api/statistics', statisticsRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/uploads', mediaRouter);
+app.use('/api/export', exportRouter);
+app.use('/api/import', importRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

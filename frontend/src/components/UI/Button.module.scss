@@ -2,22 +2,28 @@
 
 .button {
   color: styles.$primaryColor;
-  background-color: styles.$secondaryLightColor;
-  
+  background-color: transparent;
+
   border: 0;
   box-shadow: styles.$mainLightBoxShadow;
-  
+
   p {
     padding: 4px;
     margin: 0;
     font-size: 20px;
+
+    & > a {
+      text-decoration: none;
+      color: inherit;
+      font-size: 16px;
+    }
   }
-  
+
   img {
     height: 20px;
     width: 20px;
     margin: 0px;
-    
+
     position: relative;
     top: 1px;
   }
