@@ -34,13 +34,13 @@ if (config.environment === 'production') {
   app.use(cors());
 }
 
-app.use('/api/soundRecord', upload.fields(acceptedFiles), soundRecordRouter);
-app.use('/api/category', categoryRouter);
-app.use('/api/statistics', statisticsRouter);
-app.use('/api/auth', authRouter);
-app.use('/api/uploads', mediaRouter);
-app.use('/api/export', exportRouter);
-app.use('/api/import', importRouter);
+app.use('/soundRecord', upload.fields(acceptedFiles), soundRecordRouter);
+app.use('/category', categoryRouter);
+app.use('/statistics', statisticsRouter);
+app.use('/auth', authRouter);
+app.use('/uploads', mediaRouter);
+app.use('/export', exportRouter);
+app.use('/import', importRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
