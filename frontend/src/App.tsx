@@ -1,5 +1,6 @@
 import React, { Suspense, useContext } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import NavBar from './components/Layout/NavBar';
 import Main from './components/Layout/Main';
@@ -24,6 +25,17 @@ const App = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Warpaint Sound</title>
+        <meta
+          name="description"
+          content="Check the sounds of musical instruments around the world."
+        />
+        <meta
+          name="keywords"
+          content="Sound, Audio, Musical Instruments, Warpaint Sound, Warpaint Vision"
+        />
+      </Helmet>
       {ctx.isMessageShown && <FeedbackBar>{ctx.message}</FeedbackBar>}
       <NavBar />
       <Suspense fallback={<LoadingIcon />}>

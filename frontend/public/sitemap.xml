@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!-- sitemap protocol: https://www.sitemaps.org/protocol.html -->
+
+
+<url>
+  <loc>https://warpaintsound.com/</loc>
+  <priority>1.0</priority>
+</url>
+<url>
+  <loc>https://warpaintsound.com/map</loc>
+  <lastmod>2023-03-15</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>1.0</priority>
+</url>
+<url>
+  <loc>https://warpaintsound.com/statistics</loc>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://warpaintsound.com/map/information</loc>
+</url>
+<url>
+  <loc>https://warpaintsound.com/map/terms</loc>
+</url>
+
+
+</urlset>

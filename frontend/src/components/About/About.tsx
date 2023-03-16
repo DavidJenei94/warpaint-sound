@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 import BuyMeACoffee from '../UI/BuyMeACoffee';
 
@@ -27,6 +28,17 @@ const About = () => {
 
   return (
     <>
+      <Helmet>
+        <title>About - WpS</title>
+        <meta
+          name="description"
+          content="About the creator of Warpaint Sound"
+        />
+        <meta
+          name="keywords"
+          content="Warpaint Sound, Warpaint Vision, About me"
+        />
+      </Helmet>
       <div className={styles['about-container']}>
         <h1>Warpaint Sound</h1>
         <p className={styles.mission}>

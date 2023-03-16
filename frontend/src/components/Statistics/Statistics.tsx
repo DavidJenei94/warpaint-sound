@@ -5,6 +5,7 @@ import { CategoriesCountStats } from '../../models/category.model';
 import { backendUrl } from '../../utils/general.utils';
 import FeedbackContext from '../../store/feedback-context';
 import useFeedbackHider from '../../hooks/useFeedbackHider';
+import { Helmet } from 'react-helmet';
 
 import SubCategoryChart from './SubCategoryChart';
 import CategoryChart from './CategoryChart';
@@ -41,6 +42,11 @@ const Statistics = () => {
 
   return (
     <div className={styles.statistics}>
+      <Helmet>
+        <title>Statistics - WpS</title>
+        <meta name="description" content="Statistics of Sound Records" />
+        <meta name="keywords" content="Sound, Audio, Statistics" />
+      </Helmet>
       <h1>Statistics</h1>
       <div className={styles['charts-container']}>
         {categoriesCountStats && (
