@@ -1,5 +1,7 @@
 import { ChangeEvent, useContext, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { Navigate, useNavigate } from 'react-router-dom';
+import useRecaptchaVerify from '../../hooks/useRecaptchaVerify';
 import useTokenCheck from '../../hooks/useTokenCheck';
 import AuthContext from '../../store/auth-context';
 import FeedbackContext from '../../store/feedback-context';
@@ -13,6 +15,9 @@ import styles from './Login.module.scss';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const handleReCaptchaVerify = useRecaptchaVerify(executeRecaptcha);
 
   const authCtx = useContext(AuthContext);
   const feedbackCtx = useContext(FeedbackContext);
@@ -38,6 +43,8 @@ const Login = () => {
     }
 
     try {
+      const reCaptchaToken = await handleReCaptchaVerify();
+
       const response = await fetch(`${backendUrl}/auth/login`, {
         method: 'POST',
         headers: {
@@ -45,6 +52,7 @@ const Login = () => {
         },
         body: JSON.stringify({
           password: password,
+          reCaptchaToken: reCaptchaToken
         }),
       });
 
