@@ -99,7 +99,21 @@ To be able to run ffmpeg media conversion with npm i fluent-ffmpeg, ffmpeg needs
 Currently:
 
 - Frontend in S3 bucket, domain setup with Route 53, domain distribution with Cloudfront
+  - create the .env.prod file in folder and add necessary env variables
+  - run "npm run build" as the run command is in package.json: "build": "env-cmd -f .env.prod react-scripts build"
+  - upload files from build/ to S3
+  - run /* invalidation in CloudFront
 - Backend on Elastic Beanstalk, db created connected to it, domain setup with Route 53 and automatic Elastic Load Balancer created with beanstalk instance
+  - Before create zip, you need the .npmrc (for ffmpeg) and .platform\nginx\conf.d\client_max_body_size.conf (to change max size of nginx) files.
+  - You need to zip the following files and folders for upload: 
+    - src\
+    - uploads\ (make sure it is not empty, but don't upload the dev test media files)
+    - .platform\
+    - .npmrc
+    - package.json
+    - package-lock.json
+    - index.js
+  - env variables are set in the beanstalk
 
 To be written in more detail...
 
@@ -126,3 +140,6 @@ If you want to present "test" message, paste to App:
 >
   Test phase! All data recorded will be lost.
 </h5>
+
+DB reset increment:
+ALTER SEQUENCE "SoundRecords_id_seq" RESTART WITH 1
