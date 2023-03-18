@@ -16,7 +16,7 @@ import { addSoundRecord } from '../../../service/soundRecord-api';
 import FeedbackContext from '../../../store/feedback-context';
 import { mapActions } from '../../../store/map-redux';
 import getBlobDuration from 'get-blob-duration';
-import { downgradeImage } from '../../../utils/media.utils';
+import { downgradeImage, getBase64 } from '../../../utils/media.utils';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import useRecaptchaVerify from '../../../hooks/useRecaptchaVerify';
 
@@ -51,10 +51,61 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
   const [soundRecordAdded, setSoundRecordAdded] = useState<boolean>(false);
 
   const [instrumentImageSrc, setInstrumentImageSrc] = useState(''); // For the preview image
-  const { audioURL, isRecording, startRecording, stopRecording } =
+  const { audioURL, setAudioURL, isRecording, startRecording, stopRecording } =
     useRecorder();
 
   const [termAccepted, setTermsAccepted] = useState<boolean>(false);
+
+  // get the form values from localstorage if they exist
+  useEffect(() => {
+    const fetchImageUrl = async (imageSrc: string) => {
+      const res: Response = await fetch(imageSrc);
+      const blob: Blob = await res.blob();
+      setImageFile(new File([blob], 'image.jpg', { type: 'image/jpg' }));
+
+      setInstrumentImageSrc(imageSrc);
+    };
+
+    const fetchAudioUrl = async (audioSrc: string) => {
+      const res: Response = await fetch(audioSrc);
+      const blob: Blob = await res.blob();
+      setSoundFile(new File([blob], 'audio.mp3', { type: 'audio/mpeg' }));
+
+      setAudioURL(audioSrc);
+    };
+
+    const audioBase64 = localStorage.getItem('audioFile');
+    const imageBase64 = localStorage.getItem('imageFile');
+    const instrument = localStorage.getItem('instrument');
+    const categoryId = localStorage.getItem('categoryId');
+    const subCategoryId = localStorage.getItem('subCategoryId');
+    const description = localStorage.getItem('description');
+
+    if (audioBase64) {
+      fetchAudioUrl(audioBase64);
+    }
+    if (imageBase64) {
+      fetchImageUrl(imageBase64);
+    }
+
+    instrument &&
+      setSoundRecord((prevValue) => ({ ...prevValue, instrument: instrument }));
+    categoryId &&
+      setSoundRecord((prevValue) => ({
+        ...prevValue,
+        categoryId: Number(categoryId),
+      }));
+    subCategoryId &&
+      setSoundRecord((prevValue) => ({
+        ...prevValue,
+        subCategoryId: Number(subCategoryId),
+      }));
+    description &&
+      setSoundRecord((prevValue) => ({
+        ...prevValue,
+        description: description,
+      }));
+  }, []);
 
   // change map position when new SOund record is added
   useEffect(() => {
@@ -113,9 +164,17 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
       }
 
       setSoundFile(audioFile);
+
+      // Save audioFile to localstorage
+      try {
+        const imageBase64 = (await getBase64(audioFile)) as string;
+        localStorage.setItem('audioFile', imageBase64);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
-    fetchAudioUrl();
+    audioURL && fetchAudioUrl();
   }, [audioURL]);
 
   const handleTextChange = (
@@ -127,6 +186,8 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
       name === 'categoryId' || name === 'subCategoryId' ? Number(value) : value;
 
     setSoundRecord((prevValue) => ({ ...prevValue, [name]: adjValue }));
+
+    localStorage.setItem(name, value);
   };
 
   const termsCheckHandler = () => {
@@ -153,7 +214,17 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
       file = await downgradeImage(file);
     }
 
-    setImageFile(file);
+    if (file) {
+      setImageFile(file);
+
+      // Save imageFile to localstorage
+      try {
+        const imageBase64 = (await getBase64(file)) as string;
+        localStorage.setItem('imageFile', imageBase64);
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     // For the preview image
     if (file) {
@@ -215,9 +286,16 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
       setSoundRecord(newSoundRecord);
       setSoundRecordAdded(true);
 
-      ctx.showMessage('New Sound Record added.', 2000);
+      localStorage.removeItem('audioFile');
+      localStorage.removeItem('imageFile');
+      localStorage.removeItem('instrument');
+      localStorage.removeItem('categoryId');
+      localStorage.removeItem('subCategoryId');
+      localStorage.removeItem('description');
+
+      ctx.showMessage('New Sound Record added.', 3000);
     } catch (error: any) {
-      ctx.showMessage(error.message, 3000);
+      ctx.showMessage(error.message, 4000);
     }
 
     setIsUploading(false);
@@ -313,7 +391,6 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
                 id="instrument-image"
                 accept="image/png, image/jpg, image/jpeg"
                 onChange={uploadImageHandler}
-                required
               />
               <br />
               {instrumentImageSrc && (
