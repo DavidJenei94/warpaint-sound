@@ -419,7 +419,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
                     disabled={isRecording}
                     type="button"
                   >
-                    <p>Start</p>
+                    <p>Start recording</p>
                   </Button>
                 ) : (
                   <Button
@@ -427,7 +427,7 @@ const NewSoundForm = ({ showNewSoundForm }: NewSoundFormProps) => {
                     disabled={!isRecording}
                     type="button"
                   >
-                    <p>Stop</p>
+                    <p>Stop recording</p>
                   </Button>
                 )}
               </div>
