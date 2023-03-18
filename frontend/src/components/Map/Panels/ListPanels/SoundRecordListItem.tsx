@@ -37,6 +37,10 @@ const SoundRecordsListItem = ({ record }: SoundRecordsListItemProps) => {
     });
   };
 
+  const itemText = `${record.instrument} (${record.subCategory})`;
+  const itemBaseClass =
+    itemText.length > 50 ? `${styles.item} ${styles.mini}` : `${styles.item}`;
+
   return (
     <>
       <p
@@ -44,11 +48,12 @@ const SoundRecordsListItem = ({ record }: SoundRecordsListItemProps) => {
         onClick={() => showMarkerPopup(record)}
         className={
           activeSoundRecord && activeSoundRecord.id === record.id
-            ? styles.active
-            : ''
+            ? `${itemBaseClass} ${styles.active}`
+            : `${itemBaseClass}`
         }
+        title={itemText}
       >
-        {`${record.instrument} (${record.subCategory})`}
+        {itemText}
         <span>
           {getLevelIcon(record.level) && (
             <img

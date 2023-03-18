@@ -1,7 +1,15 @@
 @use '../../../../utils/styles.variables' as styles;
 
-.active {
-  background-color: styles.$secondaryColor;
+.item {
+  font-size: 12px;
+
+  &.mini {
+    font-size: 11px;
+  }
+
+  .active {
+    background-color: styles.$secondaryColor;
+  }
 }
 
 .level-icon {
